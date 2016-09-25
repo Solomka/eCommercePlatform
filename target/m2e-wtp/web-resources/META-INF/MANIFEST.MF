@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: Solomka
-Build-Jdk: 1.8.0_66
+Built-By: ￐ﾜ￐ﾰ￐ﾺ￑ﾁ￐ﾸ￐ﾼ
+Build-Jdk: 1.8.0_60
 Created-By: Maven Integration for Eclipse
 

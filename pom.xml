@@ -10,13 +10,22 @@
 
 	<!--Spring library version -->
 	<properties>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 		<spring.version>4.0.3.RELEASE</spring.version>
 		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
 		<cglib.version>2.2.2</cglib.version>
 	</properties>
 
 	<dependencies>
+
+		<!-- Joda time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+
+
 		<!-- JUnit dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -101,7 +110,7 @@
 
 
 		<!-- Servlet Spec -->
-  
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
