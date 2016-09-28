@@ -4,13 +4,15 @@ import java.util.Objects;
 
 import org.joda.time.DateTime;
 
+import ukma.eCommerce.util.validation.IValidateable;
+
 /**
  * <p>
  * Value object which describes credit card form
  * </p>
  * @author Максим
  * */
-public final class CardForm {
+public final class CardForm implements IValidateable {
 	
 	private final String number;
 	private final String cvv;

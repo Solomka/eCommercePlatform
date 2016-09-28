@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import ukma.eCommerce.domain.bo.Customer;
+import ukma.eCommerce.domain.bo.Seller;
 import ukma.eCommerce.domain.bo.User;
 
 /**
@@ -44,7 +46,9 @@ public final class Validators {
 	
 	private static void registerValidators() {
 		// register your validators here
-		bindings.put(User.class, new UserValidator());
+		bindings.put(User.class, new BaseUserValidator<User>());
+		bindings.put(Seller.class, new SellerValidator());
+		bindings.put(Customer.class, new CustomerValidator());
 	}
 
 }

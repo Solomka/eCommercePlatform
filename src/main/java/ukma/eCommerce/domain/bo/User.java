@@ -6,47 +6,45 @@ import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.IValidateable;
 
 /**
- * Business object which describes user
+ * Base for business objects which describe user
+ * 
  * @author Максим
- * */
+ */
 public class User implements IValidateable {
-	
+
 	private final String id;
 	private final String name;
 	private final String surname;
 	private final String email;
 	private final String address;
 	private final String country;
-	
+
 	/**
 	 * Builder which creates instance of {@linkplain User}
+	 * 
 	 * @author Максим
-	 * */
+	 */
 	public static class Builder implements IBuilder<User> {
-		
+
 		private String id;
 		private String name;
 		private String surname;
 		private String email;
 		private String address;
 		private String country;
-		
+
 		/**
 		 * Copies user's fields
-		 * */
+		 */
 		public Builder(@NotNull User user) {
-			
-			if(user == null)
+
+			if (user == null)
 				throw new NullPointerException("user == null");
-			
-			setId(user.getId())
-			.setEmail(user.getEmail())
-			.setName(user.getName())
-			.setSurname(user.getSurname())
-			.setAddress(user.getAddress())
-			.setCountry(user.getCountry());
+
+			setId(user.getId()).setEmail(user.getEmail()).setName(user.getName()).setSurname(user.getSurname())
+					.setAddress(user.getAddress()).setCountry(user.getCountry());
 		}
-		
+
 		public Builder(String id, String email) {
 			this.id = id;
 			this.email = email;
@@ -110,18 +108,20 @@ public class User implements IValidateable {
 		public User build() {
 			return new User(this);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Constructs instance from builder
-	 * @param builder builder to use
-	 * */
-	public User(@NotNull Builder builder) {
-		
-		if(builder == null)
+	 * 
+	 * @param builder
+	 *            builder to use
+	 */
+	protected User(@NotNull Builder builder) {
+
+		if (builder == null)
 			throw new NullPointerException("builder == null");
-		
+
 		this.id = builder.getId();
 		this.email = builder.getEmail();
 		this.name = builder.getName();
@@ -133,27 +133,27 @@ public class User implements IValidateable {
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getSurname() {
 		return surname;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}
-	
+
 	public String getCountry() {
 		return country;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

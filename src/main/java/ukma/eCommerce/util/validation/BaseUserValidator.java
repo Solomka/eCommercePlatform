@@ -1,6 +1,5 @@
 package ukma.eCommerce.util.validation;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ukma.eCommerce.domain.bo.User;
@@ -10,22 +9,22 @@ import ukma.eCommerce.util.TextUtils;
  * @author Ìàêñèì
  * */
 //no one can instantiate this class outside of this package! 
-final class UserValidator implements IValidator<User> {
+class BaseUserValidator<T extends User> implements IValidator<T> {
 	
-	private static final int minIdLen = 4, maxIdLen = 128;
-	private static final int minStrLen = 3, maxStrLen = 128;
+	protected static final int minIdLen = 4, maxIdLen = 128;
+	protected static final int minStrLen = 3, maxStrLen = 128;
 	
-	private static final Pattern EMAIL_PATTERN = 
+	protected static final Pattern EMAIL_PATTERN = 
 			Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	
-	private static final Pattern PLAIN_STR_PATTERN = 
+	protected static final Pattern PLAIN_STR_PATTERN = 
 			Pattern.compile(String.format("[a-zA-zà-ÿÀ-ß³²¯¿´¥ºªýÝúÚ]{%d,%d}", minStrLen, maxStrLen));// what about allowed string length?
 	
-	UserValidator() {
+	BaseUserValidator() {
 	}
 
 	@Override
-	public ValidationResult validate(User user) {
+	public ValidationResult validate(T user) {
 		
 		if(user == null)
 			throw new NullPointerException("user == null");
