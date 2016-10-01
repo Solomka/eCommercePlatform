@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ukma.eCommerce.domain.bo.User;
+import ukma.eCommerce.util.validation.IValidator;
+import ukma.eCommerce.util.validation.Validators;
+
 @Controller
 public class HelloWorldController {
 	/*
@@ -24,6 +28,7 @@ public class HelloWorldController {
 		// Name of your jsp file as parameter
 		ModelAndView view = new ModelAndView("hello");
 		view.addObject("name", name);
+		
 		return view;
 	}
 
