@@ -6,7 +6,7 @@ import ukma.eCommerce.domain.bo.User;
 import ukma.eCommerce.util.TextUtils;
 
 /**
- * @author Ìàêñèì
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * */
 //no one can instantiate this class outside of this package! 
 class BaseUserValidator<T extends User> implements IValidator<T> {
@@ -16,9 +16,9 @@ class BaseUserValidator<T extends User> implements IValidator<T> {
 	
 	protected static final Pattern EMAIL_PATTERN = 
 			Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-	
+
 	protected static final Pattern PLAIN_STR_PATTERN = 
-			Pattern.compile(String.format("[a-zA-zà-ÿÀ-ß³²¯¿´¥ºªýÝúÚ]{%d,%d}", minStrLen, maxStrLen));// what about allowed string length?
+			Pattern.compile(String.format("[a-zA-z]{%d,%d}", minStrLen, maxStrLen));// what about allowed string length?
 	
 	BaseUserValidator() {
 	}

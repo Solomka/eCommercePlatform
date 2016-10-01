@@ -5,7 +5,7 @@ import javax.validation.constraints.Null;
 /**
  * Class which describes validation result and
  * may contain validation failure message
- * @author Максим
+ * @author пїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 public final class ValidationResult {
 	

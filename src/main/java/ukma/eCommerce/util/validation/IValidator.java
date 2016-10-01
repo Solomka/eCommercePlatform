@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * describes validation responsibilities
- * @author Максим
+ * @author пїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 public interface IValidator <T extends IValidateable> {
 	/**

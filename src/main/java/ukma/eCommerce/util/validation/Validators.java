@@ -12,7 +12,7 @@ import ukma.eCommerce.domain.bo.User;
 
 /**
  * An utility class to conveniently manage application validators
- * @author Максим
+ * @author пїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 public final class Validators {
 	
