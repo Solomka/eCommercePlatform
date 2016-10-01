@@ -7,7 +7,7 @@ import ukma.eCommerce.util.validation.IValidateable;
 
 /**
  * Business object which describes user
- * @author Максим
+ * @author пїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 public class User implements IValidateable {
 	
@@ -20,7 +20,7 @@ public class User implements IValidateable {
 	
 	/**
 	 * Builder which creates instance of {@linkplain User}
-	 * @author Максим
+	 * @author пїЅпїЅпїЅпїЅпїЅпїЅ
 	 * */
 	public static class Builder implements IBuilder<User> {
 		

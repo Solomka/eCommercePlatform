@@ -7,7 +7,7 @@ import ukma.eCommerce.domain.bo.User;
 import ukma.eCommerce.util.TextUtils;
 
 /**
- * @author Ìàêñèì
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * */
 //no one can instantiate this class outside of this package! 
 final class UserValidator implements IValidator<User> {
@@ -19,7 +19,7 @@ final class UserValidator implements IValidator<User> {
 			Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	
 	private static final Pattern PLAIN_STR_PATTERN = 
-			Pattern.compile(String.format("[a-zA-zà-ÿÀ-ß³²¯¿´¥ºªýÝúÚ]{%d,%d}", minStrLen, maxStrLen));// what about allowed string length?
+			Pattern.compile(String.format("[a-zA-zï¿½-ï¿½ï¿½-ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]{%d,%d}", minStrLen, maxStrLen));// what about allowed string length?
 	
 	UserValidator() {
 	}

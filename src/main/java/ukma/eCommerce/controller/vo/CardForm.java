@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
  * <p>
  * Value object which describes credit card form
  * </p>
- * @author Максим
+ * @author пїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 public final class CardForm {
 	

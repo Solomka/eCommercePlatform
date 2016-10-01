@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Interface to process long-running operations 
  * asynchronously
- * @author Максим
+ * @author пїЅпїЅпїЅпїЅпїЅпїЅ
  * */
 public interface IUpdateCallback {
 	/**
