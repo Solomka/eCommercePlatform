@@ -12,15 +12,15 @@ import ukma.eCommerce.util.validation.IValidateable;
  * </p>
  * @author Максим
  * */
-public final class CardForm implements IValidateable {
+public final class CreditCard implements IValidateable {
 	
 	private final String number;
-	private final String cvv;
+	private final String cvc;
 	private final DateTime expirationDate;
 	
-	public CardForm(String number, String cvv, DateTime expirationDate) {
+	public CreditCard(String number, String cvv, DateTime expirationDate) {
 		this.number = Objects.requireNonNull(number, "card number == null");
-		this.cvv = Objects.requireNonNull(cvv, "cvv == null");
+		this.cvc = Objects.requireNonNull(cvv, "cvv == null");
 		this.expirationDate = Objects.requireNonNull(expirationDate, "exp date == null");
 	}
 
@@ -29,7 +29,7 @@ public final class CardForm implements IValidateable {
 	}
 
 	public String getCvv() {
-		return cvv;
+		return cvc;
 	}
 
 	public DateTime getExpirationDate() {
@@ -40,7 +40,7 @@ public final class CardForm implements IValidateable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cvv == null) ? 0 : cvv.hashCode());
+		result = prime * result + ((cvc == null) ? 0 : cvc.hashCode());
 		result = prime * result + ((expirationDate == null) ? 0 : expirationDate.hashCode());
 		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		return result;
@@ -54,11 +54,11 @@ public final class CardForm implements IValidateable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CardForm other = (CardForm) obj;
-		if (cvv == null) {
-			if (other.cvv != null)
+		CreditCard other = (CreditCard) obj;
+		if (cvc == null) {
+			if (other.cvc != null)
 				return false;
-		} else if (!cvv.equals(other.cvv))
+		} else if (!cvc.equals(other.cvc))
 			return false;
 		if (expirationDate == null) {
 			if (other.expirationDate != null)
@@ -75,7 +75,7 @@ public final class CardForm implements IValidateable {
 
 	@Override
 	public String toString() {
-		return "CardForm [number=" + number + ", cvv=" + cvv + ", expirationDate=" + expirationDate + "]";
+		return "CardForm [number=" + number + ", cvv=" + cvc + ", expirationDate=" + expirationDate + "]";
 	}
 
 }

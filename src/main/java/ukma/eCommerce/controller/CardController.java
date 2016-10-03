@@ -3,7 +3,7 @@ package ukma.eCommerce.controller;
 import org.joda.time.DateTime;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import ukma.eCommerce.controller.vo.CardForm;
+import ukma.eCommerce.controller.vo.CreditCard;
 import ukma.eCommerce.domain.IPaymentService;
 import ukma.eCommerce.domain.bo.Card;
 import ukma.eCommerce.util.IRetrieveCallback;
@@ -17,9 +17,9 @@ public class CardController {
 	// somehow get credit card data
 	public DeferredResult<Card> addNewCreditCard(String number, String cvv, DateTime expDate) {
 		
-		final CardForm form = new CardForm(number, cvv, expDate);
+		final CreditCard form = new CreditCard(number, cvv, expDate);
 		// get validator for a given form
-		final ValidationResult validation = Validators.forClass(CardForm.class).validate(form);
+		final ValidationResult validation = Validators.forClass(CreditCard.class).validate(form);
 		
 		final DeferredResult<Card> defferedResult = new DeferredResult<>(5_000L);
 		

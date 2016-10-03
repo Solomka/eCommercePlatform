@@ -2,7 +2,7 @@ package ukma.eCommerce.domain;
 
 import java.util.Collection;
 
-import ukma.eCommerce.controller.vo.CardForm;
+import ukma.eCommerce.controller.vo.CreditCard;
 import ukma.eCommerce.controller.vo.CardsForm;
 import ukma.eCommerce.controller.vo.ChargeStatisticsForm;
 import ukma.eCommerce.controller.vo.OrderForm;
@@ -15,7 +15,7 @@ import ukma.eCommerce.util.IRetrieveCallback;
 
 public class PaymentServiceStub implements IPaymentService {
 	
-	private IRepository<Card, String, CardForm, CardFilter> repository;
+	private IRepository<Card, String, CreditCard, CardFilter> repository;
 	
 	private IPaymentDomainModel model;
 
@@ -35,7 +35,7 @@ public class PaymentServiceStub implements IPaymentService {
 	}
 
 	@Override
-	public void addCard(CardForm form, IRetrieveCallback<Card> callback) {
+	public void addCard(CreditCard form, IRetrieveCallback<Card> callback) {
 		repository.create(form, callback);
 	}
 	

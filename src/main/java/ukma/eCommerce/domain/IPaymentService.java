@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
 
-import ukma.eCommerce.controller.vo.CardForm;
+import ukma.eCommerce.controller.vo.CreditCard;
 import ukma.eCommerce.controller.vo.CardsForm;
 import ukma.eCommerce.controller.vo.ChargeStatisticsForm;
 import ukma.eCommerce.controller.vo.OrderForm;
@@ -21,6 +21,6 @@ public interface IPaymentService {
 	
 	void fetchCards(@NotNull CardsForm form, @NotNull IRetrieveCallback<Collection<Card>> callback); 
 	
-	void addCard(@NotNull CardForm form, @NotNull IRetrieveCallback<Card> callback);
+	void addCard(@NotNull CreditCard form, @NotNull IRetrieveCallback<Card> callback);
 	
 }
