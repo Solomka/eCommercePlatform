@@ -2,7 +2,7 @@ package ukma.eCommerce.repository.filter;
 
 import org.joda.time.Period;
 
-public class ChargeFilter extends BasicFilter {
+public class PaymentFilter extends BasicFilter {
 
 	private int minPrice;
 	
@@ -14,7 +14,7 @@ public class ChargeFilter extends BasicFilter {
 		return minPrice;
 	}
 
-	public final ChargeFilter setMinPrice(int minPrice) {
+	public final PaymentFilter setMinPrice(int minPrice) {
 		this.minPrice = minPrice;
 		return this;
 	}
@@ -23,7 +23,7 @@ public class ChargeFilter extends BasicFilter {
 		return maxPrice;
 	}
 
-	public final ChargeFilter setMaxPrice(int maxPrice) {
+	public final PaymentFilter setMaxPrice(int maxPrice) {
 		this.maxPrice = maxPrice;
 		return this;
 	}
@@ -32,7 +32,7 @@ public class ChargeFilter extends BasicFilter {
 		return period;
 	}
 
-	public final ChargeFilter setPeriod(Period period) {
+	public final PaymentFilter setPeriod(Period period) {
 		this.period = period;
 		return this;
 	}

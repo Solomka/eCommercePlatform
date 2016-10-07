@@ -12,13 +12,13 @@ import ukma.eCommerce.util.validation.IValidateable;
  * </p>
  * @author Максим
  * */
-public final class CreditCard implements IValidateable {
+public final class CreditCardVO implements IValidateable {
 	
 	private final String number;
 	private final String cvc;
 	private final DateTime expirationDate;
 	
-	public CreditCard(String number, String cvv, DateTime expirationDate) {
+	public CreditCardVO(String number, String cvv, DateTime expirationDate) {
 		this.number = Objects.requireNonNull(number, "card number == null");
 		this.cvc = Objects.requireNonNull(cvv, "cvv == null");
 		this.expirationDate = Objects.requireNonNull(expirationDate, "exp date == null");
@@ -54,7 +54,7 @@ public final class CreditCard implements IValidateable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CreditCard other = (CreditCard) obj;
+		CreditCardVO other = (CreditCardVO) obj;
 		if (cvc == null) {
 			if (other.cvc != null)
 				return false;

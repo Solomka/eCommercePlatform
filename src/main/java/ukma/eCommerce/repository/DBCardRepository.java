@@ -2,14 +2,14 @@ package ukma.eCommerce.repository;
 
 import java.util.Collection;
 
-import ukma.eCommerce.controller.vo.CreditCard;
+import ukma.eCommerce.controller.vo.CreditCardVO;
 import ukma.eCommerce.domain.bo.Card;
 import ukma.eCommerce.repository.filter.CardFilter;
 import ukma.eCommerce.util.IRetrieveCallback;
 import ukma.eCommerce.util.IUpdateCallback;
 
 // dumb example of database repository
-public class DBCardRepository implements IRepository<Card, String, CreditCard, CardFilter> {
+public class DBCardRepository implements IRepository<Card, String, CreditCardVO, CardFilter> {
 
 	@Override
 	public void find(CardFilter filter, IRetrieveCallback<Collection<Card>> callback) {
@@ -18,7 +18,7 @@ public class DBCardRepository implements IRepository<Card, String, CreditCard, C
 	}
 
 	@Override
-	public void create(CreditCard form, IRetrieveCallback<Card> callback) {
+	public void create(CreditCardVO form, IRetrieveCallback<Card> callback) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -30,7 +30,7 @@ public class DBCardRepository implements IRepository<Card, String, CreditCard, C
 	}
 
 	@Override
-	public void update(CreditCard form, String key, IRetrieveCallback<Card> callback) {
+	public void update(CreditCardVO form, String key, IRetrieveCallback<Card> callback) {
 		// TODO Auto-generated method stub
 		
 	}

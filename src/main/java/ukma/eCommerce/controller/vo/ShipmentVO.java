@@ -1,5 +1,5 @@
 package ukma.eCommerce.controller.vo;
 
-public class OrderForm {
+public class ShipmentVO {
 
 }

@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ukma.eCommerce.controller.vo.CreditCard;
+import ukma.eCommerce.controller.vo.CreditCardVO;
 import ukma.eCommerce.domain.bo.Card;
 import ukma.eCommerce.repository.filter.CardFilter;
 import ukma.eCommerce.util.IRetrieveCallback;
 import ukma.eCommerce.util.IUpdateCallback;
 
-public class Cache  implements IRepository<Card, String, CreditCard, CardFilter> {
+public class Cache  implements IRepository<Card, String, CreditCardVO, CardFilter> {
 	
 	private Collection<Card> cardsCache = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class Cache  implements IRepository<Card, String, CreditCard, CardFilter>
 	}
 
 	@Override
-	public void create(CreditCard form, IRetrieveCallback<Card> callback) {
+	public void create(CreditCardVO form, IRetrieveCallback<Card> callback) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -45,7 +45,7 @@ public class Cache  implements IRepository<Card, String, CreditCard, CardFilter>
 	}
 
 	@Override
-	public void update(CreditCard form, String key, IRetrieveCallback<Card> callback) {
+	public void update(CreditCardVO form, String key, IRetrieveCallback<Card> callback) {
 		// TODO Auto-generated method stub
 		
 	}
