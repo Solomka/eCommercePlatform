@@ -1,6 +1,6 @@
 package ukma.eCommerce.util.validation;
 
-import ukma.eCommerce.domain.bo.Customer;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Customer;
 
 /**
  * @author Max

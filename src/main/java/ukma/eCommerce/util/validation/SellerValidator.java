@@ -1,6 +1,6 @@
 package ukma.eCommerce.util.validation;
 
-import ukma.eCommerce.domain.bo.Seller;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Seller;
 import ukma.eCommerce.util.TextUtils;
 
 /**

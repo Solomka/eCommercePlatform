@@ -1,9 +1,9 @@
 package ukma.eCommerce.util.validation;
 
-import java.util.regex.Pattern;
-
-import ukma.eCommerce.domain.bo.User;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.User;
 import ukma.eCommerce.util.TextUtils;
+
+import java.util.regex.Pattern;
 
 /**
  * @author ������
@@ -38,7 +38,7 @@ class BaseUserValidator<T extends User> implements IValidator<T> {
 					user.getId(), minIdLen, maxIdLen));
 		}
 		
-		if(TextUtils.nullOrEmpty(user.getEmail()) || 
+		if(TextUtils.nullOrEmpty(user.getEmail()) ||
 				!EMAIL_PATTERN.matcher(user.getEmail()).matches()) {
 			return ValidationResult.createInvalidResult(String.format("Email '%s' is invalid", user.getEmail()));
 		}

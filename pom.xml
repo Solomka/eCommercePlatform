@@ -197,6 +197,7 @@
                         <update>true</update>
                         <path>/platform</path>
                         <contextReloadable>true</contextReloadable>
+                        <port>8080</port>
                     </configuration>
                 </plugin>
                 <plugin>

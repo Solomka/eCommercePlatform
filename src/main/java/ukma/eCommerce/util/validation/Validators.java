@@ -1,14 +1,13 @@
 package ukma.eCommerce.util.validation;
 
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Customer;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Seller;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.User;
+
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
-
-import ukma.eCommerce.domain.bo.Customer;
-import ukma.eCommerce.domain.bo.Seller;
-import ukma.eCommerce.domain.bo.User;
 
 /**
  * An utility class to conveniently manage application validators
@@ -46,7 +45,7 @@ public final class Validators {
 	
 	private static void registerValidators() {
 		// register your validators here
-		bindings.put(User.class, new BaseUserValidator<User>());
+		bindings.put(User.class, new BaseUserValidator<>());
 		bindings.put(Seller.class, new SellerValidator());
 		bindings.put(Customer.class, new CustomerValidator());
 	}
