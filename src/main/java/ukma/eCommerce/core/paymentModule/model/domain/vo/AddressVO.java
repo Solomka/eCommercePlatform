@@ -22,7 +22,12 @@ public final class AddressVO implements IValidateable {
 	private final String street;
 	private final String postCode;
 
-	public AddressVO(String country, String state, String region, String city, String street, String postCode) {
+	private final String firstName;
+	private final String lastName;
+	private final String phone;
+
+	public AddressVO(String country, String state, String region, String city, String street, String postCode,
+			String firstName, String lastName, String phone) {
 
 		this.country = Objects.requireNonNull(country, "country == null");
 		this.state = state;
@@ -30,6 +35,9 @@ public final class AddressVO implements IValidateable {
 		this.city = Objects.requireNonNull(city, "city == null");
 		this.street = Objects.requireNonNull(street, "street == null");
 		this.postCode = Objects.requireNonNull(postCode, "postCode == null ");
+		this.firstName = Objects.requireNonNull(firstName, "firstName == null");
+		this.lastName = Objects.requireNonNull(lastName, "lastName == null");
+		this.phone = Objects.requireNonNull(phone, "phone == null");
 	}
 
 	public String getCountry() {
@@ -56,10 +64,23 @@ public final class AddressVO implements IValidateable {
 		return postCode;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
 	@Override
 	public String toString() {
 		return "AddressVO [country=" + country + ", state=" + state + ", region=" + region + ", city=" + city
-				+ ", street=" + street + ", postCode=" + postCode + "]";
+				+ ", street=" + street + ", postCode=" + postCode + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", phone=" + phone + "]";
 	}
 
 	@Override
@@ -68,6 +89,9 @@ public final class AddressVO implements IValidateable {
 		int result = 1;
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
 		result = prime * result + ((region == null) ? 0 : region.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
@@ -93,6 +117,21 @@ public final class AddressVO implements IValidateable {
 			if (other.country != null)
 				return false;
 		} else if (!country.equals(other.country))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
 			return false;
 		if (postCode == null) {
 			if (other.postCode != null)
