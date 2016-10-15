@@ -1,5 +1,7 @@
 package ukma.eCommerce.core.paymentModule.controller;
 
+import java.io.IOException;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -11,21 +13,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HelloWorldController {
-	/*
-	 * @RequestMapping(value = "/") public ModelAndView startPage(ModelAndView
-	 * model) throws IOException {
-	 * 
-	 * model.setViewName("index");
-	 * 
-	 * return model; }
-	 */
+
+	@RequestMapping(value = "/")
+	public ModelAndView startPage(ModelAndView model) throws IOException {
+
+		model.setViewName("index");
+
+		return model;
+	}
+
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public ModelAndView welcomeMessage(@RequestParam(value = "name", required = false) String name) {
 		// Name of your jsp file as parameter
 		ModelAndView view = new ModelAndView("hello");
 		view.addObject("name", name);
 		System.out.println("java");
-		
+
 		return view;
 	}
 
