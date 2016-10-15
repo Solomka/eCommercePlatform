@@ -41,6 +41,7 @@
  	
  
 	<!-- DataSource configuration of database -->
+	<!-- 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -48,4 +49,5 @@
 		<property name="username" value="Solomka" />
 		<property name="password" value="solomka77" />
 	</bean>
+	-->
 </beans>
