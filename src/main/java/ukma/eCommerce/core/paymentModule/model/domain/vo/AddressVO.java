@@ -1,7 +1,8 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
+import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.IValidateable;
 
 /**
@@ -26,18 +27,146 @@ public final class AddressVO implements IValidateable {
 	private final String lastName;
 	private final String phone;
 
-	public AddressVO(String country, String state, String region, String city, String street, String postCode,
-			String firstName, String lastName, String phone) {
+	/**
+	 * builder that creates immutable instance of {@linkplain AddressVO}
+	 * 
+	 * @author Solomka
+	 *
+	 */
 
-		this.country = Objects.requireNonNull(country, "country == null");
-		this.state = state;
-		this.region = region;
-		this.city = Objects.requireNonNull(city, "city == null");
-		this.street = Objects.requireNonNull(street, "street == null");
-		this.postCode = Objects.requireNonNull(postCode, "postCode == null ");
-		this.firstName = Objects.requireNonNull(firstName, "firstName == null");
-		this.lastName = Objects.requireNonNull(lastName, "lastName == null");
-		this.phone = Objects.requireNonNull(phone, "phone == null");
+	public static class Builder implements IBuilder<AddressVO> {
+
+		private String country;
+		private String state;
+		private String region;
+		private String city;
+		private String street;
+		private String postCode;
+
+		private String firstName;
+		private String lastName;
+		private String phone;
+
+		public Builder(@NotNull AddressVO address) {
+
+			if (address == null)
+				throw new NullPointerException("address == null");
+
+			setCountry(address.getCountry()).setState(address.getState()).setRegion(address.getRegion())
+					.setCity(address.getCity()).setStreet(address.getStreet()).setPostCode(address.getPostCode())
+					.setFirstName(address.getFirstName()).setLastName(address.getLastName())
+					.setPhone(address.getPhone());
+
+		}
+
+		public Builder(final String country, final String city, final String street) {
+			this.country = country;
+			this.city = city;
+			this.street = street;
+		}
+
+		public String getCountry() {
+			return country;
+		}
+
+		public Builder setCountry(String country) {
+			this.country = country;
+			return this;
+		}
+
+		public String getState() {
+			return state;
+		}
+
+		public Builder setState(String state) {
+			this.state = state;
+			return this;
+		}
+
+		public String getRegion() {
+			return region;
+		}
+
+		public Builder setRegion(String region) {
+			this.region = region;
+			return this;
+		}
+
+		public String getCity() {
+			return city;
+		}
+
+		public Builder setCity(String city) {
+			this.city = city;
+			return this;
+		}
+
+		public String getStreet() {
+			return street;
+		}
+
+		public Builder setStreet(String street) {
+			this.street = street;
+			return this;
+		}
+
+		public String getPostCode() {
+			return postCode;
+		}
+
+		public Builder setPostCode(String postCode) {
+			this.postCode = postCode;
+			return this;
+		}
+
+		public String getFirstName() {
+			return firstName;
+		}
+
+		public Builder setFirstName(String firstName) {
+			this.firstName = firstName;
+			return this;
+		}
+
+		public String getLastName() {
+			return lastName;
+		}
+
+		public Builder setLastName(String lastName) {
+			this.lastName = lastName;
+			return this;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public Builder setPhone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
+		@Override
+		public AddressVO build() {
+			// TODO Auto-generated method stub
+			return new AddressVO(this);
+		}
+
+	}
+
+	private AddressVO(@NotNull Builder builder) {
+		if (builder == null)
+			throw new NullPointerException("builder == null");
+
+		this.country = builder.getCountry();
+		this.state = builder.getState();
+		this.region = builder.getRegion();
+		this.city = builder.getCity();
+		this.street = builder.getStreet();
+		this.postCode = builder.getPostCode();
+		this.phone = builder.getPhone();
+		this.firstName = builder.getFirstName();
+		this.lastName = builder.getLastName();
 	}
 
 	public String getCountry() {
@@ -74,13 +203,6 @@ public final class AddressVO implements IValidateable {
 
 	public String getPhone() {
 		return phone;
-	}
-
-	@Override
-	public String toString() {
-		return "AddressVO [country=" + country + ", state=" + state + ", region=" + region + ", city=" + city
-				+ ", street=" + street + ", postCode=" + postCode + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phone=" + phone + "]";
 	}
 
 	@Override
@@ -154,6 +276,13 @@ public final class AddressVO implements IValidateable {
 		} else if (!street.equals(other.street))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "AddressVO [country=" + country + ", state=" + state + ", region=" + region + ", city=" + city
+				+ ", street=" + street + ", postCode=" + postCode + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", phone=" + phone + "]";
 	}
 
 }
