@@ -1,4 +1,4 @@
-package ukma.eCommerce.core.paymentModule.model.domain.bo;
+package ukma.eCommerce.core.userModule.model.domain.bo;
 
 public final class Seller extends User {
 

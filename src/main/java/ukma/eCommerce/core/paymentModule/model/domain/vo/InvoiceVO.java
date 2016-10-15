@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.joda.time.DateTime;
 
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
+import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
 import ukma.eCommerce.util.validation.IValidateable;
 
 /**

@@ -1,6 +1,7 @@
-package ukma.eCommerce.core.paymentModule.repository;
+package ukma.eCommerce.core.userModule.repository;
 
-import ukma.eCommerce.core.paymentModule.model.domain.bo.User;
+import ukma.eCommerce.core.userModule.model.domain.bo.User;
+import ukma.eCommerce.util.IRepository;
 import ukma.eCommerce.util.filter.BasicFilter;
 
 /**

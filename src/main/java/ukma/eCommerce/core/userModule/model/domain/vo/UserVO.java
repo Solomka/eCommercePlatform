@@ -1,4 +1,4 @@
-package ukma.eCommerce.core.paymentModule.model.domain.vo;
+package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import java.util.Objects;
 
