@@ -2,19 +2,19 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo.types;
 
 /**
  * <p>
- * enum of charge (payment) statuses
+ * enum of shipment statuses
  * </p>
  * 
  * @author Solomka
  *
  */
-public enum ChargeStatus {
+public enum ShipmentStatus {
 
-	PENDING(1), SUCCEEDED(2), FAILED(3);
+	IN_SENDER_WAREHOUSE(1), IN_DELIVERY(2), DELIVERED_PARTIALLY(3), DELIVERED(4);
 
 	private int value;
 
-	private ChargeStatus(int value) {
+	private ShipmentStatus(int value) {
 		this.value = value;
 	}
 

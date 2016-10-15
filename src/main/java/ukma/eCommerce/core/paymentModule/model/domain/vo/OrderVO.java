@@ -1,76 +1,92 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import java.util.List;
+import java.util.Objects;
+
 import org.joda.time.DateTime;
+
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Customer;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Seller;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Shipment;
 import ukma.eCommerce.util.validation.IValidateable;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+/**
+ * <p>
+ * value object that represents order
+ * </p>
+ * 
+ * @author Solomka
+ *
+ */
 public final class OrderVO implements IValidateable {
 
-	private final Customer customer;
-	private final Seller seller;
-	private final Shipment shipment;
+	private final CustomerVO customer;
+	private final SellerVO seller;
+	private final ShipmentVO shipment;
 	private final List<OrderItemVO> orderItems;
 	private final OrderStatus orderStatus;
-	private final BigDecimal sumTotal;
 	private final DateTime creationDate;
+	private final DateTime fulfilmentDate;
 
-	public OrderVO(Customer customer, Seller seller, Shipment shipment, List<OrderItemVO> orderItems,
-				   OrderStatus orderStatus, BigDecimal sumTotal, DateTime creationDate) {
-		super();
-		this.customer = customer;
-		this.seller = seller;
-		this.shipment = shipment;
-		this.orderItems = orderItems;
-		this.orderStatus = orderStatus;
-		this.sumTotal = sumTotal;
-		this.creationDate = creationDate;
+	public OrderVO(CustomerVO customer, SellerVO seller, ShipmentVO shipment, List<OrderItemVO> orderItems,
+			OrderStatus orderStatus, DateTime creationDate, DateTime fulfilmentDate) {
+
+		this.customer = Objects.requireNonNull(customer, "customer == null");
+		this.seller = Objects.requireNonNull(seller, "seller == null");
+		this.shipment = Objects.requireNonNull(shipment, "shipment == null");
+		this.orderItems = Objects.requireNonNull(orderItems, "orderItems == null");
+		this.orderStatus = Objects.requireNonNull(orderStatus, "orderStatus == null");
+		this.creationDate = Objects.requireNonNull(creationDate, "creationDate == null");
+		this.fulfilmentDate = fulfilmentDate;
 	}
-	public Customer getCustomer() {
+
+	public CustomerVO getCustomer() {
 		return customer;
 	}
-	public Seller getSeller() {
+
+	public SellerVO getSeller() {
 		return seller;
 	}
-	public Shipment getShipment() {
+
+	public ShipmentVO getShipment() {
 		return shipment;
 	}
+
 	public List<OrderItemVO> getOrderItems() {
 		return orderItems;
 	}
+
 	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
-	public BigDecimal getSumTotal() {
-		return sumTotal;
-	}
+
 	public DateTime getCreationDate() {
 		return creationDate;
 	}
+
+	public DateTime getFulfilmentDate() {
+		return fulfilmentDate;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderVO [customer=" + customer + ", seller=" + seller + ", shipment=" + shipment + ", orderItems="
-				+ orderItems + ", orderStatus=" + orderStatus + ", sumTotal=" + sumTotal + ", creationDate="
-				+ creationDate + "]";
+				+ orderItems + ", orderStatus=" + orderStatus + ", creationDate=" + creationDate + ", fulfilmentDate="
+				+ fulfilmentDate + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((fulfilmentDate == null) ? 0 : fulfilmentDate.hashCode());
 		result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
 		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
 		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
 		result = prime * result + ((shipment == null) ? 0 : shipment.hashCode());
-		result = prime * result + ((sumTotal == null) ? 0 : sumTotal.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -90,6 +106,11 @@ public final class OrderVO implements IValidateable {
 				return false;
 		} else if (!customer.equals(other.customer))
 			return false;
+		if (fulfilmentDate == null) {
+			if (other.fulfilmentDate != null)
+				return false;
+		} else if (!fulfilmentDate.equals(other.fulfilmentDate))
+			return false;
 		if (orderItems == null) {
 			if (other.orderItems != null)
 				return false;
@@ -106,11 +127,6 @@ public final class OrderVO implements IValidateable {
 			if (other.shipment != null)
 				return false;
 		} else if (!shipment.equals(other.shipment))
-			return false;
-		if (sumTotal == null) {
-			if (other.sumTotal != null)
-				return false;
-		} else if (!sumTotal.equals(other.sumTotal))
 			return false;
 		return true;
 	}

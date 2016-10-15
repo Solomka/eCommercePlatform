@@ -1,65 +1,86 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import org.joda.time.DateTime;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Customer;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Seller;
-import ukma.eCommerce.util.validation.IValidateable;
-
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
+
+import org.joda.time.DateTime;
+
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
+import ukma.eCommerce.util.validation.IValidateable;
+
+/**
+ * <p>
+ * value object that represents order's invoice
+ * </p>
+ * 
+ * @author Solomka
+ *
+ */
 
 public final class InvoiceVO implements IValidateable {
-	private final Seller seller;
-	private final Customer customer;
+
+	private final SellerVO seller;
+	private final CustomerVO customer;
 	private final OrderVO order;
-	private final List<OrderItemVO> orderItems;
+	private final List<InvoiceItemVO> orderItems;
 	private final int quantityTotal;
 	private final BigDecimal sumTotal;
-	private final ChargeStatus status;
+	private final InvoiceStatus status;
 	private final DateTime creationDate;
-	public InvoiceVO(Seller seller, Customer customer, OrderVO order, List<OrderItemVO> orderItems, int quantityTotal,
-					 BigDecimal sumTotal, ChargeStatus status, DateTime creationDate) {
-		super();
-		this.seller = seller;
-		this.customer = customer;
-		this.order = order;
-		this.orderItems = orderItems;
-		this.quantityTotal = quantityTotal;
-		this.sumTotal = sumTotal;
-		this.status = status;
-		this.creationDate = creationDate;
+
+	public InvoiceVO(SellerVO seller, CustomerVO customer, OrderVO order, List<InvoiceItemVO> orderItems,
+			int quantityTotal, BigDecimal sumTotal, InvoiceStatus status, DateTime creationDate) {
+
+		this.seller = Objects.requireNonNull(seller, "seller == null");
+		this.customer = Objects.requireNonNull(customer, "customer == null");
+		this.order = Objects.requireNonNull(order, "order == null");
+		this.orderItems = Objects.requireNonNull(orderItems, "orderItems == null");
+		this.quantityTotal = Objects.requireNonNull(quantityTotal, "quantityTotal == null");
+		this.sumTotal = Objects.requireNonNull(sumTotal, "sumTotal == null");
+		this.status = Objects.requireNonNull(status, "status == null");
+		this.creationDate = Objects.requireNonNull(creationDate, "creationDate == null");
 	}
-	public Seller getSeller() {
+
+	public SellerVO getSeller() {
 		return seller;
 	}
-	public Customer getCustomer() {
+
+	public CustomerVO getCustomer() {
 		return customer;
 	}
+
 	public OrderVO getOrder() {
 		return order;
 	}
-	public List<OrderItemVO> getOrderItems() {
+
+	public List<InvoiceItemVO> getOrderItems() {
 		return orderItems;
 	}
+
 	public int getQuantityTotal() {
 		return quantityTotal;
 	}
+
 	public BigDecimal getSumTotal() {
 		return sumTotal;
 	}
-	public ChargeStatus getStatus() {
+
+	public InvoiceStatus getStatus() {
 		return status;
 	}
+
 	public DateTime getCreationDate() {
 		return creationDate;
 	}
+
 	@Override
 	public String toString() {
 		return "InvoiceVO [seller=" + seller + ", customer=" + customer + ", order=" + order + ", orderItems="
 				+ orderItems + ", quantityTotal=" + quantityTotal + ", sumTotal=" + sumTotal + ", status=" + status
 				+ ", creationDate=" + creationDate + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,6 +95,7 @@ public final class InvoiceVO implements IValidateable {
 		result = prime * result + ((sumTotal == null) ? 0 : sumTotal.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -120,5 +142,4 @@ public final class InvoiceVO implements IValidateable {
 		return true;
 	}
 
-	
 }

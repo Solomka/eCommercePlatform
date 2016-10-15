@@ -1,25 +1,27 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import org.joda.time.DateTime;
-import ukma.eCommerce.util.validation.IValidateable;
-
 import java.util.Objects;
+
+import org.joda.time.DateTime;
+
+import ukma.eCommerce.util.validation.IValidateable;
 
 /**
  * <p>
- * Value object which describes credit card form
+ * Value object which describes credit card
  * </p>
- * @author ������
- * */
+ * 
+ * @author Max
+ */
 public final class CreditCardVO implements IValidateable {
-	
+
 	private final String number;
 	private final String cvc;
 	private final DateTime expirationDate;
-	
+
 	public CreditCardVO(String number, String cvv, DateTime expirationDate) {
 		this.number = Objects.requireNonNull(number, "card number == null");
-		this.cvc = Objects.requireNonNull(cvv, "cvv == null");
+		this.cvc = Objects.requireNonNull(cvv, "cvc == null");
 		this.expirationDate = Objects.requireNonNull(expirationDate, "exp date == null");
 	}
 
@@ -34,7 +36,7 @@ public final class CreditCardVO implements IValidateable {
 	public DateTime getExpirationDate() {
 		return expirationDate;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

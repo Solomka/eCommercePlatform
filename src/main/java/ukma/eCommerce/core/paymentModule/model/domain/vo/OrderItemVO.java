@@ -1,38 +1,55 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 import ukma.eCommerce.util.validation.IValidateable;
 
-import java.math.BigDecimal;
-
+/**
+ * <p>
+ * value object that represents order item
+ * </p>
+ * 
+ * @author Solomka
+ *
+ */
 public final class OrderItemVO implements IValidateable {
+
 	private final OrderVO order;
 	private final ProductVO product;
 	private final int quantity;
 	private final BigDecimal sumTotal;
+
 	public OrderItemVO(OrderVO order, ProductVO product, int quantity, BigDecimal sumTotal) {
-		super();
-		this.order = order;
-		this.product = product;
-		this.quantity = quantity;
-		this.sumTotal = sumTotal;
+
+		this.order = Objects.requireNonNull(order, "order == null");
+		this.product = Objects.requireNonNull(product, "product == null");
+		this.quantity = Objects.requireNonNull(quantity, "quantity == null");
+		this.sumTotal = Objects.requireNonNull(sumTotal, "sumTotal == null");
 	}
+
 	public OrderVO getOrder() {
 		return order;
 	}
+
 	public ProductVO getProduct() {
 		return product;
 	}
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 	public BigDecimal getSumTotal() {
 		return sumTotal;
 	}
+
 	@Override
 	public String toString() {
 		return "OrderItemVO [order=" + order + ", product=" + product + ", quantity=" + quantity + ", sumTotal="
 				+ sumTotal + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -43,6 +60,7 @@ public final class OrderItemVO implements IValidateable {
 		result = prime * result + ((sumTotal == null) ? 0 : sumTotal.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -71,7 +89,5 @@ public final class OrderItemVO implements IValidateable {
 			return false;
 		return true;
 	}
-	
-	
 
 }
