@@ -1,6 +1,10 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
+import ukma.eCommerce.core.userModule.model.domain.vo.FullNameVO;
 import ukma.eCommerce.util.IBuilder;
+
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
@@ -8,280 +12,276 @@ import javax.validation.constraints.NotNull;
  * <p>
  * value object that represents Address for order shipment
  * </p>
- * 
- * @author Solomka
  *
+ * @author Solomka
  */
 
 public final class AddressVO {
 
-	private final String country;
-	private final String state;
-	private final String region;
-	private final String city;
-	private final String street;
-	private final String postCode;
+    private final String country;
+    private final String state;
+    private final String region;
+    private final String city;
+    private final String street;
+    private final String postCode;
 
-	private final String firstName;
-	private final String lastName;
-	private final String phone;
+    private final FullNameVO fullName;
+    private final String phone;
 
-	/**
-	 * builder that creates immutable instance of {@linkplain AddressVO}
-	 * 
-	 * @author Solomka
-	 *
-	 */
+    private final CustomerVO customer;
 
-	public static class Builder implements IBuilder<AddressVO> {
+    /**
+     * builder that creates immutable instance of {@linkplain AddressVO}
+     *
+     * @author Solomka
+     */
 
-		private String country;
-		private String state;
-		private String region;
-		private String city;
-		private String street;
-		private String postCode;
+    public static class Builder implements IBuilder<AddressVO> {
 
-		private String firstName;
-		private String lastName;
-		private String phone;
+        private String country;
+        private String state;
+        private String region;
+        private String city;
+        private String street;
+        private String postCode;
 
-		public Builder(@NotNull AddressVO address) {
+        private FullNameVO fullName;
+        private String phone;
 
-			if (address == null)
-				throw new NullPointerException("address == null");
+        // shipment address is attached to the specific customer
+        private CustomerVO customer;
 
-			setCountry(address.getCountry()).setState(address.getState()).setRegion(address.getRegion())
-					.setCity(address.getCity()).setStreet(address.getStreet()).setPostCode(address.getPostCode())
-					.setFirstName(address.getFirstName()).setLastName(address.getLastName())
-					.setPhone(address.getPhone());
+        public Builder() {
+        }
 
-		}
+        public Builder(@NotNull AddressVO address) {
 
-		public Builder(final String country, final String city, final String street) {
-			this.country = country;
-			this.city = city;
-			this.street = street;
-		}
+            if (address == null)
+                throw new NullPointerException("address must not be null");
 
-		public String getCountry() {
-			return country;
-		}
+            setCountry(address.getCountry()).setState(address.getState()).setRegion(address.getRegion())
+                    .setCity(address.getCity()).setStreet(address.getStreet()).setPostCode(address.getPostCode())
+                    .setFullName(address.getFullName()).setPhone(address.getPhone()).setCustomer(address.getCustomer());
+        }
 
-		public Builder setCountry(String country) {
-			this.country = country;
-			return this;
-		}
+        public String getCountry() {
+            return country;
+        }
 
-		public String getState() {
-			return state;
-		}
+        public Builder setCountry(String country) {
+            this.country = country;
+            return this;
+        }
 
-		public Builder setState(String state) {
-			this.state = state;
-			return this;
-		}
+        public String getState() {
+            return state;
+        }
 
-		public String getRegion() {
-			return region;
-		}
+        public Builder setState(String state) {
+            this.state = state;
+            return this;
+        }
 
-		public Builder setRegion(String region) {
-			this.region = region;
-			return this;
-		}
+        public String getRegion() {
+            return region;
+        }
 
-		public String getCity() {
-			return city;
-		}
+        public Builder setRegion(String region) {
+            this.region = region;
+            return this;
+        }
 
-		public Builder setCity(String city) {
-			this.city = city;
-			return this;
-		}
+        public String getCity() {
+            return city;
+        }
 
-		public String getStreet() {
-			return street;
-		}
+        public Builder setCity(String city) {
+            this.city = city;
+            return this;
+        }
 
-		public Builder setStreet(String street) {
-			this.street = street;
-			return this;
-		}
+        public String getStreet() {
+            return street;
+        }
 
-		public String getPostCode() {
-			return postCode;
-		}
+        public Builder setStreet(String street) {
+            this.street = street;
+            return this;
+        }
 
-		public Builder setPostCode(String postCode) {
-			this.postCode = postCode;
-			return this;
-		}
+        public String getPostCode() {
+            return postCode;
+        }
 
-		public String getFirstName() {
-			return firstName;
-		}
+        public Builder setPostCode(String postCode) {
+            this.postCode = postCode;
+            return this;
+        }
 
-		public Builder setFirstName(String firstName) {
-			this.firstName = firstName;
-			return this;
-		}
+        public FullNameVO getFullName() {
+            return fullName;
+        }
 
-		public String getLastName() {
-			return lastName;
-		}
+        public Builder setFullName(FullNameVO fullName) {
+            this.fullName = fullName;
+            return this;
+        }
 
-		public Builder setLastName(String lastName) {
-			this.lastName = lastName;
-			return this;
-		}
+        public String getPhone() {
+            return phone;
+        }
 
-		public String getPhone() {
-			return phone;
-		}
+        public Builder setPhone(String phone) {
+            this.phone = phone;
+            return this;
+        }
 
-		public Builder setPhone(String phone) {
-			this.phone = phone;
-			return this;
-		}
+        public CustomerVO getCustomer() {
+            return customer;
+        }
 
-		@Override
-		public AddressVO build() {
-			// TODO Auto-generated method stub
-			return new AddressVO(this);
-		}
+        public Builder setCustomer(CustomerVO customer) {
+            this.customer = customer;
+            return this;
+        }
 
-	}
+        @Override
+        public AddressVO build() {
+            return new AddressVO(this);
+        }
 
-	private AddressVO(@NotNull Builder builder) {
-		if (builder == null)
-			throw new NullPointerException("builder == null");
+    }
 
-		this.country = builder.getCountry();
-		this.state = builder.getState();
-		this.region = builder.getRegion();
-		this.city = builder.getCity();
-		this.street = builder.getStreet();
-		this.postCode = builder.getPostCode();
-		this.phone = builder.getPhone();
-		this.firstName = builder.getFirstName();
-		this.lastName = builder.getLastName();
-	}
+    private AddressVO(@NotNull Builder builder) {
 
-	public String getCountry() {
-		return country;
-	}
+        Objects.requireNonNull(builder, "builder must not be null");
 
-	public String getState() {
-		return state;
-	}
+        this.country = Objects.requireNonNull(builder.getCountry(), "country must not be null");
+        this.city = Objects.requireNonNull(builder.getCity(), "city must not be null");
+        this.street = Objects.requireNonNull(builder.getStreet(), "street must not be null");
+        this.postCode = Objects.requireNonNull(builder.getPostCode(), "postCode must not be null");
+        this.fullName = Objects.requireNonNull(builder.getFullName(), "fullName must not be null");
+        this.phone = Objects.requireNonNull(builder.getPhone(), "phone must not be null");
+        this.customer = Objects.requireNonNull(builder.getCustomer(), "customer must not be null");
 
-	public String getRegion() {
-		return region;
-	}
+        this.state = builder.getState();
+        this.region = builder.getRegion();
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public String getPostCode() {
-		return postCode;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getPostCode() {
+        return postCode;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((country == null) ? 0 : country.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-		result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
-		result = prime * result + ((region == null) ? 0 : region.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + ((street == null) ? 0 : street.hashCode());
-		return result;
-	}
+    public FullNameVO getFullName() {
+        return fullName;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AddressVO other = (AddressVO) obj;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
-		if (country == null) {
-			if (other.country != null)
-				return false;
-		} else if (!country.equals(other.country))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (phone == null) {
-			if (other.phone != null)
-				return false;
-		} else if (!phone.equals(other.phone))
-			return false;
-		if (postCode == null) {
-			if (other.postCode != null)
-				return false;
-		} else if (!postCode.equals(other.postCode))
-			return false;
-		if (region == null) {
-			if (other.region != null)
-				return false;
-		} else if (!region.equals(other.region))
-			return false;
-		if (state == null) {
-			if (other.state != null)
-				return false;
-		} else if (!state.equals(other.state))
-			return false;
-		if (street == null) {
-			if (other.street != null)
-				return false;
-		} else if (!street.equals(other.street))
-			return false;
-		return true;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	@Override
-	public String toString() {
-		return "AddressVO [country=" + country + ", state=" + state + ", region=" + region + ", city=" + city
-				+ ", street=" + street + ", postCode=" + postCode + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phone=" + phone + "]";
-	}
+    public CustomerVO getCustomer() {
+        return customer;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((country == null) ? 0 : country.hashCode());
+        result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+        result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
+        result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+        result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
+        result = prime * result + ((region == null) ? 0 : region.hashCode());
+        result = prime * result + ((state == null) ? 0 : state.hashCode());
+        result = prime * result + ((street == null) ? 0 : street.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AddressVO other = (AddressVO) obj;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (country == null) {
+            if (other.country != null)
+                return false;
+        } else if (!country.equals(other.country))
+            return false;
+        if (customer == null) {
+            if (other.customer != null)
+                return false;
+        } else if (!customer.equals(other.customer))
+            return false;
+        if (fullName == null) {
+            if (other.fullName != null)
+                return false;
+        } else if (!fullName.equals(other.fullName))
+            return false;
+        if (phone == null) {
+            if (other.phone != null)
+                return false;
+        } else if (!phone.equals(other.phone))
+            return false;
+        if (postCode == null) {
+            if (other.postCode != null)
+                return false;
+        } else if (!postCode.equals(other.postCode))
+            return false;
+        if (region == null) {
+            if (other.region != null)
+                return false;
+        } else if (!region.equals(other.region))
+            return false;
+        if (state == null) {
+            if (other.state != null)
+                return false;
+        } else if (!state.equals(other.state))
+            return false;
+        if (street == null) {
+            if (other.street != null)
+                return false;
+        } else if (!street.equals(other.street))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "AddressVO [country=" + country + ", state=" + state + ", region=" + region + ", city=" + city
+                + ", street=" + street + ", postCode=" + postCode + ", fullName=" + fullName + ", phone=" + phone
+                + ", customer=" + customer + "]";
+    }
 
 }

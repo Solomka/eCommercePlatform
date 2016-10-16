@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * Value object which describes credit card
+ * value object that represents Credit Card
  * </p>
  * 
  * @author Max
@@ -18,9 +18,9 @@ public final class CreditCardVO {
 	private final DateTime expirationDate;
 
 	public CreditCardVO(String number, String cvv, DateTime expirationDate) {
-		this.number = Objects.requireNonNull(number, "card number == null");
-		this.cvc = Objects.requireNonNull(cvv, "cvc == null");
-		this.expirationDate = Objects.requireNonNull(expirationDate, "exp date == null");
+		this.number = Objects.requireNonNull(number, "card number must not be null");
+		this.cvc = Objects.requireNonNull(cvv, "cvc must not be null");
+		this.expirationDate = Objects.requireNonNull(expirationDate, "expirationDate must not be null");
 	}
 
 	public String getNumber() {
@@ -74,7 +74,7 @@ public final class CreditCardVO {
 
 	@Override
 	public String toString() {
-		return "CardForm [number=" + number + ", cvv=" + cvc + ", expirationDate=" + expirationDate + "]";
+		return "CardForm [number=" + number + ", cvc=" + cvc + ", expirationDate=" + expirationDate + "]";
 	}
 
 }

@@ -2,9 +2,13 @@ package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
+import ukma.eCommerce.util.IBuilder;
+
 /**
  * <p>
- * value object that represents General user
+ * value object that represents User
  * </p>
  * 
  * @author Solomka
@@ -15,10 +19,56 @@ public class UserVO {
 	private final String email;
 	private final String phone;
 
-	protected UserVO(String email, String phone) {
+	public static class Builder implements IBuilder<UserVO> {
 
-		this.email = Objects.requireNonNull(email, "email == null");
-		this.phone = Objects.requireNonNull(phone, "phone == null");
+		private String email;
+		private String phone;
+
+		public Builder() {
+		}
+
+		public Builder(final String email, final String phone) {
+			this.email = email;
+			this.phone = phone;
+		}
+
+		public Builder(@NotNull UserVO user) {
+
+			if (user == null)
+				throw new NullPointerException("user must not be null");
+
+			setEmail(user.getEmail()).setPhone(user.getPhone());
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public Builder setEmail(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public Builder setPhone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
+		@Override
+		public UserVO build() {
+			return new UserVO(this);
+		}
+
+	}
+
+	protected UserVO(@NotNull Builder builder) {
+		Objects.requireNonNull(builder, "builder must not be null");
+		this.email = Objects.requireNonNull(builder.getEmail(), "email must not be null");
+		this.phone = Objects.requireNonNull(builder.getPhone(), "phone must not be null");
 	}
 
 	public final String getEmail() {
@@ -27,11 +77,6 @@ public class UserVO {
 
 	public final String getPhone() {
 		return phone;
-	}
-
-	@Override
-	public String toString() {
-		return "UserVO [email=" + email + ", phone=" + phone + "]";
 	}
 
 	@Override
@@ -63,6 +108,11 @@ public class UserVO {
 		} else if (!phone.equals(other.phone))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "UserVO [email=" + email + ", phone=" + phone + "]";
 	}
 
 }

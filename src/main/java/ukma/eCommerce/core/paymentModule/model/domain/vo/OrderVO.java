@@ -1,134 +1,243 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+
 import org.joda.time.DateTime;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
+import ukma.eCommerce.util.IBuilder;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
  * <p>
  * value object that represents order
  * </p>
- * 
- * @author Solomka
  *
+ * @author Solomka
  */
 public final class OrderVO {
 
-	private final CustomerVO customer;
-	private final SellerVO seller;
-	private final ShipmentVO shipment;
-	private final List<OrderItemVO> orderItems;
-	private final OrderStatus orderStatus;
-	private final DateTime creationDate;
-	private final DateTime fulfilmentDate;
+    private final CustomerVO customer;
+    private final SellerVO seller;
+    private final ShipmentVO shipment;
+    private final Collection<OrderItemVO> orderItems;
+    private final OrderStatus orderStatus;
+    private final DateTime creationDate;
+    private final DateTime fulfilmentDate;
 
-	public OrderVO(CustomerVO customer, SellerVO seller, ShipmentVO shipment, List<OrderItemVO> orderItems,
-			OrderStatus orderStatus, DateTime creationDate, DateTime fulfilmentDate) {
+    /**
+     * builder that creates immutable instance of {@linkplain OrderVO}
+     *
+     * @author Solomka
+     */
 
-		this.customer = Objects.requireNonNull(customer, "customer == null");
-		this.seller = Objects.requireNonNull(seller, "seller == null");
-		this.shipment = Objects.requireNonNull(shipment, "shipment == null");
-		this.orderItems = Objects.requireNonNull(orderItems, "orderItems == null");
-		this.orderStatus = Objects.requireNonNull(orderStatus, "orderStatus == null");
-		this.creationDate = Objects.requireNonNull(creationDate, "creationDate == null");
-		this.fulfilmentDate = fulfilmentDate;
-	}
+    public static class Builder implements IBuilder<OrderVO> {
 
-	public CustomerVO getCustomer() {
-		return customer;
-	}
+        private CustomerVO customer;
+        private SellerVO seller;
+        private ShipmentVO shipment;
+        private Collection<OrderItemVO> orderItems;
+        private OrderStatus orderStatus;
+        private DateTime creationDate;
+        private DateTime fulfilmentDate;
 
-	public SellerVO getSeller() {
-		return seller;
-	}
+        public Builder() {
+        }
 
-	public ShipmentVO getShipment() {
-		return shipment;
-	}
+        public Builder(OrderVO order) {
 
-	public List<OrderItemVO> getOrderItems() {
-		return orderItems;
-	}
+            if (order == null)
+                throw new NullPointerException("order must not be null");
 
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
-	}
+            setCustomer(order.getCustomer()).setSeller(order.getSeller()).setShipment(order.getShipment())
+                    .setOrderItems(order.getOrderItems()).setOrderStatus(order.getOrderStatus())
+                    .setCreationDate(order.getCreationDate()).setFulfilmentDate(order.getFulfilmentDate());
+        }
 
-	public DateTime getCreationDate() {
-		return creationDate;
-	}
+        public CustomerVO getCustomer() {
+            return customer;
+        }
 
-	public DateTime getFulfilmentDate() {
-		return fulfilmentDate;
-	}
+        public Builder setCustomer(CustomerVO customer) {
+            this.customer = customer;
+            return this;
+        }
 
-	@Override
-	public String toString() {
-		return "OrderVO [customer=" + customer + ", seller=" + seller + ", shipment=" + shipment + ", orderItems="
-				+ orderItems + ", orderStatus=" + orderStatus + ", creationDate=" + creationDate + ", fulfilmentDate="
-				+ fulfilmentDate + "]";
-	}
+        public SellerVO getSeller() {
+            return seller;
+        }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((fulfilmentDate == null) ? 0 : fulfilmentDate.hashCode());
-		result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
-		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
-		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
-		result = prime * result + ((shipment == null) ? 0 : shipment.hashCode());
-		return result;
-	}
+        public Builder setSeller(SellerVO seller) {
+            this.seller = seller;
+            return this;
+        }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OrderVO other = (OrderVO) obj;
-		if (creationDate == null) {
-			if (other.creationDate != null)
-				return false;
-		} else if (!creationDate.equals(other.creationDate))
-			return false;
-		if (customer == null) {
-			if (other.customer != null)
-				return false;
-		} else if (!customer.equals(other.customer))
-			return false;
-		if (fulfilmentDate == null) {
-			if (other.fulfilmentDate != null)
-				return false;
-		} else if (!fulfilmentDate.equals(other.fulfilmentDate))
-			return false;
-		if (orderItems == null) {
-			if (other.orderItems != null)
-				return false;
-		} else if (!orderItems.equals(other.orderItems))
-			return false;
-		if (orderStatus != other.orderStatus)
-			return false;
-		if (seller == null) {
-			if (other.seller != null)
-				return false;
-		} else if (!seller.equals(other.seller))
-			return false;
-		if (shipment == null) {
-			if (other.shipment != null)
-				return false;
-		} else if (!shipment.equals(other.shipment))
-			return false;
-		return true;
-	}
+        public ShipmentVO getShipment() {
+            return shipment;
+        }
+
+        public Builder setShipment(ShipmentVO shipment) {
+            this.shipment = shipment;
+            return this;
+        }
+
+        public Collection<OrderItemVO> getOrderItems() {
+            return orderItems;
+        }
+
+        /**
+         * unmodifiable collection of order items
+         *
+         * @param orderItems
+         * @return
+         */
+        public Builder setOrderItems(Collection<OrderItemVO> orderItems) {
+            this.orderItems = orderItems == null ? null : Collections.unmodifiableCollection(orderItems);
+            return this;
+        }
+
+        public OrderStatus getOrderStatus() {
+            return orderStatus;
+        }
+
+        public Builder setOrderStatus(OrderStatus orderStatus) {
+            this.orderStatus = orderStatus;
+            return this;
+        }
+
+        public DateTime getCreationDate() {
+            return creationDate;
+        }
+
+        public Builder setCreationDate(DateTime creationDate) {
+            this.creationDate = creationDate;
+            return this;
+        }
+
+        public DateTime getFulfilmentDate() {
+            return fulfilmentDate;
+        }
+
+        public Builder setFulfilmentDate(DateTime fulfilmentDate) {
+            this.fulfilmentDate = fulfilmentDate;
+            return this;
+        }
+
+        @Override
+        public OrderVO build() {
+            return new OrderVO(this);
+        }
+
+    }
+
+    private OrderVO(Builder builder) {
+
+        Objects.requireNonNull(builder, "builder must not be null");
+
+        this.customer = Objects.requireNonNull(builder.getCustomer(), "customer must not be null");
+        this.seller = Objects.requireNonNull(builder.getSeller(), "seller must not be null");
+        this.shipment = Objects.requireNonNull(builder.getShipment(), "shipment must not be null");
+        this.orderItems = Collections
+                .unmodifiableCollection(Objects.requireNonNull(builder.getOrderItems(), "orderItems must not be null "));
+        this.orderStatus = Objects.requireNonNull(builder.getOrderStatus(), "orderStatus must not be null");
+        this.creationDate = Objects.requireNonNull(builder.getCreationDate(), "creationDate must not be null");
+        this.fulfilmentDate = builder.getFulfilmentDate();
+    }
+
+    public CustomerVO getCustomer() {
+        return customer;
+    }
+
+    public SellerVO getSeller() {
+        return seller;
+    }
+
+    public ShipmentVO getShipment() {
+        return shipment;
+    }
+
+    public Collection<OrderItemVO> getOrderItems() {
+        return orderItems;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public DateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public DateTime getFulfilmentDate() {
+        return fulfilmentDate;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+        result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+        result = prime * result + ((fulfilmentDate == null) ? 0 : fulfilmentDate.hashCode());
+        result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
+        result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
+        result = prime * result + ((seller == null) ? 0 : seller.hashCode());
+        result = prime * result + ((shipment == null) ? 0 : shipment.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OrderVO other = (OrderVO) obj;
+        if (creationDate == null) {
+            if (other.creationDate != null)
+                return false;
+        } else if (!creationDate.equals(other.creationDate))
+            return false;
+        if (customer == null) {
+            if (other.customer != null)
+                return false;
+        } else if (!customer.equals(other.customer))
+            return false;
+        if (fulfilmentDate == null) {
+            if (other.fulfilmentDate != null)
+                return false;
+        } else if (!fulfilmentDate.equals(other.fulfilmentDate))
+            return false;
+        if (orderItems == null) {
+            if (other.orderItems != null)
+                return false;
+        } else if (!orderItems.equals(other.orderItems))
+            return false;
+        if (orderStatus != other.orderStatus)
+            return false;
+        if (seller == null) {
+            if (other.seller != null)
+                return false;
+        } else if (!seller.equals(other.seller))
+            return false;
+        if (shipment == null) {
+            if (other.shipment != null)
+                return false;
+        } else if (!shipment.equals(other.shipment))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderVO [customer=" + customer + ", seller=" + seller + ", shipment=" + shipment + ", orderItems="
+                + orderItems + ", orderStatus=" + orderStatus + ", creationDate=" + creationDate + ", fulfilmentDate="
+                + fulfilmentDate + "]";
+    }
 
 }

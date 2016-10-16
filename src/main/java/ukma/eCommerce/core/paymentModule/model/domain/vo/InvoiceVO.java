@@ -2,11 +2,12 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
 import org.joda.time.DateTime;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
-import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
-import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
+import ukma.eCommerce.util.IBuilder;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * <p>
@@ -19,36 +20,157 @@ import java.util.*;
 
 public final class InvoiceVO {
 
-	private final SellerVO seller;
-	private final CustomerVO customer;
 	private final OrderVO order;
 	private final Collection<InvoiceItemVO> invoiceItems;
 	private final int quantityTotal;
 	private final BigDecimal sumTotal;
 	private final InvoiceStatus status;
 	private final DateTime creationDate;
+	private final DateTime paymentDate;
 
-	public InvoiceVO(SellerVO seller, CustomerVO customer, OrderVO order, Collection<InvoiceItemVO> invoiceItems,
-			int quantityTotal/*redundant var, as you can calculate it*/,
-					 BigDecimal sumTotal/*redundant var, as you can calculate it*/,
-					 InvoiceStatus status, DateTime creationDate) {
+	/**
+	 * builder that creates immutable instance of {@linkplain InvoiceVO}
+	 * 
+	 * @author Solomka
+	 *
+	 */
 
-		this.seller = Objects.requireNonNull(seller, "seller == null");
-		this.customer = Objects.requireNonNull(customer, "customer == null");
-		this.order = Objects.requireNonNull(order, "order == null");
-		this.invoiceItems = Collections.unmodifiableCollection(Objects.requireNonNull(invoiceItems, "order items == null"));
-		this.quantityTotal = Objects.requireNonNull(quantityTotal, "quantityTotal == null");
-		this.sumTotal = Objects.requireNonNull(sumTotal, "sumTotal == null");
-		this.status = Objects.requireNonNull(status, "status == null");
-		this.creationDate = Objects.requireNonNull(creationDate, "creationDate == null");
+	public static class Builder implements IBuilder<InvoiceVO> {
+
+		private OrderVO order;
+		private Collection<InvoiceItemVO> invoiceItems;
+		private InvoiceStatus status;
+		private DateTime creationDate;
+		private DateTime paymentDate;
+
+		public Builder() {
+		}
+
+		public Builder(final InvoiceVO invoice) {
+
+			if (invoice == null) {
+				throw new NullPointerException("invoice must not be null");
+			}
+
+			setOrder(invoice.getOrder()).setInvoiceItems(invoice.getInvoiceItems())
+					.setStatus(invoice.getStatus()).setCreationDate(invoice.getCreationDate())
+					.setPaymentDate(invoice.getCreationDate());
+		}
+
+		public OrderVO getOrder() {
+			return order;
+		}
+
+		public Builder setOrder(OrderVO order) {
+			this.order = order;
+			return this;
+		}
+
+		public Collection<InvoiceItemVO> getInvoiceItems() {
+			return invoiceItems;
+		}
+
+		/**
+		 * unmodifiable collection of invoice items
+		 * 
+		 * @param invoiceItems
+		 * @return
+		 */
+
+		public Builder setInvoiceItems(Collection<InvoiceItemVO> invoiceItems) {
+			this.invoiceItems = invoiceItems == null ? null : Collections.unmodifiableCollection(invoiceItems);
+			return this;
+		}
+
+		public InvoiceStatus getStatus() {
+			return status;
+		}
+
+		public Builder setStatus(InvoiceStatus status) {
+			this.status = status;
+			return this;
+		}
+
+		public DateTime getCreationDate() {
+			return creationDate;
+		}
+
+		public Builder setCreationDate(DateTime creationDate) {
+			this.creationDate = creationDate;
+			return this;
+		}
+
+		public DateTime getPaymentDate() {
+			return paymentDate;
+		}
+
+		public Builder setPaymentDate(DateTime paymentDate) {
+			this.paymentDate = paymentDate;
+			return this;
+		}
+
+		@Override
+		public InvoiceVO build() {
+			return new InvoiceVO(this);
+		}
+
 	}
 
-	public SellerVO getSeller() {
-		return seller;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		InvoiceVO invoiceVO = (InvoiceVO) o;
+
+		if (quantityTotal != invoiceVO.quantityTotal) return false;
+		if (!order.equals(invoiceVO.order)) return false;
+		if (!invoiceItems.equals(invoiceVO.invoiceItems)) return false;
+		if (!sumTotal.equals(invoiceVO.sumTotal)) return false;
+		if (status != invoiceVO.status) return false;
+		if (!creationDate.equals(invoiceVO.creationDate)) return false;
+		return paymentDate != null ? paymentDate.equals(invoiceVO.paymentDate) : invoiceVO.paymentDate == null;
+
 	}
 
-	public CustomerVO getCustomer() {
-		return customer;
+	@Override
+	public int hashCode() {
+		int result = order.hashCode();
+		result = 31 * result + invoiceItems.hashCode();
+		result = 31 * result + quantityTotal;
+		result = 31 * result + sumTotal.hashCode();
+		result = 31 * result + status.hashCode();
+		result = 31 * result + creationDate.hashCode();
+		result = 31 * result + (paymentDate != null ? paymentDate.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "InvoiceVO{" +
+				"order=" + order +
+				", invoiceItems=" + invoiceItems +
+				", quantityTotal=" + quantityTotal +
+				", sumTotal=" + sumTotal +
+				", status=" + status +
+				", creationDate=" + creationDate +
+				", paymentDate=" + paymentDate +
+				'}';
+	}
+
+	private InvoiceVO(Builder builder) {
+
+		if (builder == null) {
+			throw new NullPointerException("builder must not be null");
+		}
+
+		this.order = Objects.requireNonNull(builder.getOrder(), "order must not be null");
+		this.status = Objects.requireNonNull(builder.getStatus(), "status must not be null");
+		this.invoiceItems = Collections.unmodifiableCollection(Objects.requireNonNull(builder.getInvoiceItems(), "invoiceItems must no be null"));
+		this.quantityTotal = calculateQauntityTotal(builder.getInvoiceItems());
+		this.sumTotal = calculateSumTotal(builder.getInvoiceItems());
+		this.creationDate = Objects.requireNonNull(builder.getCreationDate(), "creationDate must not be null");
+		this.paymentDate = builder.getPaymentDate();
 	}
 
 	public OrderVO getOrder() {
@@ -75,72 +197,40 @@ public final class InvoiceVO {
 		return creationDate;
 	}
 
-	@Override
-	public String toString() {
-		return "InvoiceVO [seller=" + seller + ", customer=" + customer + ", order=" + order + ", invoiceItems="
-				+ invoiceItems + ", quantityTotal=" + quantityTotal + ", sumTotal=" + sumTotal + ", status=" + status
-				+ ", creationDate=" + creationDate + "]";
+	public DateTime getPaymentDate() {
+		return paymentDate;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((order == null) ? 0 : order.hashCode());
-		result = prime * result + ((invoiceItems == null) ? 0 : invoiceItems.hashCode());
-		result = prime * result + quantityTotal;
-		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((sumTotal == null) ? 0 : sumTotal.hashCode());
-		return result;
+	/**
+	 * calculate qauntityTotal field for InvoiceVO
+	 *
+	 * @param invoiceItems
+	 * @return
+	 */
+
+	private int calculateQauntityTotal(Collection<InvoiceItemVO> invoiceItems) {
+		int quantityTotal = 0;
+
+		for (final InvoiceItemVO item : invoiceItems) {
+			quantityTotal += item.getQuantity();
+		}
+		return quantityTotal;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		InvoiceVO other = (InvoiceVO) obj;
-		if (creationDate == null) {
-			if (other.creationDate != null)
-				return false;
-		} else if (!creationDate.equals(other.creationDate))
-			return false;
-		if (customer == null) {
-			if (other.customer != null)
-				return false;
-		} else if (!customer.equals(other.customer))
-			return false;
-		if (order == null) {
-			if (other.order != null)
-				return false;
-		} else if (!order.equals(other.order))
-			return false;
-		if (invoiceItems == null) {
-			if (other.invoiceItems != null)
-				return false;
-		} else if (!invoiceItems.equals(other.invoiceItems))
-			return false;
-		if (quantityTotal != other.quantityTotal)
-			return false;
-		if (seller == null) {
-			if (other.seller != null)
-				return false;
-		} else if (!seller.equals(other.seller))
-			return false;
-		if (status != other.status)
-			return false;
-		if (sumTotal == null) {
-			if (other.sumTotal != null)
-				return false;
-		} else if (!sumTotal.equals(other.sumTotal))
-			return false;
-		return true;
+	/**
+	 * calculate sumTotal field for InviceVO
+	 *
+	 * @param invoiceItems
+	 * @return
+	 */
+
+	private BigDecimal calculateSumTotal(Collection<InvoiceItemVO> invoiceItems) {
+		BigDecimal sumTotal = BigDecimal.ZERO;
+
+		for (final InvoiceItemVO item : invoiceItems) {
+			sumTotal = sumTotal.add(item.getSumTotal());
+		}
+		return sumTotal;
 	}
 
 }
