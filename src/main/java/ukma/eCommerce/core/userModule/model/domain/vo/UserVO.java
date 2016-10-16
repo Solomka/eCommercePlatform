@@ -2,11 +2,14 @@ package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
+import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.IValidateable;
 
 /**
  * <p>
- * value object that represents General user
+ * value object that represents User
  * </p>
  * 
  * @author Solomka
@@ -17,10 +20,64 @@ public class UserVO implements IValidateable {
 	private final String email;
 	private final String phone;
 
-	public UserVO(String email, String phone) {
+	/**
+	 * builder that creates immutable instance of {@linkplain UserVO}
+	 * 
+	 * @author Solomka
+	 *
+	 */
 
-		this.email = Objects.requireNonNull(email, "email == null");
-		this.phone = Objects.requireNonNull(phone, "phone == null");
+	public static class Builder implements IBuilder<UserVO> {
+
+		private String email;
+		private String phone;
+
+		public Builder(final String email, final String phone) {
+			this.email = Objects.requireNonNull(email, "email must not be null");
+			this.phone = Objects.requireNonNull(phone, "phone must not be null");
+		}
+
+		public Builder(@NotNull UserVO user) {
+
+			if (user == null)
+				throw new NullPointerException("user must not be null");
+
+			setEmail(user.getEmail()).setPhone(user.getPhone());
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public Builder setEmail(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public Builder setPhone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
+		@Override
+		public UserVO build() {
+			// TODO Auto-generated method stub
+			return new UserVO(this);
+		}
+
+	}
+
+	protected UserVO(@NotNull Builder builder) {
+
+		if (builder == null)
+			throw new NullPointerException("builder must not be null");
+
+		this.email = builder.getEmail();
+		this.phone = builder.getPhone();
 	}
 
 	public String getEmail() {
@@ -29,11 +86,6 @@ public class UserVO implements IValidateable {
 
 	public String getPhone() {
 		return phone;
-	}
-
-	@Override
-	public String toString() {
-		return "UserVO [email=" + email + ", phone=" + phone + "]";
 	}
 
 	@Override
@@ -65,6 +117,11 @@ public class UserVO implements IValidateable {
 		} else if (!phone.equals(other.phone))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "UserVO [email=" + email + ", phone=" + phone + "]";
 	}
 
 }

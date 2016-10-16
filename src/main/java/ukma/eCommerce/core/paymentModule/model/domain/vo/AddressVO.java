@@ -1,7 +1,11 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
+import ukma.eCommerce.core.userModule.model.domain.vo.FullNameVO;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.IValidateable;
 
@@ -23,9 +27,10 @@ public final class AddressVO implements IValidateable {
 	private final String street;
 	private final String postCode;
 
-	private final String firstName;
-	private final String lastName;
+	private final FullNameVO fullName;
 	private final String phone;
+
+	private final CustomerVO customer;
 
 	/**
 	 * builder that creates immutable instance of {@linkplain AddressVO}
@@ -43,26 +48,32 @@ public final class AddressVO implements IValidateable {
 		private String street;
 		private String postCode;
 
-		private String firstName;
-		private String lastName;
+		private FullNameVO fullName;
 		private String phone;
+
+		// shipment address is attached to the specific customer
+		private CustomerVO customer;
+
+		public Builder(final String country, final String city, final String street, final String postCode,
+				final FullNameVO fullName, final String phone, final CustomerVO customer) {
+			this.country = Objects.requireNonNull(country, "country must not be null");
+			this.city = Objects.requireNonNull(city, "city must not be null");
+			this.street = Objects.requireNonNull(street, "street must not be null");
+			this.postCode = Objects.requireNonNull(postCode, "postCode must not be null");
+			this.fullName = Objects.requireNonNull(fullName, "fullName must not be null");
+			this.phone = Objects.requireNonNull(phone, "phone must not be null");
+			this.customer = Objects.requireNonNull(customer, "customer must not be null");
+		}
 
 		public Builder(@NotNull AddressVO address) {
 
 			if (address == null)
-				throw new NullPointerException("address == null");
+				throw new NullPointerException("address must not be null");
 
 			setCountry(address.getCountry()).setState(address.getState()).setRegion(address.getRegion())
 					.setCity(address.getCity()).setStreet(address.getStreet()).setPostCode(address.getPostCode())
-					.setFirstName(address.getFirstName()).setLastName(address.getLastName())
-					.setPhone(address.getPhone());
+					.setFullName(address.getFullName()).setPhone(address.getPhone()).setCustomer(address.getCustomer());
 
-		}
-
-		public Builder(final String country, final String city, final String street) {
-			this.country = country;
-			this.city = city;
-			this.street = street;
 		}
 
 		public String getCountry() {
@@ -119,21 +130,12 @@ public final class AddressVO implements IValidateable {
 			return this;
 		}
 
-		public String getFirstName() {
-			return firstName;
+		public FullNameVO getFullName() {
+			return fullName;
 		}
 
-		public Builder setFirstName(String firstName) {
-			this.firstName = firstName;
-			return this;
-		}
-
-		public String getLastName() {
-			return lastName;
-		}
-
-		public Builder setLastName(String lastName) {
-			this.lastName = lastName;
+		public Builder setFullName(FullNameVO fullName) {
+			this.fullName = fullName;
 			return this;
 		}
 
@@ -146,6 +148,15 @@ public final class AddressVO implements IValidateable {
 			return this;
 		}
 
+		public CustomerVO getCustomer() {
+			return customer;
+		}
+
+		public Builder setCustomer(CustomerVO customer) {
+			this.customer = customer;
+			return this;
+		}
+
 		@Override
 		public AddressVO build() {
 			// TODO Auto-generated method stub
@@ -155,8 +166,9 @@ public final class AddressVO implements IValidateable {
 	}
 
 	private AddressVO(@NotNull Builder builder) {
+
 		if (builder == null)
-			throw new NullPointerException("builder == null");
+			throw new NullPointerException("builder must not be null");
 
 		this.country = builder.getCountry();
 		this.state = builder.getState();
@@ -165,8 +177,8 @@ public final class AddressVO implements IValidateable {
 		this.street = builder.getStreet();
 		this.postCode = builder.getPostCode();
 		this.phone = builder.getPhone();
-		this.firstName = builder.getFirstName();
-		this.lastName = builder.getLastName();
+		this.fullName = builder.getFullName();
+		this.customer = builder.getCustomer();
 	}
 
 	public String getCountry() {
@@ -193,16 +205,16 @@ public final class AddressVO implements IValidateable {
 		return postCode;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
+	public FullNameVO getFullName() {
+		return fullName;
 	}
 
 	public String getPhone() {
 		return phone;
+	}
+
+	public CustomerVO getCustomer() {
+		return customer;
 	}
 
 	@Override
@@ -211,8 +223,8 @@ public final class AddressVO implements IValidateable {
 		int result = 1;
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((postCode == null) ? 0 : postCode.hashCode());
 		result = prime * result + ((region == null) ? 0 : region.hashCode());
@@ -240,15 +252,15 @@ public final class AddressVO implements IValidateable {
 				return false;
 		} else if (!country.equals(other.country))
 			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (customer == null) {
+			if (other.customer != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
+		} else if (!customer.equals(other.customer))
 			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
+		if (fullName == null) {
+			if (other.fullName != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!fullName.equals(other.fullName))
 			return false;
 		if (phone == null) {
 			if (other.phone != null)
@@ -281,8 +293,8 @@ public final class AddressVO implements IValidateable {
 	@Override
 	public String toString() {
 		return "AddressVO [country=" + country + ", state=" + state + ", region=" + region + ", city=" + city
-				+ ", street=" + street + ", postCode=" + postCode + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phone=" + phone + "]";
+				+ ", street=" + street + ", postCode=" + postCode + ", fullName=" + fullName + ", phone=" + phone
+				+ ", customer=" + customer + "]";
 	}
 
 }

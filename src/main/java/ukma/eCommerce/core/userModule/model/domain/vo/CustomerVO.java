@@ -2,6 +2,8 @@ package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * value object that represents Customer user
@@ -12,45 +14,98 @@ import java.util.Objects;
  */
 public final class CustomerVO extends UserVO {
 
-	private final String firstName;
-	private final String lastName;
+	private final FullNameVO fullName;
 	private final String login;
 	private final String password;
-
-	/*
-	 * do we want to save credit cards for our registered users by means of
-	 * creating STRIPE CUSTOMER in order to prevent their inputting credit card
-	 * credentials per each purchase
+	
+	/**
+	 * builder that creates immutable instance of {@linkplain CustomerVO}
+	 * 
+	 * @author Solomka
+	 *
 	 */
 
-	// private final String stripeCustomerID;
+	public static class Builder extends UserVO.Builder {
 
-	/*
-	 * public CustomerVO(String email, String phone, String firstName, String
-	 * lastName, String login, String password, String stripeCustomerID) {
-	 * super(email, phone); this.firstName = Objects.requireNonNull(firstName,
-	 * "firstName == null"); this.lastName = Objects.requireNonNull(lastName,
-	 * "lastName == null"); this.login = Objects.requireNonNull(login,
-	 * "login == null"); this.password = Objects.requireNonNull(password,
-	 * "password == null"); this.stripeCustomerID =
-	 * Objects.requireNonNull(stripeCustomerID,
-	 * "stripeAstripeCustomerID == null"); }
-	 */
+		private FullNameVO fullName;
+		private String login;
+		private String password;
 
-	public CustomerVO(String email, String phone, String firstName, String lastName, String login, String password) {
-		super(email, phone);
-		this.firstName = Objects.requireNonNull(firstName, "firstName == null");
-		this.lastName = Objects.requireNonNull(lastName, "lastName == null");
-		this.login = Objects.requireNonNull(login, "login == null");
-		this.password = Objects.requireNonNull(password, "password == null");
+		public Builder(final String email, final String phone, final FullNameVO fullName, final String login,
+				final String password) {
+			super(email, phone);
+			// TODO Auto-generated constructor stub
+
+			this.fullName = Objects.requireNonNull(fullName, "fullName must not be null");
+			this.login = Objects.requireNonNull(login, "login must not be null");
+			this.password = Objects.requireNonNull(password, "password must not be null");
+
+		}
+
+		public Builder(@NotNull CustomerVO customer) {
+			super(customer);
+			setFullName(customer.getFullName()).setLogin(customer.getLogin()).setPassword(customer.getPassword());
+
+		}
+
+		@Override
+		public Builder setEmail(String email) {
+			// TODO Auto-generated method stub
+			super.setEmail(email);
+			return this;
+		}
+
+		@Override
+		public Builder setPhone(String phone) {
+			// TODO Auto-generated method stub
+			super.setPhone(phone);
+			return this;
+		}
+
+		public FullNameVO getFullName() {
+			return fullName;
+		}
+
+		public Builder setFullName(FullNameVO fullName) {
+			this.fullName = fullName;
+			return this;
+		}
+
+		public String getLogin() {
+			return login;
+		}
+
+		public Builder setLogin(String login) {
+			this.login = login;
+			return this;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public Builder setPassword(String password) {
+			this.password = password;
+			return this;
+		}
+
+		@Override
+		public CustomerVO build() {
+			return new CustomerVO(this);
+
+		}
+
 	}
 
-	public String getFirstName() {
-		return firstName;
+	private CustomerVO(@NotNull Builder builder) {
+		super(builder);
+		this.fullName = builder.getFullName();
+		this.login = builder.getLogin();
+		this.password = builder.getPassword();
 	}
 
-	public String getLastName() {
-		return lastName;
+	public FullNameVO getFullName() {
+		return fullName;
 	}
 
 	public String getLogin() {
@@ -62,17 +117,10 @@ public final class CustomerVO extends UserVO {
 	}
 
 	@Override
-	public String toString() {
-		return "CustomerVO [firstName=" + firstName + ", lastName=" + lastName + ", login=" + login + ", password="
-				+ password + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
@@ -87,15 +135,10 @@ public final class CustomerVO extends UserVO {
 		if (getClass() != obj.getClass())
 			return false;
 		CustomerVO other = (CustomerVO) obj;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (fullName == null) {
+			if (other.fullName != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!fullName.equals(other.fullName))
 			return false;
 		if (login == null) {
 			if (other.login != null)
@@ -108,6 +151,11 @@ public final class CustomerVO extends UserVO {
 		} else if (!password.equals(other.password))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomerVO [fullName=" + fullName + ", login=" + login + ", password=" + password + "]";
 	}
 
 }

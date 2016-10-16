@@ -3,6 +3,9 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
+import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.IValidateable;
 
 /**
@@ -20,12 +23,91 @@ public final class OrderItemVO implements IValidateable {
 	private final int quantity;
 	private final BigDecimal sumTotal;
 
-	public OrderItemVO(OrderVO order, ProductVO product, int quantity, BigDecimal sumTotal) {
+	/**
+	 * builder that creates immutable instance of {@linkplain OrderItemVO}
+	 * 
+	 * @author Solomka
+	 *
+	 */
 
-		this.order = Objects.requireNonNull(order, "order == null");
-		this.product = Objects.requireNonNull(product, "product == null");
-		this.quantity = Objects.requireNonNull(quantity, "quantity == null");
-		this.sumTotal = Objects.requireNonNull(sumTotal, "sumTotal == null");
+	public static class Builder implements IBuilder<OrderItemVO> {
+
+		private OrderVO order;
+		private ProductVO product;
+		private int quantity;
+		private BigDecimal sumTotal;
+
+		public Builder(final OrderVO order, final ProductVO product, final int quantity, final BigDecimal sumTotal) {
+
+			this.order = Objects.requireNonNull(order, "order must not be null");
+			this.product = Objects.requireNonNull(product, "product must not be null");
+			this.quantity = Objects.requireNonNull(quantity, "quantity must not be null");
+			this.sumTotal = Objects.requireNonNull(sumTotal, "sumTotal must not be null");
+		}
+
+		public Builder(@NotNull OrderItemVO orderItem) {
+
+			if (orderItem == null)
+				throw new NullPointerException("orderItem must not bu null");
+
+			setOrder(orderItem.getOrder()).setProduct(orderItem.getProduct()).setQuantity(orderItem.getQuantity())
+					.setSumTotal(orderItem.getSumTotal());
+
+		}
+
+		public OrderVO getOrder() {
+			return order;
+		}
+
+		public Builder setOrder(OrderVO order) {
+			this.order = order;
+			return this;
+		}
+
+		public ProductVO getProduct() {
+			return product;
+		}
+
+		public Builder setProduct(ProductVO product) {
+			this.product = product;
+			return this;
+		}
+
+		public int getQuantity() {
+			return quantity;
+		}
+
+		public Builder setQuantity(int quantity) {
+			this.quantity = quantity;
+			return this;
+		}
+
+		public BigDecimal getSumTotal() {
+			return sumTotal;
+		}
+
+		public Builder setSumTotal(BigDecimal sumTotal) {
+			this.sumTotal = sumTotal;
+			return this;
+		}
+
+		@Override
+		public OrderItemVO build() {
+			// TODO Auto-generated method stub
+			return new OrderItemVO(this);
+		}
+
+	}
+
+	private OrderItemVO(@NotNull Builder builder) {
+
+		if (builder == null)
+			throw new NullPointerException("builder must not be null");
+
+		this.order = builder.getOrder();
+		this.product = builder.getProduct();
+		this.quantity = builder.getQuantity();
+		this.sumTotal = builder.getSumTotal();
 	}
 
 	public OrderVO getOrder() {
@@ -42,12 +124,6 @@ public final class OrderItemVO implements IValidateable {
 
 	public BigDecimal getSumTotal() {
 		return sumTotal;
-	}
-
-	@Override
-	public String toString() {
-		return "OrderItemVO [order=" + order + ", product=" + product + ", quantity=" + quantity + ", sumTotal="
-				+ sumTotal + "]";
 	}
 
 	@Override
@@ -88,6 +164,12 @@ public final class OrderItemVO implements IValidateable {
 		} else if (!sumTotal.equals(other.sumTotal))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderItemVO [order=" + order + ", product=" + product + ", quantity=" + quantity + ", sumTotal="
+				+ sumTotal + "]";
 	}
 
 }
