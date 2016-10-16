@@ -31,8 +31,8 @@ public final class AddressVOValidator implements Validator {
 
     @Autowired
     public AddressVOValidator(FullNameVOValidator fullNameVOValidator, CustomerVOValidator customerVOValidator) {
-        this.fullNameVOValidator = fullNameVOValidator;
-        this.customerVOValidator = customerVOValidator;
+        this.fullNameVOValidator = Objects.requireNonNull(fullNameVOValidator);
+        this.customerVOValidator = Objects.requireNonNull(customerVOValidator);
     }
 
     @Override
@@ -71,7 +71,7 @@ public final class AddressVOValidator implements Validator {
             errors.rejectValue("region", "error.address.vo.region", "region isn't valid");
         }
 
-        if(address.getCity() == null || !REGION_PATTERN.matcher(address.getCity()).matches()) {
+        if(address.getCity() == null || !CITY_PATTERN.matcher(address.getCity()).matches()) {
             errors.rejectValue("city", "error.address.vo.city", "city isn't valid");
         }
 

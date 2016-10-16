@@ -26,8 +26,8 @@ public final class ProductVOValidator implements Validator {
 
     @Autowired
     public ProductVOValidator(SellerVOValidator sellerVOValidator, TypeVOValidator typeVOValidator) {
-        this.sellerVOValidator = sellerVOValidator;
-        this.typeVOValidator = typeVOValidator;
+        this.sellerVOValidator = Objects.requireNonNull(sellerVOValidator);
+        this.typeVOValidator = Objects.requireNonNull(typeVOValidator);
     }
 
     @Override

@@ -24,7 +24,7 @@ public final class ShipmentVOValidator implements Validator {
 
     @Autowired
     public ShipmentVOValidator(AddressVOValidator addressVOValidator) {
-        this.addressVOValidator = addressVOValidator;
+        this.addressVOValidator = Objects.requireNonNull(addressVOValidator);
     }
 
     @Override

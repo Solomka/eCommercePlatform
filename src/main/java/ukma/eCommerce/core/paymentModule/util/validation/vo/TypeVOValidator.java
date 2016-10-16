@@ -24,7 +24,7 @@ public final class TypeVOValidator implements Validator {
 
     @Autowired
     public TypeVOValidator(CategoryVOValidator categoryVOValidator) {
-        this.categoryVOValidator = categoryVOValidator;
+        this.categoryVOValidator = Objects.requireNonNull(categoryVOValidator);
     }
 
     @Override
@@ -46,11 +46,6 @@ public final class TypeVOValidator implements Validator {
             throw new RuntimeException();
 
         categoryVOValidator.validate(type.getCategory(), errors);
-
-        if (type.getTypeId() < 0) {
-            errors.rejectValue("typeId", "error.type.vo.typeId",
-                    String.format("typeId '%d' is invalid", type.getTypeId()));
-        }
 
         if (type.getTypeId() < 0) {
             errors.rejectValue("typeId", "error.type.vo.typeId",

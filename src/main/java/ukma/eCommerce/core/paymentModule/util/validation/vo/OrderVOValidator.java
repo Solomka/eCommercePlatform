@@ -32,8 +32,8 @@ public final class OrderVOValidator implements Validator {
                             ShipmentVOValidator shipmentVOValidator, OrderItemVOValidator orderItemVOValidator) {
         this.customerValidator = Objects.requireNonNull(customerValidator);
         this.sellerValidator = Objects.requireNonNull(sellerValidator);
-        this.shipmentVOValidator = shipmentVOValidator;
-        this.orderItemVOValidator = orderItemVOValidator;
+        this.shipmentVOValidator = Objects.requireNonNull(shipmentVOValidator);
+        this.orderItemVOValidator = Objects.requireNonNull(orderItemVOValidator);
     }
 
     @Override
