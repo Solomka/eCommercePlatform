@@ -8,11 +8,8 @@ import org.springframework.validation.Validator;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceItemVO;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceVO;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
-import ukma.eCommerce.core.userModule.validation.vo.CustomerVOValidator;
-import ukma.eCommerce.core.userModule.validation.vo.SellerVOValidator;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -24,17 +21,12 @@ import java.util.Objects;
 @Component
 public final class InvoiceVOValidator implements Validator {
 
-    private final SellerVOValidator sellerValidator;
-    private final CustomerVOValidator customerValidator;
     private final OrderVOValidator orderValidator;
     private final InvoiceItemVOValidator invoiceItemValidator;
 
     @Autowired
-    public InvoiceVOValidator(SellerVOValidator sellerValidator, CustomerVOValidator customerValidator,
-                              OrderVOValidator orderValidator, InvoiceItemVOValidator invoiceItemValidator) {
+    public InvoiceVOValidator(OrderVOValidator orderValidator, InvoiceItemVOValidator invoiceItemValidator) {
 
-        this.sellerValidator = Objects.requireNonNull(sellerValidator);
-        this.customerValidator = Objects.requireNonNull(customerValidator);
         this.orderValidator = Objects.requireNonNull(orderValidator);
         this.invoiceItemValidator = Objects.requireNonNull(invoiceItemValidator);
     }
@@ -54,17 +46,9 @@ public final class InvoiceVOValidator implements Validator {
 
         final InvoiceVO invoice = (InvoiceVO) o;
 
-        if (!sellerValidator.supports(Objects.requireNonNull(invoice.getSeller()).getClass()))
-            throw new RuntimeException();
-
-        if (!customerValidator.supports(Objects.requireNonNull(invoice.getCustomer()).getClass()))
-            throw new RuntimeException();
-
         if (!orderValidator.supports(Objects.requireNonNull(invoice.getOrder()).getClass()))
             throw new RuntimeException();
 
-        sellerValidator.validate(invoice.getSeller(), errors);
-        customerValidator.validate(invoice.getCustomer(), errors);
         orderValidator.validate(invoice.getOrder(), errors);
 
         if (invoice.getInvoiceItems() == null || invoice.getInvoiceItems().isEmpty()) {
@@ -72,22 +56,23 @@ public final class InvoiceVOValidator implements Validator {
                     "Invoice items weren't specified");
         } else {
 
-            final Collection<InvoiceItemVO> items = invoice.getInvoiceItems();
+            int quantity = 0;
+            BigDecimal totalSum = BigDecimal.ZERO;
 
-            if (items.size() != invoice.getQuantityTotal()) {
-                errors.reject("error.invoice.vo.quantity");
-            } else {
+            for (final InvoiceItemVO item : invoice.getInvoiceItems()) {
+                totalSum = totalSum.add(item.getSumTotal());
+                quantity += item.getQuantity();
+                invoiceItemValidator.validate(item, errors);
+            }
 
-                BigDecimal totalSum = BigDecimal.ZERO;
+            if (invoice.getSumTotal().compareTo(totalSum) != 0) {
+                errors.rejectValue("sumTotal", "error.invoice.vo.sumTotal",
+                        String.format("Sum total was %s, expected %s", invoice.getSumTotal(), totalSum));
+            }
 
-                for (final InvoiceItemVO item : items) {
-                    totalSum = totalSum.add(item.getSumTotal());
-                    invoiceItemValidator.validate(item, errors);
-                }
-
-                if (invoice.getSumTotal().compareTo(totalSum) != 0) {
-                    errors.reject("error.invoice.vo.totalsum");
-                }
+            if (quantity != invoice.getQuantityTotal()) {
+                errors.rejectValue("quantityTotal", "error.invoice.vo.quantityTotal",
+                        String.format("Quantity total was %d, expected %d", invoice.getQuantityTotal(), quantity));
             }
         }
 
@@ -102,8 +87,17 @@ public final class InvoiceVOValidator implements Validator {
                     String.format("Current time is recent than creation date, now is %s, but was - %s", now, creationDate));
         }
 
+        if (invoice.getPaymentDate() != null && now.compareTo(invoice.getPaymentDate()) < 0) {
+            errors.rejectValue("paymentDate", "error.invoice.vo.paymentDate",
+                    String.format("Payment date %s is later than current %s", invoice.getPaymentDate(), now));
+        }
+
         if (invoice.getStatus() == null) {
             errors.rejectValue("status", "error.invoice.vo.status", "Status date wasn't specified");
+        }
+
+        if (invoice.getCurrency() == null) {
+            errors.rejectValue("currency", "error.invoice.vo.currency", "Currency wasn't specified");
         }
     }
 }

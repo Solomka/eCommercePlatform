@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderItemVO;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ProductVO;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -46,16 +44,6 @@ public final class OrderItemVOValidator implements Validator {
         if (orderItem.getQuantity() < 1) {
             errors.reject("error.orderitem.vo.quantity",
                     String.format("Quantity less than one, was %d", orderItem.getQuantity()));
-        } else {
-
-            final ProductVO product = orderItem.getProduct();
-            final BigDecimal cmp = Objects.requireNonNull(product.getPrice())
-                    .multiply(new BigDecimal(product.getQuantity()));
-
-            if (cmp.compareTo(orderItem.getSumTotal()) != 0) {
-                errors.reject("error.orderitem.vo.sumtotal",
-                        String.format("Total sum doesn't equal to expected was - %s, expected %s", orderItem.getSumTotal(), cmp));
-            }
         }
     }
 

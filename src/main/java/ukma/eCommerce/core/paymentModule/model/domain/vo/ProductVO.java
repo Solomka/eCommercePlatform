@@ -1,12 +1,12 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
-
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
 import ukma.eCommerce.util.IBuilder;
+
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * <p>
@@ -19,8 +19,11 @@ import ukma.eCommerce.util.IBuilder;
 public final class ProductVO {
 
     private final String name;
+    /**price per one instance*/
     private final BigDecimal price;
+    /**available quantity*/
     private final int quantity;
+    private final Currency currency;
     private final String description;
     private final SellerVO seller;
     private final TypeVO type;
@@ -36,6 +39,7 @@ public final class ProductVO {
         private BigDecimal price;
         private int quantity;
         private String description;
+        private Currency currency;
 
         private SellerVO seller;
         private TypeVO type;
@@ -46,20 +50,20 @@ public final class ProductVO {
                 throw new NullPointerException("product must not be null");
 
             setName(product.getName()).setPrice(product.getPrice()).setQuantity(product.getQuantity())
-                    .setDescription(product.getDescription()).setSeller(product.getSeller()).setType(product.getType());
-
+                    .setDescription(product.getDescription()).setSeller(product.getSeller()).
+                    setType(product.getType()).setCurrency(product.getCurrency());
         }
 
-        public Builder(final String name, final BigDecimal price, final int quantity, final String description,
-                       final SellerVO seller, final TypeVO type) {
+        public Builder() {
+        }
 
-            this.name = Objects.requireNonNull(name, "name must not bu null");
-            this.price = Objects.requireNonNull(price, "price must not be null");
-            this.quantity = Objects.requireNonNull(quantity, "quantity must not be null");
-            this.description = Objects.requireNonNull(description, "description must not be null");
-            this.seller = Objects.requireNonNull(seller, "seller must not be null");
-            this.type = Objects.requireNonNull(type, "type must not be null");
+        public Currency getCurrency() {
+            return currency;
+        }
 
+        public Builder setCurrency(Currency currency) {
+            this.currency = currency;
+            return this;
         }
 
         public String getName() {
@@ -118,7 +122,6 @@ public final class ProductVO {
 
         @Override
         public ProductVO build() {
-            // TODO Auto-generated method stub
             return new ProductVO(this);
         }
     }
@@ -128,13 +131,13 @@ public final class ProductVO {
         if (builder == null)
             throw new NullPointerException("builder must not be null");
 
-        this.name = builder.getName();
-        this.price = builder.getPrice();
+        this.name = Objects.requireNonNull(builder.getName(), "name must not bu null");
+        this.price = Objects.requireNonNull(builder.getPrice(), "price must not be null");
         this.quantity = builder.getQuantity();
-        this.description = builder.getDescription();
-        this.seller = builder.getSeller();
-        this.type = builder.getType();
-
+        this.description = Objects.requireNonNull(builder.getDescription(), "description must not be null");
+        this.seller = Objects.requireNonNull(builder.getSeller(), "seller must not be null");
+        this.type = Objects.requireNonNull(builder.getType(), "type == null");
+        this.currency = Objects.requireNonNull(builder.getCurrency(), "currency == null");
     }
 
     public String getName() {
@@ -159,6 +162,10 @@ public final class ProductVO {
 
     public TypeVO getType() {
         return type;
+    }
+
+    public Currency getCurrency() {
+        return currency;
     }
 
     @Override

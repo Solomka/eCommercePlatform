@@ -24,7 +24,9 @@ public final class OrderVO {
     private final SellerVO seller;
     private final ShipmentVO shipment;
     private final Collection<OrderItemVO> orderItems;
+
     private final OrderStatus orderStatus;
+
     private final DateTime creationDate;
     private final DateTime fulfilmentDate;
 

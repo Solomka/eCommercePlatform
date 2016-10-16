@@ -1,11 +1,10 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+import ukma.eCommerce.util.IBuilder;
 
 import javax.validation.constraints.NotNull;
-
-import ukma.eCommerce.util.IBuilder;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * <p>
@@ -91,7 +90,6 @@ public final class InvoiceItemVO {
 
         @Override
         public InvoiceItemVO build() {
-            // TODO Auto-generated method stub
             return new InvoiceItemVO(this);
         }
 

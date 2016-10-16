@@ -8,7 +8,6 @@ import org.springframework.validation.Validator;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.ChargeVO;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeDTO;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -48,16 +47,6 @@ public final class ChargeVOValidator implements Validator {
 
         invoiceValidator.validate(chargeVO.getInvoice(), errors);
         creditCardValidator.validate(chargeVO.getCreditCardVO(), errors);
-
-        if (chargeVO.getSumTotal() == null) {
-            errors.rejectValue("sumTotal", "error.charge.vo.sumTotal", "Total sum wasn't specified");
-        } else if (chargeVO.getSumTotal().compareTo(BigDecimal.ZERO) < 0) {
-            errors.rejectValue("sumTotal", "error.charge.vo.sumTotal", "Total sum < 0");
-        }
-
-        if (chargeVO.getCurrency() == null) {
-            errors.rejectValue("currency", "error.charge.vo.currency", "Currency wasn't specified");
-        }
 
         if (chargeVO.getStatus() == null) {
             errors.rejectValue("status", "error.charge.vo.status", "Status wasn't specified");

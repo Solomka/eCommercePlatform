@@ -1,11 +1,10 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+import ukma.eCommerce.util.IBuilder;
 
 import javax.validation.constraints.NotNull;
-
-import ukma.eCommerce.util.IBuilder;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * <p>
@@ -18,6 +17,9 @@ public final class OrderItemVO {
 
     private final OrderVO order;
     private final ProductVO product;
+    /**
+     * total quantity
+     */
     private final int quantity;
     private final BigDecimal sumTotal;
 
@@ -34,12 +36,7 @@ public final class OrderItemVO {
         private int quantity;
         private BigDecimal sumTotal;
 
-        public Builder(final OrderVO order, final ProductVO product, final int quantity, final BigDecimal sumTotal) {
-
-            this.order = Objects.requireNonNull(order, "order must not be null");
-            this.product = Objects.requireNonNull(product, "product must not be null");
-            this.quantity = Objects.requireNonNull(quantity, "quantity must not be null");
-            this.sumTotal = Objects.requireNonNull(sumTotal, "sumTotal must not be null");
+        public Builder() {
         }
 
         public Builder(@NotNull OrderItemVO orderItem) {
@@ -49,7 +46,6 @@ public final class OrderItemVO {
 
             setOrder(orderItem.getOrder()).setProduct(orderItem.getProduct()).setQuantity(orderItem.getQuantity())
                     .setSumTotal(orderItem.getSumTotal());
-
         }
 
         public OrderVO getOrder() {
@@ -90,7 +86,6 @@ public final class OrderItemVO {
 
         @Override
         public OrderItemVO build() {
-            // TODO Auto-generated method stub
             return new OrderItemVO(this);
         }
 
@@ -101,10 +96,10 @@ public final class OrderItemVO {
         if (builder == null)
             throw new NullPointerException("builder must not be null");
 
-        this.order = builder.getOrder();
-        this.product = builder.getProduct();
+        this.order = Objects.requireNonNull(builder.getOrder(), "order must not be null");
+        this.product = Objects.requireNonNull(builder.getProduct(), "product must not be null");
         this.quantity = builder.getQuantity();
-        this.sumTotal = builder.getSumTotal();
+        this.sumTotal = Objects.requireNonNull(builder.getSumTotal(), "sumTotal must not be null");
     }
 
     public OrderVO getOrder() {

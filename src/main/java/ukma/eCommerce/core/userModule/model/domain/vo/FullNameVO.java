@@ -19,6 +19,14 @@ public final class FullNameVO {
 		this.lastName = Objects.requireNonNull(lastName, "lastName must not be null");
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
