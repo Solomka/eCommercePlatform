@@ -7,7 +7,7 @@ public final class Seller extends User {
 	/**
 	 * Builder which creates instance of {@linkplain Seller}
 	 * 
-	 * @author ������
+	 * @author Max Oliynick
 	 */
 	public static class Builder extends User.Builder {
 

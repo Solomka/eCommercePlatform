@@ -3,8 +3,6 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import ukma.eCommerce.util.validation.IValidateable;
-
 /**
  * <p>
  * value object that represents order item
@@ -13,7 +11,7 @@ import ukma.eCommerce.util.validation.IValidateable;
  * @author Solomka
  *
  */
-public final class OrderItemVO implements IValidateable {
+public final class OrderItemVO {
 
 	private final OrderVO order;
 	private final ProductVO product;

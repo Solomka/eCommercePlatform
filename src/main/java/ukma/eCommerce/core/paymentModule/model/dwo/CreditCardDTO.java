@@ -1,27 +1,38 @@
 package ukma.eCommerce.core.paymentModule.model.dwo;
 
 import org.joda.time.DateTime;
-import ukma.eCommerce.util.validation.IValidateable;
-
-import java.util.Objects;
 
 /**
  * <p>
  * Value object which describes credit card form
  * </p>
  *
- * @author ������
+ * @author Max Oliynick
  */
-public final class CreditCardDTO implements IValidateable {
+public final class CreditCardDTO {
 
-    private final String number;
-    private final String cvc;
-    private final DateTime expirationDate;
+    private String number;
+    private String cvv;
+    private DateTime expirationDate;
 
     public CreditCardDTO(String number, String cvv, DateTime expirationDate) {
-        this.number = Objects.requireNonNull(number, "card number == null");
-        this.cvc = Objects.requireNonNull(cvv, "cvv == null");
-        this.expirationDate = Objects.requireNonNull(expirationDate, "exp date == null");
+        this.number = number;
+        this.cvv = cvv;
+        this.expirationDate = expirationDate;
+    }
+
+    public CreditCardDTO() {}
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public void setExpirationDate(DateTime expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public String getNumber() {
@@ -29,7 +40,7 @@ public final class CreditCardDTO implements IValidateable {
     }
 
     public String getCvv() {
-        return cvc;
+        return cvv;
     }
 
     public DateTime getExpirationDate() {
@@ -37,13 +48,33 @@ public final class CreditCardDTO implements IValidateable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CreditCardDTO that = (CreditCardDTO) o;
+
+        if (!number.equals(that.number)) return false;
+        if (!cvv.equals(that.cvv)) return false;
+        return expirationDate.equals(that.expirationDate);
+
+    }
+
+    @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((cvc == null) ? 0 : cvc.hashCode());
-        result = prime * result + ((expirationDate == null) ? 0 : expirationDate.hashCode());
-        result = prime * result + ((number == null) ? 0 : number.hashCode());
+        int result = number.hashCode();
+        result = 31 * result + cvv.hashCode();
+        result = 31 * result + expirationDate.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CreditCardDTO{" +
+                "number='" + number + '\'' +
+                ", cvv='" + cvv + '\'' +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }
 

@@ -1,16 +1,15 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
 import ukma.eCommerce.util.IBuilder;
-import ukma.eCommerce.util.validation.IValidateable;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * Base for business objects which describe user
  * 
- * @author ������
+ * @author Max Oliynick
  */
-public class User implements IValidateable {
+public class User {
 
 	private final String id;
 	private final String name;
@@ -22,9 +21,9 @@ public class User implements IValidateable {
 	/**
 	 * Builder which creates instance of {@linkplain User}
 	 * 
-	 * @author ������
+	 * @author Max Oliynick
 	 */
-	public static class Builder implements IBuilder<User> {
+	protected static class Builder implements IBuilder<User> {
 
 		private String id;
 		private String name;

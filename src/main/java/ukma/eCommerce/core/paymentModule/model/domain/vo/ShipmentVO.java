@@ -1,12 +1,10 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import org.joda.time.DateTime;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
+
 import java.math.BigDecimal;
 import java.util.Objects;
-
-import org.joda.time.DateTime;
-
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
-import ukma.eCommerce.util.validation.IValidateable;
 
 /**
  * <p>
@@ -16,7 +14,7 @@ import ukma.eCommerce.util.validation.IValidateable;
  * @author Solomka
  *
  */
-public final class ShipmentVO implements IValidateable {
+public final class ShipmentVO {
 
 	private final String deliveryService;
 	private final BigDecimal totalSum;

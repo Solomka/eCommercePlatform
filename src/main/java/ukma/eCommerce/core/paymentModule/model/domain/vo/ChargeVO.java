@@ -1,23 +1,22 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import org.joda.time.DateTime;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import org.joda.time.DateTime;
-
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
-import ukma.eCommerce.util.validation.IValidateable;
-
-public final class ChargeVO implements IValidateable {
+public final class ChargeVO {
 
 	private final InvoiceVO invoice;
 	private final CreditCardVO creditCardVO;
-	private final String currency;
+	private final Currency currency;
 	private final BigDecimal sumTotal;
 	private final ChargeStatus status;
 	private final DateTime creationDate;
 
-	public ChargeVO(InvoiceVO invoice, CreditCardVO creditCardVO, String currency, BigDecimal sumTotal,
+	public ChargeVO(InvoiceVO invoice, CreditCardVO creditCardVO, Currency currency, BigDecimal sumTotal,
 			ChargeStatus status, DateTime creationDate) {
 
 		this.invoice = Objects.requireNonNull(invoice, "invoice == null");
@@ -36,7 +35,7 @@ public final class ChargeVO implements IValidateable {
 		return creditCardVO;
 	}
 
-	public String getCurrency() {
+	public Currency getCurrency() {
 		return currency;
 	}
 

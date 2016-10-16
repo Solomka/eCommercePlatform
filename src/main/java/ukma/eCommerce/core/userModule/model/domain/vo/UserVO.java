@@ -2,8 +2,6 @@ package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import java.util.Objects;
 
-import ukma.eCommerce.util.validation.IValidateable;
-
 /**
  * <p>
  * value object that represents General user
@@ -12,22 +10,22 @@ import ukma.eCommerce.util.validation.IValidateable;
  * @author Solomka
  *
  */
-public class UserVO implements IValidateable {
+public class UserVO {
 
 	private final String email;
 	private final String phone;
 
-	public UserVO(String email, String phone) {
+	protected UserVO(String email, String phone) {
 
 		this.email = Objects.requireNonNull(email, "email == null");
 		this.phone = Objects.requireNonNull(phone, "phone == null");
 	}
 
-	public String getEmail() {
+	public final String getEmail() {
 		return email;
 	}
 
-	public String getPhone() {
+	public final String getPhone() {
 		return phone;
 	}
 

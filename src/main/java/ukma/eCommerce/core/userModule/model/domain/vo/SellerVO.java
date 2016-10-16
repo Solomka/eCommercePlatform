@@ -18,17 +18,15 @@ public final class SellerVO extends UserVO {
 	private final String city;
 	private final String street;
 	private final String index;
-	private final String paymentSystemAccId;
 
 	public SellerVO(String email, String phone, String businessName, String country, String city, String street,
-			String index, String paymentSystemAccId) {
+			String index) {
 		super(email, phone);
 		this.businessName = Objects.requireNonNull(businessName, "businessName == null");
 		this.country = Objects.requireNonNull(country, "country == null");
 		this.city = Objects.requireNonNull(city, "city == null");
 		this.street = Objects.requireNonNull(street, "street == null");
 		this.index = Objects.requireNonNull(index, "index == null");
-		this.paymentSystemAccId = Objects.requireNonNull(paymentSystemAccId, "paymentSystemAccId == null");
 	}
 
 	public String getBusinessName() {
@@ -51,14 +49,10 @@ public final class SellerVO extends UserVO {
 		return index;
 	}
 
-	public String getPaymentSystemAccId() {
-		return paymentSystemAccId;
-	}
-
 	@Override
 	public String toString() {
 		return "SellerVO [businessName=" + businessName + ", country=" + country + ", city=" + city + ", street="
-				+ street + ", index=" + index + ", paymentSystemAccId=" + paymentSystemAccId + "]";
+				+ street + ", index=" + index + "]";
 	}
 
 	@Override
@@ -69,7 +63,6 @@ public final class SellerVO extends UserVO {
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((index == null) ? 0 : index.hashCode());
-		result = prime * result + ((paymentSystemAccId == null) ? 0 : paymentSystemAccId.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
 		return result;
 	}
@@ -102,11 +95,6 @@ public final class SellerVO extends UserVO {
 			if (other.index != null)
 				return false;
 		} else if (!index.equals(other.index))
-			return false;
-		if (paymentSystemAccId == null) {
-			if (other.paymentSystemAccId != null)
-				return false;
-		} else if (!paymentSystemAccId.equals(other.paymentSystemAccId))
 			return false;
 		if (street == null) {
 			if (other.street != null)

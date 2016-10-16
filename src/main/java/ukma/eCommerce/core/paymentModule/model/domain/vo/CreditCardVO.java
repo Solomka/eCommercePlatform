@@ -1,10 +1,8 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.util.Objects;
-
 import org.joda.time.DateTime;
 
-import ukma.eCommerce.util.validation.IValidateable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -13,7 +11,7 @@ import ukma.eCommerce.util.validation.IValidateable;
  * 
  * @author Max
  */
-public final class CreditCardVO implements IValidateable {
+public final class CreditCardVO {
 
 	private final String number;
 	private final String cvc;

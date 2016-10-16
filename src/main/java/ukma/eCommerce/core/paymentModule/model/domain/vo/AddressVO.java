@@ -1,9 +1,8 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import javax.validation.constraints.NotNull;
-
 import ukma.eCommerce.util.IBuilder;
-import ukma.eCommerce.util.validation.IValidateable;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -14,7 +13,7 @@ import ukma.eCommerce.util.validation.IValidateable;
  *
  */
 
-public final class AddressVO implements IValidateable {
+public final class AddressVO {
 
 	private final String country;
 	private final String state;

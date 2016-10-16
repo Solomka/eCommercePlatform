@@ -1,14 +1,12 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.util.List;
-import java.util.Objects;
-
 import org.joda.time.DateTime;
-
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
-import ukma.eCommerce.util.validation.IValidateable;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -18,7 +16,7 @@ import ukma.eCommerce.util.validation.IValidateable;
  * @author Solomka
  *
  */
-public final class OrderVO implements IValidateable {
+public final class OrderVO {
 
 	private final CustomerVO customer;
 	private final SellerVO seller;

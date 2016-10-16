@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.async.DeferredResult;
-
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
@@ -21,8 +20,6 @@ import ukma.eCommerce.core.paymentModule.service.IInvoiceService;
 import ukma.eCommerce.core.paymentModule.service.IOrderService;
 import ukma.eCommerce.core.userModule.model.domain.bo.Customer;
 import ukma.eCommerce.util.IRetrieveCallback;
-import ukma.eCommerce.util.validation.ValidationResult;
-import ukma.eCommerce.util.validation.Validators;
 
 @Controller
 public class ChargeController {
@@ -120,14 +117,10 @@ public class ChargeController {
      */
     private CreditCardDTO createCreditCardDTO(String number, String cvc, DateTime expDate) {
         final CreditCardDTO creditCard = new CreditCardDTO(number, cvc, expDate);
-        final ValidationResult validation = Validators.forClass(CreditCardDTO.class).validate(creditCard);
+        /*final ValidationResult validation = Validators.forClass(CreditCardDTO.class).validate(creditCard);
         if (!validation.isValid()) {
-			/*
-			 * creditCard = new CreditCard(); return creaditCard;
-			 * 
-			 * return validation;
-			 */
-        }
+
+        }*/
 
         return creditCard;
     }
