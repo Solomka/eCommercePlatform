@@ -32,11 +32,15 @@ public final class CategoryVOValidator implements Validator {
         }
 
         final CategoryVO category = (CategoryVO) o;
-
+/**
+ *  No id in VO
+ */
+        /*
         if (category.getId() < 0) {
             errors.rejectValue("id", "error.category.vo.id",
                     String.format("id '%d' is invalid", category.getId()));
         }
+        */
 
         if (TextUtils.nullOrEmpty(category.getName())
                 || !CATEGORY_NAME_PATTERN.matcher(category.getName()).matches()) {
