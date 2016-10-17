@@ -16,6 +16,7 @@
 		infrastructure -->
 		
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<context:property-placeholder location="resources/properties/validation.properties"/>
  
 	<!-- declare mvc to be annotation driven -->
 	<!-- Enables the Spring MVC @Controller programming model -->

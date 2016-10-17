@@ -5,6 +5,11 @@ import org.joda.time.DateTime;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
 import ukma.eCommerce.util.IBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -17,11 +22,18 @@ import java.util.Objects;
  */
 public final class ShipmentVO {
 
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String deliveryService;
+    @NotNull
+    @Min(0)
     private final BigDecimal totalSum;
-
+    @NotNull
+    @Valid
     private final AddressVO address;
+    @NotNull
+    @Future
     private final DateTime deliveryDate;
+    @NotNull
     private final ShipmentStatus status;
 
     /**

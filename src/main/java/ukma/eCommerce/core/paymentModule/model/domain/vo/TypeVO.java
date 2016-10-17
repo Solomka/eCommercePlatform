@@ -1,5 +1,8 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 /**
@@ -11,7 +14,11 @@ import java.util.Objects;
 public final class TypeVO {
 
 	private final int typeId;
+	@NotNull
+	@Pattern(regexp = "[a-zA-z]{3,50}")
 	private final String typeName;
+	@NotNull
+	@Valid
 	private final CategoryVO category;
 
 	public TypeVO(String typeName, CategoryVO category, int typeId) {

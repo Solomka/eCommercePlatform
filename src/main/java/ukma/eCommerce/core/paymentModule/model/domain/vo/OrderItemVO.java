@@ -2,6 +2,8 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
 import ukma.eCommerce.util.IBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -15,12 +17,19 @@ import java.util.Objects;
  */
 public final class OrderItemVO {
 
+    @Valid
+    @NotNull
     private final OrderVO order;
+    @Valid
+    @NotNull
     private final ProductVO product;
     /**
      * total quantity
      */
+    @Min(1)
     private final int quantity;
+    @NotNull
+    @Min(0)
     private final BigDecimal sumTotal;
 
     /**

@@ -1,8 +1,8 @@
 package ukma.eCommerce.core.userModule.model.domain.vo;
 
-import java.util.Objects;
-
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Objects;
 
 /**
  * <p>
@@ -14,10 +14,20 @@ import javax.validation.constraints.NotNull;
 
 public final class SellerVO extends UserVO {
 
+    @NotNull
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String businessName;
+    @NotNull
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String country;
+    @NotNull
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String city;
+    @NotNull
+    @Pattern(regexp = "[a-zA-z\\d\\s\\-]{3,50}")
     private final String street;
+    @NotNull
+    @Pattern(regexp = "[a-zA-z]{3,5}")
     private final String index;
 
     /**

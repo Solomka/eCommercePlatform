@@ -3,10 +3,12 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
 import ukma.eCommerce.core.userModule.model.domain.vo.FullNameVO;
 import ukma.eCommerce.util.IBuilder;
+import ukma.eCommerce.util.validation.ValidationUtil;
 
-import java.util.Objects;
-
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Objects;
 
 /**
  * <p>
@@ -18,16 +20,30 @@ import javax.validation.constraints.NotNull;
 
 public final class AddressVO {
 
+    @NotNull
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String country;
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String state;
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String region;
+    @NotNull
+    @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String city;
+    @NotNull
+    @Pattern(regexp = "[a-zA-z\\d\\s\\-]{3,50}")
     private final String street;
+    @NotNull
+    @Pattern(regexp = "\\w{3,5}")
     private final String postCode;
-
+    @NotNull
+    @Valid
     private final FullNameVO fullName;
+    @NotNull
+    @Pattern(regexp = ValidationUtil.PHONE_PATTERN)
     private final String phone;
-
+    @NotNull
+    @Valid
     private final CustomerVO customer;
 
     /**

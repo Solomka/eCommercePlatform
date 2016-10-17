@@ -2,6 +2,9 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 /**
@@ -13,8 +16,14 @@ import java.util.Objects;
  */
 public final class CreditCardVO {
 
+	@NotNull
+	@Pattern(regexp = "^\\d{12}$")
 	private final String number;
+	@NotNull
+	@Pattern(regexp = "^\\d{3}$")
 	private final String cvc;
+	@NotNull
+	@Future
 	private final DateTime expirationDate;
 
 	public CreditCardVO(String number, String cvv, DateTime expirationDate) {

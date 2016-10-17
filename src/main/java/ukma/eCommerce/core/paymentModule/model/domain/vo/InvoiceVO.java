@@ -5,6 +5,10 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
 import ukma.eCommerce.util.IBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,15 +25,25 @@ import java.util.Objects;
 
 public final class InvoiceVO {
 
+	@Valid
+	@NotNull
 	private final OrderVO order;
+	@NotNull
+	@Valid
 	private final Collection<InvoiceItemVO> invoiceItems;
+	@NotNull
 	private final InvoiceStatus status;
-
+	@Min(1)
 	private final int quantityTotal;
+	@NotNull
 	private final Currency currency;
+	@NotNull
+	@Min(0)
 	private final BigDecimal sumTotal;
-
+	@Past
+	@NotNull
 	private final DateTime creationDate;
+	@Past
 	private final DateTime paymentDate;
 
 	/**

@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 import ukma.eCommerce.util.IBuilder;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -14,8 +15,14 @@ import java.util.Objects;
  */
 public final class ChargeVO {
 
+    @Valid
+    @NotNull
     private final InvoiceVO invoice;
+    @Valid
+    @NotNull
     private final CreditCardVO creditCardVO;
+    @Valid
+    @NotNull
     private final ChargeStatus status;
 
     /**

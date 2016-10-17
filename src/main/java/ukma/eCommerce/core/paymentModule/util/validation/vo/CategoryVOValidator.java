@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.util.validation.vo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -16,7 +17,10 @@ import static ukma.eCommerce.util.validation.ValidationUtil.PLAIN_STR;
 @Component
 public final class CategoryVOValidator implements Validator {
 
-    private static final Pattern CATEGORY_NAME_PATTERN = Pattern.compile(String.format(PLAIN_STR, 2, 128));
+    @Value("${countryMinLen}") private int countryMinLen;
+    @Value("${countryMaxLen}") private int countryMaxLen;
+
+    private Pattern CATEGORY_NAME_PATTERN = Pattern.compile(String.format(PLAIN_STR, 2, 128));
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -32,11 +36,6 @@ public final class CategoryVOValidator implements Validator {
         }
 
         final CategoryVO category = (CategoryVO) o;
-
-        if (category.getId() < 0) {
-            errors.rejectValue("id", "error.category.vo.id",
-                    String.format("id '%d' is invalid", category.getId()));
-        }
 
         if (TextUtils.nullOrEmpty(category.getName())
                 || !CATEGORY_NAME_PATTERN.matcher(category.getName()).matches()) {

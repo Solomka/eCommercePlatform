@@ -7,6 +7,9 @@ import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
 import ukma.eCommerce.util.IBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -19,15 +22,24 @@ import java.util.Objects;
  * @author Solomka
  */
 public final class OrderVO {
-
+    @NotNull
+    @Valid
     private final CustomerVO customer;
+    @NotNull
+    @Valid
     private final SellerVO seller;
+    @NotNull
+    @Valid
     private final ShipmentVO shipment;
+    @NotNull
+    @Valid
     private final Collection<OrderItemVO> orderItems;
-
+    @NotNull
     private final OrderStatus orderStatus;
-
+    @NotNull
+    @Past
     private final DateTime creationDate;
+    @Past
     private final DateTime fulfilmentDate;
 
     /**

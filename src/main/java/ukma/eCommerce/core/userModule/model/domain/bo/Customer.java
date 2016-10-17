@@ -7,13 +7,13 @@ public final class Customer extends User {
 	/**
 	 * Builder which creates instance of {@linkplain Seller}
 	 * 
-	 * @author ������
+	 * @author Max Oliynick
 	 */
 	public static class Builder extends User.Builder {
 
 		private int bonuses;
 
-		public Builder(String id, String email) {
+		public Builder(long id, String email) {
 			super(id, email);
 		}
 
@@ -32,7 +32,7 @@ public final class Customer extends User {
 		}
 
 		@Override
-		public Builder setId(String id) {
+		public Builder setId(long id) {
 			super.setId(id);
 			return this;
 		}

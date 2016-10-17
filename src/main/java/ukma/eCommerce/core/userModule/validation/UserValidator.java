@@ -33,10 +33,8 @@ public final class UserValidator implements Validator {
 
         final User user = (User) o;
 
-        final String id = user.getId();
-
-        if (id == null || id.length() < minIdLen || id.length() > maxIdLen) {
-            errors.rejectValue("id", "error.user.id", String.format("User id '%s' is invalid, it should contain %d-%d characters", user.getId(), minIdLen, maxIdLen));
+        if (user.getId() < 0) {
+            errors.rejectValue("id", "error.user.id", String.format("User id '%d' is invalid", user.getId()));
         }
 
         if (TextUtils.nullOrEmpty(user.getEmail()) || !EMAIL_PATTERN.matcher(user.getEmail()).matches()) {

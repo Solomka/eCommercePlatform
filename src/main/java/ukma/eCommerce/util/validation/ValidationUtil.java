@@ -45,7 +45,7 @@ public final class ValidationUtil {
     /**
      * Phone pattern
      * */
-    public static final Pattern PHONE_PATTERN = Pattern.compile("^\\+((\\d{9,14})|((\\(\\d{3,4}\\))\\d{5,10}))$");
+    public static final String PHONE_PATTERN = "^\\+((\\d{9,14})|((\\(\\d{3,4}\\))\\d{5,10}))$";
     /**
      * Login pattern
      * */
@@ -54,5 +54,7 @@ public final class ValidationUtil {
      * Password pattern
      * */
     public static final Pattern PASSWORD_PATTERN = Pattern.compile("^[\\d\\w]{6,24}$");// TODO: 10/16/2016 improve
+
+    public static final String DATE_PATTERN = "dd/MM/yyyy";
 
 }

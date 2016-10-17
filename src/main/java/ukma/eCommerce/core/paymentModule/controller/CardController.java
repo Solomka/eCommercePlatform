@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.controller;
 
+import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,11 @@ import ukma.eCommerce.core.paymentModule.model.dwo.CreditCardDTO;
 import ukma.eCommerce.core.paymentModule.util.JodaTimeEditor;
 import ukma.eCommerce.core.paymentModule.util.validation.dto.CreditCardDTOValidator;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+import java.util.Set;
+
 /**
  * Created by Максим on 10/15/2016.
  */
@@ -24,9 +30,40 @@ final class CardController {
 
     private final CreditCardDTOValidator validator;
 
+    public static class T {
+
+        //@Past
+        private DateTime dateTime;
+
+        @Range(min=3, max=5)
+        private String s;
+
+        public T(DateTime dateTime, String s) {
+            this.dateTime = dateTime;
+            this.s = s;
+        }
+
+        public DateTime getDateTime() {
+            return dateTime;
+        }
+
+        public T setDateTime(DateTime dateTime) {
+            this.dateTime = dateTime;
+            return this;
+        }
+    }
+
     @Autowired
     public CardController(CreditCardDTOValidator validator) {
         this.validator = validator;
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+
+        javax.validation.Validator validator1 = validatorFactory.getValidator();
+
+        Set<ConstraintViolation<T>> set = validator1.validate(new T(DateTime.now().plusDays(10), "asddsadsadasdadad"));
+
+        System.out.println("Set "+set);
     }
 
     @InitBinder

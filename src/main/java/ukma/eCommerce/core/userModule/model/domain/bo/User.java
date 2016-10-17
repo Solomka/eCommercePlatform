@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 public class User {
 
-	private final String id;
+	private final long id;
 	private final String name;
 	private final String surname;
 	private final String email;
@@ -25,7 +25,7 @@ public class User {
 	 */
 	protected static class Builder implements IBuilder<User> {
 
-		private String id;
+		private long id;
 		private String name;
 		private String surname;
 		private String email;
@@ -44,16 +44,16 @@ public class User {
 					.setAddress(user.getAddress()).setCountry(user.getCountry());
 		}
 
-		public Builder(String id, String email) {
+		public Builder(long id, String email) {
 			this.id = id;
 			this.email = email;
 		}
 
-		public String getId() {
+		public long getId() {
 			return id;
 		}
 
-		public Builder setId(String id) {
+		public Builder setId(long id) {
 			this.id = id;
 			return this;
 		}
@@ -129,7 +129,7 @@ public class User {
 		this.country = builder.getCountry();
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -154,58 +154,30 @@ public class User {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((country == null) ? 0 : country.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+
+		if (id != user.id) return false;
+		if (!name.equals(user.name)) return false;
+		if (!surname.equals(user.surname)) return false;
+		if (!email.equals(user.email)) return false;
+		if (!address.equals(user.address)) return false;
+		return country.equals(user.country);
+
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (country == null) {
-			if (other.country != null)
-				return false;
-		} else if (!country.equals(other.country))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (surname == null) {
-			if (other.surname != null)
-				return false;
-		} else if (!surname.equals(other.surname))
-			return false;
-		return true;
+	public int hashCode() {
+		int result = (int) (id ^ (id >>> 32));
+		result = 31 * result + name.hashCode();
+		result = 31 * result + surname.hashCode();
+		result = 31 * result + email.hashCode();
+		result = 31 * result + address.hashCode();
+		result = 31 * result + country.hashCode();
+		return result;
 	}
 
 	@Override

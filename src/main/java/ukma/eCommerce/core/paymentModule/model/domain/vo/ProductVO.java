@@ -1,10 +1,14 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import org.hibernate.validator.constraints.Range;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
 import ukma.eCommerce.util.IBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -18,14 +22,30 @@ import java.util.Objects;
 
 public final class ProductVO {
 
+    @NotNull
+    @Pattern(regexp = "^\\w{3,50}$")
     private final String name;
-    /**price per one instance*/
+    /**
+     * price per one instance
+     */
+    @NotNull
+    @Min(0)
     private final BigDecimal price;
-    /**available quantity*/
+    /**
+     * available quantity
+     */
+    @Min(1)
     private final int quantity;
+    @NotNull
     private final Currency currency;
+    @NotNull
+    @Range(min = 100, max = 512)
     private final String description;
+    @NotNull
+    @Valid
     private final SellerVO seller;
+    @NotNull
+    @Valid
     private final TypeVO type;
 
     /**
