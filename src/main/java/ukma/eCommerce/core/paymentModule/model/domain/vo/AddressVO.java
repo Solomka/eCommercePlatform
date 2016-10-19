@@ -31,7 +31,7 @@ public final class AddressVO {
     @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String city;
     @NotNull
-    @Pattern(regexp = "[a-zA-z\\d\\s\\-]{3,50}")
+    @Pattern(regexp = "[\\w\\s-]{3,50}")
     private final String street;
     @NotNull
     @Pattern(regexp = "\\w{3,5}")
