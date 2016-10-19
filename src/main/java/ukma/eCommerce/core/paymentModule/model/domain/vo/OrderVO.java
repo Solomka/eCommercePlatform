@@ -1,7 +1,12 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
+
 import org.joda.time.DateTime;
+
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
@@ -61,10 +66,9 @@ public final class OrderVO {
         public Builder() {
         }
 
-        public Builder(OrderVO order) {
+        public Builder(final OrderVO order) {
 
-            if (order == null)
-                throw new NullPointerException("order must not be null");
+            Objects.requireNonNull(order, "order must not be null");
 
             setCustomer(order.getCustomer()).setSeller(order.getSeller()).setShipment(order.getShipment())
                     .setOrderItems(order.getOrderItems()).setOrderStatus(order.getOrderStatus())
@@ -149,13 +153,15 @@ public final class OrderVO {
 
     private OrderVO(Builder builder) {
 
-        Objects.requireNonNull(builder, "builder must not be null");
+    	Objects.requireNonNull(builder, "builder must no be null");
+
+		final Collection<OrderItemVO> orderItems = Objects.requireNonNull(builder.getOrderItems(),
+				"orderItems must no be null");
 
         this.customer = Objects.requireNonNull(builder.getCustomer(), "customer must not be null");
         this.seller = Objects.requireNonNull(builder.getSeller(), "seller must not be null");
         this.shipment = Objects.requireNonNull(builder.getShipment(), "shipment must not be null");
-        this.orderItems = Collections
-                .unmodifiableCollection(Objects.requireNonNull(builder.getOrderItems(), "orderItems must not be null "));
+        this.orderItems = Collections.unmodifiableCollection(orderItems);
         this.orderStatus = Objects.requireNonNull(builder.getOrderStatus(), "orderStatus must not be null");
         this.creationDate = Objects.requireNonNull(builder.getCreationDate(), "creationDate must not be null");
         this.fulfilmentDate = builder.getFulfilmentDate();

@@ -1,175 +1,120 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
+import ukma.eCommerce.util.IBuilder;
+
 import java.util.Objects;
 
-public final class Seller extends User {
+public final class Seller {
 
-	private final String businessName;
-	private final String country;
-	private final String city;
-	private final String street;
-	private final String index;
+    private final long id;
+    private CredentialsVO credentials;
+    private AddressVO address;
+    private String businessName;
 
-	/**
-	 * Builder which creates instance of {@linkplain Seller}
-	 * 
-	 * @author Max Oliynick
-	 */
-	public static class Builder extends User.Builder {
+    /**
+     * Builder which creates instance of {@linkplain Seller}
+     *
+     * @author Max Oliynick
+     */
+    public static class Builder implements IBuilder<Seller> {
 
-		private String businessName;
-		private String city;
-		private String street;
-		private String index;
+        private long id;
+        private CredentialsVO credentials;
+        private AddressVO address;
+        private String businessName;
 
-		public Builder(long id, String email) {
-			super(id, email);
-		}
+        public Builder() {
+        }
 
-		public Builder(Seller user) {
-			super(user);
-		}
+        public Builder(Seller user) {
+            Objects.requireNonNull(user, "user == null");
+            setId(user.getId()).setCredentials(user.getCredentials()).
+                    setAddress(user.getAddress()).setBusinessName(user.getBusinessName());
+        }
 
-		public String getBusinessName() {
-			return businessName;
-		}
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
 
-		public Builder setBusinessName(String businessName) {
-			this.businessName = businessName;
-			return this;
-		}
+        public long getId() {
+            return id;
+        }
 
-		public String getCity() {
-			return city;
-		}
+        public CredentialsVO getCredentials() {
+            return credentials;
+        }
 
-		public Builder setCity(String city) {
-			this.city = city;
-			return this;
-		}
+        public Builder setCredentials(CredentialsVO credentials) {
+            this.credentials = credentials;
+            return this;
+        }
 
-		public String getStreet() {
-			return street;
-		}
+        public AddressVO getAddress() {
+            return address;
+        }
 
-		public Builder setStreet(String street) {
-			this.street = street;
-			return this;
-		}
+        public Builder setAddress(AddressVO address) {
+            this.address = address;
+            return this;
+        }
 
-		public String getIndex() {
-			return index;
-		}
+        public String getBusinessName() {
+            return businessName;
+        }
 
-		public Builder setIndex(String index) {
-			this.index = index;
-			return this;
-		}
+        public Builder setBusinessName(String businessName) {
+            this.businessName = businessName;
+            return this;
+        }
 
-		@Override
-		public Builder setId(long id) {
-			super.setId(id);
-			return this;
-		}
+        @Override
+        public Seller build() {
+            return new Seller(this);
+        }
 
-		@Override
-		public Builder setName(String name) {
-			super.setName(name);
-			return this;
-		}
+    }
 
-		@Override
-		public Builder setSurname(String surname) {
-			super.setSurname(surname);
-			return this;
-		}
+    /**
+     * Constructs instance from builder
+     *
+     * @param builder builder to use
+     */
+    private Seller(Builder builder) {
 
-		@Override
-		public Builder setEmail(String email) {
-			super.setEmail(email);
-			return this;
-		}
+        Objects.requireNonNull(builder, "builder == null");
 
-		@Override
-		public Builder setAddress(String address) {
-			super.setAddress(address);
-			return this;
-		}
+        if (builder.getId() <= 0)
+            throw new IllegalArgumentException("id <= 0");
 
-		@Override
-		public Builder setCountry(String country) {
-			super.setCountry(country);
-			return this;
-		}
+        Objects.requireNonNull(builder.getBusinessName(), "business name == null");
 
-		@Override
-		public Seller build() {
-			return new Seller(this);
-		}
+        final int bNameLen = builder.getBusinessName().length();
 
-	}
+        if (bNameLen < 3 || bNameLen > 50)
+            throw new IllegalArgumentException(
+                    String.format("business name length is out of bounds, was %d", bNameLen));
 
-	/**
-	 * Constructs instance from builder
-	 * 
-	 * @param builder
-	 *            builder to use
-	 */
-	public Seller(Builder builder) {
-		super(builder);
+        this.id = builder.getId();
+        this.businessName = Objects.requireNonNull(builder.getBusinessName());
+        this.credentials = Objects.requireNonNull(builder.getCredentials());
+        this.address = Objects.requireNonNull(builder.getAddress());
+    }
 
-		this.businessName = Objects.requireNonNull(builder.getBusinessName());
-		this.country = Objects.requireNonNull(builder.getCountry());
-		this.city = Objects.requireNonNull(builder.getCity());
-		this.street = Objects.requireNonNull(builder.getStreet());
-		this.index = Objects.requireNonNull(builder.getIndex());
-	}
+    public String getBusinessName() {
+        return businessName;
+    }
 
-	public String getBusinessName() {
-		return businessName;
-	}
+    public long getId() {
+        return id;
+    }
 
-	@Override
-	public String getCountry() {
-		return country;
-	}
+    public CredentialsVO getCredentials() {
+        return credentials;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public AddressVO getAddress() {
+        return address;
+    }
 
-	public String getStreet() {
-		return street;
-	}
-
-	public String getIndex() {
-		return index;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
-
-		Seller seller = (Seller) o;
-
-		if (!businessName.equals(seller.businessName)) return false;
-		if (!country.equals(seller.country)) return false;
-		if (!city.equals(seller.city)) return false;
-		if (!street.equals(seller.street)) return false;
-		return index.equals(seller.index);
-
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + businessName.hashCode();
-		result = 31 * result + country.hashCode();
-		result = 31 * result + city.hashCode();
-		result = 31 * result + street.hashCode();
-		result = 31 * result + index.hashCode();
-		return result;
-	}
 }

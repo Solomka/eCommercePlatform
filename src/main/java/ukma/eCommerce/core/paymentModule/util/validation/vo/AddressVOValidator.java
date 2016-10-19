@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.AddressVO;
+import ukma.eCommerce.core.userModule.model.domain.bo.AddressVO;
 import ukma.eCommerce.core.userModule.validation.vo.CustomerVOValidator;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
@@ -73,14 +73,7 @@ public final class AddressVOValidator implements Validator {
 
         final AddressVO address = (AddressVO) o;
 
-        if(fullNameVOValidator.supports(Objects.requireNonNull(address.getFullName()).getClass()))
-            throw new RuntimeException();
 
-        if(customerVOValidator.supports(Objects.requireNonNull(address.getCustomer()).getClass()))
-            throw new RuntimeException();
-
-        fullNameVOValidator.validate(address.getFullName(), errors);
-        customerVOValidator.validate(address.getCustomer(), errors);
 
         if(address.getCountry() == null || !countryPattern.matcher(address.getCountry()).matches()) {
             errors.rejectValue("country", "error.address.vo.country", "country isn't valid");
@@ -102,11 +95,11 @@ public final class AddressVOValidator implements Validator {
             errors.rejectValue("street", "error.address.vo.street", "street isn't valid");
         }
 
-        if(address.getPostCode() == null || !postCodePattern.matcher(address.getPostCode()).matches()) {
+        if(address.getIndex() == null || !postCodePattern.matcher(address.getIndex()).matches()) {
             errors.rejectValue("postCode", "error.address.vo.postCode", "postCode isn't valid");
         }
 
-        /*if(address.getPhone() == null || !PHONE_PATTERN.matcher(address.getPhone()).matches()) {
+        /*if(address.getPhone() == null || !PHONE_PATTERN_DELIM.matcher(address.getPhone()).matches()) {
             errors.rejectValue("phone", "error.address.vo.phone", "phone isn't valid");
         }*/
     }

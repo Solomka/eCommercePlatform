@@ -1,6 +1,10 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 import org.joda.time.DateTime;
+
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 import ukma.eCommerce.util.IBuilder;
 
@@ -10,8 +14,9 @@ import java.util.Objects;
 
 /**
  * value object that represents charge
- *
+ * 
  * @author Solomka
+ *
  */
 public final class ChargeVO {
 
@@ -99,18 +104,14 @@ public final class ChargeVO {
         return status;
     }
 
-    public DateTime getCreationDate() {
-        return invoice.getPaymentDate();
-    }
+ //   public DateTime getCreationDate() {
+    //    return invoice.getPaymentDate();
+   // }
 
     public InvoiceVO getInvoice() {
         return invoice;
     }
 
-    @Override
-    public String toString() {
-        return "ChargeVO [invoice=" + invoice + ", creditCardVO=" + creditCardVO
-                + ", status=" + status + ", creationDate=" + getCreationDate() + "]";
-    }
+
 
 }

@@ -9,8 +9,6 @@ import ukma.eCommerce.util.validation.ValidationUtil;
 
 import java.util.regex.Pattern;
 
-import static ukma.eCommerce.util.validation.ValidationUtil.EMAIL_PATTERN;
-
 /**
  * @author Max Oliynick
  */
@@ -37,9 +35,6 @@ public final class UserValidator implements Validator {
             errors.rejectValue("id", "error.user.id", String.format("User id '%d' is invalid", user.getId()));
         }
 
-        if (TextUtils.nullOrEmpty(user.getEmail()) || !EMAIL_PATTERN.matcher(user.getEmail()).matches()) {
-            errors.rejectValue("email", "error.user.email", String.format("Email '%s' is invalid", user.getEmail()));
-        }
 
         if (!TextUtils.nullOrEmpty(user.getName()) && !PLAIN_STR_PATTERN.matcher(user.getName()).matches()) {
             errors.rejectValue("name", "error.user.name", String.format("Name '%s' is invalid", user.getName()));

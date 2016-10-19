@@ -1,119 +1,112 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
-public final class Customer extends User {
+import ukma.eCommerce.core.userModule.model.domain.vo.FullNameVO;
+import ukma.eCommerce.util.IBuilder;
+import ukma.eCommerce.util.validation.ValidationUtil;
 
-	private final int bonus;
+import java.util.Objects;
 
-	/**
-	 * Builder which creates instance of {@linkplain Seller}
-	 * 
-	 * @author Max Oliynick
-	 */
-	public static class Builder extends User.Builder {
+public final class Customer {
 
-		private int bonuses;
+    private final long id;
+    private FullNameVO fullName;
+    private CredentialsVO credentials;
 
-		public Builder(long id, String email) {
-			super(id, email);
-		}
+    /**
+     * Builder which creates instance of {@linkplain Seller}
+     *
+     * @author Max Oliynick
+     */
+    public static class Builder implements IBuilder<Customer> {
 
-		public Builder(Customer user) {
-			super(user);
-			setBonuses(user.getBonus());
-		}
+        private long id;
+        private FullNameVO fullNameVO;
+        private CredentialsVO credentials;
 
-		public int getBonuses() {
-			return bonuses;
-		}
+        public long getId() {
+            return id;
+        }
 
-		public Builder setBonuses(int bonuses) {
-			this.bonuses = bonuses;
-			return this;
-		}
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
 
-		@Override
-		public Builder setId(long id) {
-			super.setId(id);
-			return this;
-		}
+        public FullNameVO getFullNameVO() {
+            return fullNameVO;
+        }
 
-		@Override
-		public Builder setName(String name) {
-			super.setName(name);
-			return this;
-		}
+        public Builder setFullNameVO(FullNameVO fullNameVO) {
+            this.fullNameVO = fullNameVO;
+            return this;
+        }
 
-		@Override
-		public Builder setSurname(String surname) {
-			super.setSurname(surname);
-			return this;
-		}
+        public CredentialsVO getCredentials() {
+            return credentials;
+        }
 
-		@Override
-		public Builder setEmail(String email) {
-			super.setEmail(email);
-			return this;
-		}
+        public Builder setCredentials(CredentialsVO credentials) {
+            this.credentials = credentials;
+            return this;
+        }
 
-		@Override
-		public Builder setAddress(String address) {
-			super.setAddress(address);
-			return this;
-		}
+        @Override
+        public Customer build() {
+            return new Customer(this);
+        }
 
-		@Override
-		public Builder setCountry(String country) {
-			super.setCountry(country);
-			return this;
-		}
+    }
 
-		@Override
-		public Customer build() {
-			return new Customer(this);
-		}
+    /**
+     * Constructs instance from builder
+     *
+     * @param builder builder to use
+     */
+    private Customer(Builder builder) {
 
-	}
+        Objects.requireNonNull(builder, "builder == null");
 
-	/**
-	 * Constructs instance from builder
-	 * 
-	 * @param builder
-	 *            builder to use
-	 */
-	public Customer(Builder builder) {
-		super(builder);
-		this.bonus = builder.getBonuses();
-	}
+        if (builder.getId() <= 0)
+            throw new IllegalArgumentException("id <= 0");
 
-	public int getBonus() {
-		return bonus;
-	}
+        this.id = builder.getId();
+        this.fullName = Objects.requireNonNull(builder.getFullNameVO());
+        this.credentials = Objects.requireNonNull(builder.getCredentials());
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + bonus;
-		return result;
-	}
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer other = (Customer) obj;
-		if (bonus != other.bonus)
-			return false;
-		return true;
-	}
+    public long getId() {
+        return id;
+    }
 
-	@Override
-	public String toString() {
-		return "Customer [bonus=" + bonus + ", toString()=" + super.toString() + "]";
-	}
+    public FullNameVO getFullNameVO() {
+        return fullName;
+    }
+
+    public CredentialsVO getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * @param credentials not null
+     */
+    public void changeCredentials(CredentialsVO credentials) {
+
+        if (!ValidationUtil.isValid(credentials))
+            throw new IllegalArgumentException("credentials aren't valid");
+
+        this.credentials = credentials;
+    }
+
+    /**
+     * @param fullName not null
+     */
+    public void changeFullName(FullNameVO fullName) {
+
+        if (!ValidationUtil.isValid(fullName))
+            throw new IllegalArgumentException("full name isn't valid");
+
+        this.fullName = fullName;
+    }
 
 }

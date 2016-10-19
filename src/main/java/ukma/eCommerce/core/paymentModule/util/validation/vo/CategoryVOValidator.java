@@ -37,6 +37,7 @@ public final class CategoryVOValidator implements Validator {
 
         final CategoryVO category = (CategoryVO) o;
 
+
         if (TextUtils.nullOrEmpty(category.getName())
                 || !CATEGORY_NAME_PATTERN.matcher(category.getName()).matches()) {
             errors.rejectValue("name", "error.category.vo.name",

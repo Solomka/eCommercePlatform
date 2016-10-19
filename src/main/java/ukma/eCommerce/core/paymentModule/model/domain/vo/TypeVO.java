@@ -13,7 +13,6 @@ import java.util.Objects;
  */
 public final class TypeVO {
 
-	private final int typeId;
 	@NotNull
 	@Pattern(regexp = "[a-zA-z]{3,50}")
 	private final String typeName;
@@ -21,11 +20,10 @@ public final class TypeVO {
 	@Valid
 	private final CategoryVO category;
 
-	public TypeVO(String typeName, CategoryVO category, int typeId) {
-		
+	public TypeVO(String typeName, CategoryVO category) {
+
 		this.typeName = Objects.requireNonNull(typeName, "typeName must not be null");
 		this.category = Objects.requireNonNull(category, "category must not be null");
-		this.typeId = typeId;
 	}
 
 	public String getTypeName() {
@@ -36,37 +34,40 @@ public final class TypeVO {
 		return category;
 	}
 
-	public int getTypeId() {
-		return typeId;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		TypeVO typeVO = (TypeVO) o;
-
-		if (typeId != typeVO.typeId) return false;
-		if (!typeName.equals(typeVO.typeName)) return false;
-		return category.equals(typeVO.category);
-
-	}
-
 	@Override
 	public int hashCode() {
-		int result = typeId;
-		result = 31 * result + typeName.hashCode();
-		result = 31 * result + category.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
 		return result;
 	}
 
 	@Override
-	public String toString() {
-		return "TypeVO{" +
-				"typeId=" + typeId +
-				", typeName='" + typeName + '\'' +
-				", category=" + category +
-				'}';
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypeVO other = (TypeVO) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (typeName == null) {
+			if (other.typeName != null)
+				return false;
+		} else if (!typeName.equals(other.typeName))
+			return false;
+		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "TypeVO [typeName=" + typeName + ", category=" + category + "]";
+	}
+
 }

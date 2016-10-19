@@ -1,6 +1,5 @@
 package ukma.eCommerce.core.paymentModule.util.validation.vo;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -52,10 +51,6 @@ public final class ChargeVOValidator implements Validator {
             errors.rejectValue("status", "error.charge.vo.status", "Status wasn't specified");
         }
 
-        if (chargeVO.getCreationDate() == null) {
-            errors.rejectValue("creationDate", "error.charge.vo.creationDate", "Creation date wasn't specified");
-        } else if (DateTime.now().compareTo(chargeVO.getCreationDate()) < 0) {
-            errors.rejectValue("creationDate", "error.charge.vo.creationDate", "Creation date > now");
-        }
+
     }
 }

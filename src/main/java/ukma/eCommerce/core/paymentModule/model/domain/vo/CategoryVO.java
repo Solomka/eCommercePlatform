@@ -13,48 +13,47 @@ import java.util.Objects;
 
 public final class CategoryVO {
 
-	private final int id;
 	@NotNull
 	@Pattern(regexp = "[a-zA-z]{3,50}")
 	private final String name;
 
-	public CategoryVO(String name, int id) {
+	public CategoryVO(String name) {
+
 		this.name = Objects.requireNonNull(name, "name must not be null");
-		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		CategoryVO that = (CategoryVO) o;
-
-		if (id != that.id) return false;
-		return name.equals(that.name);
-
-	}
-
 	@Override
 	public int hashCode() {
-		int result = id;
-		result = 31 * result + name.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
 	@Override
-	public String toString() {
-		return "CategoryVO{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CategoryVO other = (CategoryVO) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "CategoryVO [name=" + name + "]";
+	}
+
 }

@@ -25,6 +25,10 @@
  
 	<!-- provide Your Base package to scan annotations for components -->
 	<context:component-scan base-package="ukma.eCommerce" />
+
+	<bean id="validator"
+		  class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 	
 	<!-- Configuration for View page resolver.here we are using jsp pages -->
 	<bean id="viewResolver"
