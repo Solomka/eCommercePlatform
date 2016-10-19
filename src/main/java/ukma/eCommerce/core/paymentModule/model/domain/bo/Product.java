@@ -33,7 +33,7 @@ public final class Product {
         private ProductInfo productInfo;
         private SellerID seller;
 
-        public Builder(@NotNull Product product) {
+        public Builder(Product product) {
 
             Objects.requireNonNull(product, "product must not be null");
 

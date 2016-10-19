@@ -37,10 +37,9 @@ public final class Charge {
         public Builder() {
         }
 
-        public Builder(@NotNull Charge charge) {
+        public Builder(Charge charge) {
 
-            if (charge == null)
-                throw new NullPointerException("charge must not be null");
+            Objects.requireNonNull(charge, "charge must not be null");
 
             setId(charge.getId()).setInvoice(charge.getInvoice()).setCreditCard(charge.getCreditCard())
                     .setStatus(charge.getStatus());

@@ -6,7 +6,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.Money;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
-import ukma.eCommerce.core.paymentModule.util.MoneyConverter;
+import ukma.eCommerce.core.paymentModule.util.IMoneyConverter;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
@@ -49,7 +49,17 @@ public final class Invoice {
         private DateTime creationDate;
         private DateTime paymentDate;
         private Currency currency;
-        private MoneyConverter converter;
+        private IMoneyConverter converter;
+
+        public Builder(Invoice invoice, IMoneyConverter converter) {
+
+            Objects.requireNonNull(invoice);
+
+            setId(invoice.getId()).setOrder(invoice.getOrder()).setInvoiceItems(invoice.getInvoiceItems())
+                    .setStatus(invoice.getStatus()).setCreationDate(invoice.getCreationDate())
+                    .setPaymentDate(invoice.getPaymentDate()).setCurrency(invoice.getMoney().getCurrency())
+                    .setConverter(converter);
+        }
 
         public Builder() {
         }
@@ -103,11 +113,11 @@ public final class Invoice {
             return paymentDate;
         }
 
-        public MoneyConverter getConverter() {
+        public IMoneyConverter getConverter() {
             return converter;
         }
 
-        public Builder setConverter(MoneyConverter converter) {
+        public Builder setConverter(IMoneyConverter converter) {
             this.converter = converter;
             return this;
         }
@@ -147,7 +157,7 @@ public final class Invoice {
                 builder.getPaymentDate().compareTo(builder.getCreationDate()) < 0)
             throw new IllegalArgumentException("payment date is earlier than creation date");
 
-        final MoneyConverter converter = Objects.requireNonNull(builder.getConverter());
+        final IMoneyConverter converter = Objects.requireNonNull(builder.getConverter());
         final Collection<InvoiceItem> invoiceItems = ValidationUtil.validate(builder.getInvoiceItems());
 
         this.id = builder.getId();
