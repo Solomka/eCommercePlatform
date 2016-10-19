@@ -11,14 +11,13 @@ import java.util.Objects;
  *
  */
 
-public final class CategoryVO {
+public final class Category {
 
 	@NotNull
 	@Pattern(regexp = "[a-zA-z]{3,50}")
 	private final String name;
 
-	public CategoryVO(String name) {
-
+	public Category(String name) {
 		this.name = Objects.requireNonNull(name, "name must not be null");
 	}
 
@@ -42,7 +41,7 @@ public final class CategoryVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CategoryVO other = (CategoryVO) obj;
+		Category other = (Category) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -53,7 +52,7 @@ public final class CategoryVO {
 
 	@Override
 	public String toString() {
-		return "CategoryVO [name=" + name + "]";
+		return "Category [name=" + name + "]";
 	}
 
 }

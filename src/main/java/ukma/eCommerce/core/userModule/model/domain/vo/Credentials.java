@@ -1,4 +1,4 @@
-package ukma.eCommerce.core.userModule.model.domain.bo;
+package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,7 +16,7 @@ import java.util.Objects;
  * </p>
  * Created by Максим on 10/19/2016.
  */
-public final class CredentialsVO {
+public final class Credentials {
 
     @NotEmpty
     @Email
@@ -40,7 +40,7 @@ public final class CredentialsVO {
      * @param password
      * @param login
      */
-    public CredentialsVO(String email, String phone, String password, String login) {
+    public Credentials(String email, String phone, String password, String login) {
         this.email = Objects.requireNonNull(email);
         this.phone = Objects.requireNonNull(phone);
         this.password = Objects.requireNonNull(password);
@@ -69,7 +69,7 @@ public final class CredentialsVO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CredentialsVO that = (CredentialsVO) o;
+        Credentials that = (Credentials) o;
 
         if (!email.equals(that.email)) return false;
         if (!phone.equals(that.phone)) return false;
@@ -90,7 +90,7 @@ public final class CredentialsVO {
 
     @Override
     public String toString() {
-        return "CredentialsVO{" +
+        return "Credentials{" +
                 "email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +

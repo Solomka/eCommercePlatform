@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ShipmentVO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.Shipment;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ public final class ShipmentVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return ShipmentVO.class.isAssignableFrom(aClass);
+        return Shipment.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class ShipmentVOValidator implements Validator {
             return;
         }
 
-        final ShipmentVO shipment = (ShipmentVO) o;
+        final Shipment shipment = (Shipment) o;
 
         if (addressVOValidator.supports(Objects.requireNonNull(shipment.getAddress()).getClass()))
             throw new RuntimeException();

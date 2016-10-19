@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCardVO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 import ukma.eCommerce.core.paymentModule.model.dwo.CreditCardDTO;
 import ukma.eCommerce.util.TextUtils;
 
@@ -22,7 +22,7 @@ public final class CreditCardVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return CreditCardVO.class.isAssignableFrom(aClass);
+        return CreditCard.class.isAssignableFrom(aClass);
     }
 
     @Override

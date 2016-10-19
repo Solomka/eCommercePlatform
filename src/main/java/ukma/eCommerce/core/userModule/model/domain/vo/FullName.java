@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Solomka
  */
 
-public final class FullNameVO {
+public final class FullName {
     @NotNull
     @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String firstName;
@@ -18,7 +18,7 @@ public final class FullNameVO {
     @Pattern(regexp = "[a-zA-z]{3,50}")
     private final String lastName;
 
-    public FullNameVO(String firstName, String lastName) {
+    public FullName(String firstName, String lastName) {
         this.firstName = Objects.requireNonNull(firstName, "firstName must not be null");
         this.lastName = Objects.requireNonNull(lastName, "lastName must not be null");
     }
@@ -48,7 +48,7 @@ public final class FullNameVO {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        FullNameVO other = (FullNameVO) obj;
+        FullName other = (FullName) obj;
         if (firstName == null) {
             if (other.firstName != null)
                 return false;
@@ -64,7 +64,7 @@ public final class FullNameVO {
 
     @Override
     public String toString() {
-        return "FullNameVO [firstName=" + firstName + ", lastName=" + lastName + "]";
+        return "FullName [firstName=" + firstName + ", lastName=" + lastName + "]";
     }
 
 }

@@ -11,17 +11,16 @@ import java.util.Objects;
  * @author Solomka
  *
  */
-public final class TypeVO {
+public final class Type {
 
 	@NotNull
 	@Pattern(regexp = "[a-zA-z]{3,50}")
 	private final String typeName;
 	@NotNull
 	@Valid
-	private final CategoryVO category;
+	private final Category category;
 
-	public TypeVO(String typeName, CategoryVO category) {
-
+	public Type(String typeName, Category category) {
 		this.typeName = Objects.requireNonNull(typeName, "typeName must not be null");
 		this.category = Objects.requireNonNull(category, "category must not be null");
 	}
@@ -30,7 +29,7 @@ public final class TypeVO {
 		return typeName;
 	}
 
-	public CategoryVO getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
@@ -51,7 +50,7 @@ public final class TypeVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TypeVO other = (TypeVO) obj;
+		Type other = (Type) obj;
 		if (category == null) {
 			if (other.category != null)
 				return false;
@@ -67,7 +66,7 @@ public final class TypeVO {
 
 	@Override
 	public String toString() {
-		return "TypeVO [typeName=" + typeName + ", category=" + category + "]";
+		return "Type [typeName=" + typeName + ", category=" + category + "]";
 	}
 
 }

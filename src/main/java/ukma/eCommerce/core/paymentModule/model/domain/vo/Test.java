@@ -10,8 +10,8 @@ public class Test {
 		 */
 		/*
 		String country = "bla";
-		AddressVO.Builder builder = new AddressVO.Builder(country, "bla", "bla", "bla", "bla", "bla", "bal", null);
-		AddressVO address = builder.build();
+		Address.Builder builder = new Address.Builder(country, "bla", "bla", "bla", "bla", "bla", "bal", null);
+		Address address = builder.build();
 		System.out.println("Address: " + address);
 */
 	}

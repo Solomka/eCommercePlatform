@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderItemVO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderItem;
 
 import java.util.Objects;
 
@@ -23,7 +23,7 @@ public final class OrderItemVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return OrderItemVO.class.isAssignableFrom(aClass);
+        return OrderItem.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -34,7 +34,7 @@ public final class OrderItemVOValidator implements Validator {
             return;
         }
 
-        final OrderItemVO orderItem = (OrderItemVO) o;
+        final OrderItem orderItem = (OrderItem) o;
 
         if (!productValidator.supports(Objects.requireNonNull(orderItem.getProduct()).getClass()))
             throw new RuntimeException();

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceItemVO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceItem;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public final class InvoiceItemVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return InvoiceItemVO.class.isAssignableFrom(aClass);
+        return InvoiceItem.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -37,7 +37,7 @@ public final class InvoiceItemVOValidator implements Validator {
             return;
         }
 
-        final InvoiceItemVO invoiceItem = (InvoiceItemVO) o;
+        final InvoiceItem invoiceItem = (InvoiceItem) o;
 
         if (!orderValidator.supports(Objects.requireNonNull(invoiceItem.getOrder()).getClass())) {
             throw new RuntimeException();

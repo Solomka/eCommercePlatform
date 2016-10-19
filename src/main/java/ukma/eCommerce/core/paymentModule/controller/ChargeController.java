@@ -10,7 +10,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderVO;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.CreditCardDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
@@ -52,7 +51,7 @@ public class ChargeController {
 
     @RequestMapping(value = "/createCharge", method = RequestMethod.POST)
     public void createCharge(@AuthenticationPrincipal Customer cust, String number, String cvc, DateTime expDate,
-                             OrderVO order) {
+                             Order order) {
 
 		/*
          * create creditCardVO check what to do if not valid cardInfo passed- ?
@@ -60,18 +59,18 @@ public class ChargeController {
         CreditCardDTO creditCardDTO = createCreditCardDTO(number, cvc, expDate);
 
 		/*
-         * create OrderVO check what to do if not valid orderInfo passed - ?
+         * create Order check what to do if not valid orderInfo passed - ?
 		 */
         OrderDTO orderDTO = createOrderDTO(order);
 
 		/*
-         * create InvoiceVO if orderVo created successfully
+         * create Invoice if orderVo created successfully
 		 */
         InvoiceDTO invoiceDVO = createInvoiceDTO(orderDTO);
 
 
 		/*
-         * create ChargeVO if invoiceVO created successfully
+         * create Charge if invoiceVO created successfully
 		 */
         ChargeDTO chargeDTO = createChargeDTO(invoiceDVO);
 
@@ -96,8 +95,8 @@ public class ChargeController {
         });
 
         if (defferedResult.hasResult() && defferedResult.getResult().getClass().equals(Charge.class)) {
-            final DeferredResult<Order> defferedOrderResult = new DeferredResult<>(5_000L);
-            if (defferedOrderResult.hasResult() && defferedOrderResult.getResult().getClass().equals(Order.class)) {
+            final DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> defferedOrderResult = new DeferredResult<>(5_000L);
+            if (defferedOrderResult.hasResult() && defferedOrderResult.getResult().getClass().equals(ukma.eCommerce.core.paymentModule.model.domain.bo.Order.class)) {
                 final DeferredResult<Invoice> defferedInvoiceResult = new DeferredResult<>(5_000L);
                 {
                     if (defferedInvoiceResult.hasResult()
@@ -110,7 +109,7 @@ public class ChargeController {
     }
 
     /**
-     * Create CreditCardVO
+     * Create CreditCard
      * <p>
      * validate or not validate - (it seems like Stripe execute validation on
      * its own - ??? )
@@ -126,9 +125,9 @@ public class ChargeController {
     }
 
     /**
-     * Create OrderVO
+     * Create Order
      */
-    private OrderDTO createOrderDTO(OrderVO order) {
+    private OrderDTO createOrderDTO(Order order) {
 
         return null;
     }
@@ -137,14 +136,14 @@ public class ChargeController {
      * Create OrderBO
      */
 
-    private DeferredResult<Order> createOrderBO(OrderDTO orderDTO) {
-        final DeferredResult<Order> defferedOrderResult = new DeferredResult<>(5_000L);
+    private DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> createOrderBO(OrderDTO orderDTO) {
+        final DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> defferedOrderResult = new DeferredResult<>(5_000L);
 
-        IOrderService.createOrder(orderDTO, new IRetrieveCallback<Order>() { //
+        IOrderService.createOrder(orderDTO, new IRetrieveCallback<ukma.eCommerce.core.paymentModule.model.domain.bo.Order>() { //
             // Card card = new Card(Card.Builder(CardForm);
 
             @Override
-            public void onResult(Order result) { // provide result
+            public void onResult(ukma.eCommerce.core.paymentModule.model.domain.bo.Order result) { // provide result
                 defferedOrderResult.setResult(result);
             }
 
@@ -157,7 +156,7 @@ public class ChargeController {
     }
 
     /**
-     * Create InvoiceVO
+     * Create Invoice
      */
     private InvoiceDTO createInvoiceDTO(OrderDTO orderVO) {
         // TODO Auto-generated method stub
@@ -165,7 +164,7 @@ public class ChargeController {
     }
 
     /**
-     * Create ChargeVO
+     * Create Charge
      */
     private ChargeDTO createChargeDTO(InvoiceDTO invoiceVO) {
         // TODO Auto-generated method stub

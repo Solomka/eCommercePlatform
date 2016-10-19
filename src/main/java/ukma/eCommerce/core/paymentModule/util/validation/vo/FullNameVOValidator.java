@@ -3,7 +3,7 @@ package ukma.eCommerce.core.paymentModule.util.validation.vo;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.userModule.model.domain.vo.FullNameVO;
+import ukma.eCommerce.core.userModule.model.domain.vo.FullName;
 import ukma.eCommerce.util.TextUtils;
 
 import java.util.regex.Pattern;
@@ -21,7 +21,7 @@ public final class FullNameVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return FullNameVO.class.isAssignableFrom(aClass);
+        return FullName.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -32,7 +32,7 @@ public final class FullNameVOValidator implements Validator {
             return;
         }
 
-        final FullNameVO fullName = (FullNameVO) o;
+        final FullName fullName = (FullName) o;
 
         if (TextUtils.nullOrEmpty(fullName.getFirstName())
                 || !FIRST_NAME_PATTERN.matcher(fullName.getFirstName()).matches()) {

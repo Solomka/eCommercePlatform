@@ -1,6 +1,5 @@
-package ukma.eCommerce.core.userModule.model.domain.bo;
+package ukma.eCommerce.core.userModule.model.domain.vo;
 
-import org.springframework.validation.annotation.Validated;
 import ukma.eCommerce.util.IBuilder;
 
 import javax.validation.constraints.NotNull;
@@ -14,8 +13,7 @@ import java.util.Objects;
  *
  * @author Solomka
  */
-@Validated
-public final class AddressVO {
+public final class Address {
 
     @NotNull
     @Pattern(regexp = "[a-zA-z]{3,50}")
@@ -35,12 +33,12 @@ public final class AddressVO {
     private final String index;
 
     /**
-     * builder that creates immutable instance of {@linkplain AddressVO}
+     * builder that creates immutable instance of {@linkplain Address}
      *
      * @author Solomka
      */
 
-    public static class Builder implements IBuilder<AddressVO> {
+    public static class Builder implements IBuilder<Address> {
 
         private String country;
         private String state;
@@ -51,7 +49,7 @@ public final class AddressVO {
 
         public Builder() {}
 
-        public Builder(@NotNull AddressVO address) {
+        public Builder(@NotNull Address address) {
 
             Objects.requireNonNull(address, "address must not be null");
 
@@ -114,13 +112,13 @@ public final class AddressVO {
         }
 
         @Override
-        public AddressVO build() {
-            return new AddressVO(this);
+        public Address build() {
+            return new Address(this);
         }
 
     }
 
-    private AddressVO(@NotNull Builder builder) {
+    private Address(@NotNull Builder builder) {
 
         Objects.requireNonNull(builder, "builder must not be null");
 
@@ -161,7 +159,7 @@ public final class AddressVO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AddressVO addressVO = (AddressVO) o;
+        Address addressVO = (Address) o;
 
         if (!country.equals(addressVO.country)) return false;
         if (state != null ? !state.equals(addressVO.state) : addressVO.state != null) return false;
@@ -185,7 +183,7 @@ public final class AddressVO {
 
     @Override
     public String toString() {
-        return "AddressVO{" +
+        return "Address{" +
                 "country='" + country + '\'' +
                 ", state='" + state + '\'' +
                 ", region='" + region + '\'' +

@@ -1,6 +1,7 @@
 package ukma.eCommerce.util.validation;
 
 import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -62,9 +63,18 @@ public final class ValidationUtil {
      * */
     public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
 
+    private static final ValidatorFactory validationFactory = Validation.buildDefaultValidatorFactory();
+
+    public static <T> T validate(T t) {
+
+        if(!ValidationUtil.isValid(t))
+            throw new IllegalArgumentException(String.format("%s isn't valid", t));
+
+        return t;
+    }
 
     public static <T> boolean isValid(T t) {
-        return Validation.buildDefaultValidatorFactory().getValidator().validate(Objects.requireNonNull(t)).isEmpty();
+        return validationFactory.getValidator().validate(Objects.requireNonNull(t)).isEmpty();
     }
 
 }

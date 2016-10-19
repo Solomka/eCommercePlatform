@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ChargeVO;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeDTO;
 
 import java.util.Objects;
@@ -31,7 +31,7 @@ public final class ChargeVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return ChargeVO.class.isAssignableFrom(aClass);
+        return Charge.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -42,10 +42,10 @@ public final class ChargeVOValidator implements Validator {
             return;
         }
 
-        final ChargeVO chargeVO = (ChargeVO) o;
+        final Charge chargeVO = (Charge) o;
 
         invoiceValidator.validate(chargeVO.getInvoice(), errors);
-        creditCardValidator.validate(chargeVO.getCreditCardVO(), errors);
+        creditCardValidator.validate(chargeVO.getCreditCard(), errors);
 
         if (chargeVO.getStatus() == null) {
             errors.rejectValue("status", "error.charge.vo.status", "Status wasn't specified");

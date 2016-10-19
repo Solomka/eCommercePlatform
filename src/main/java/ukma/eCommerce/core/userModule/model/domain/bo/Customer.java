@@ -1,16 +1,20 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
-import ukma.eCommerce.core.userModule.model.domain.vo.FullNameVO;
+import ukma.eCommerce.core.userModule.model.domain.vo.Credentials;
+import ukma.eCommerce.core.userModule.model.domain.vo.FullName;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
 import java.util.Objects;
 
+/**
+ * Customer aggregate root
+ */
 public final class Customer {
 
     private final long id;
-    private FullNameVO fullName;
-    private CredentialsVO credentials;
+    private FullName fullName;
+    private Credentials credentials;
 
     /**
      * Builder which creates instance of {@linkplain Seller}
@@ -20,8 +24,8 @@ public final class Customer {
     public static class Builder implements IBuilder<Customer> {
 
         private long id;
-        private FullNameVO fullNameVO;
-        private CredentialsVO credentials;
+        private FullName fullNameVO;
+        private Credentials credentials;
 
         public long getId() {
             return id;
@@ -32,20 +36,20 @@ public final class Customer {
             return this;
         }
 
-        public FullNameVO getFullNameVO() {
+        public FullName getFullNameVO() {
             return fullNameVO;
         }
 
-        public Builder setFullNameVO(FullNameVO fullNameVO) {
+        public Builder setFullNameVO(FullName fullNameVO) {
             this.fullNameVO = fullNameVO;
             return this;
         }
 
-        public CredentialsVO getCredentials() {
+        public Credentials getCredentials() {
             return credentials;
         }
 
-        public Builder setCredentials(CredentialsVO credentials) {
+        public Builder setCredentials(Credentials credentials) {
             this.credentials = credentials;
             return this;
         }
@@ -79,18 +83,18 @@ public final class Customer {
         return id;
     }
 
-    public FullNameVO getFullNameVO() {
+    public FullName getFullNameVO() {
         return fullName;
     }
 
-    public CredentialsVO getCredentials() {
+    public Credentials getCredentials() {
         return credentials;
     }
 
     /**
      * @param credentials not null
      */
-    public void changeCredentials(CredentialsVO credentials) {
+    public void changeCredentials(Credentials credentials) {
 
         if (!ValidationUtil.isValid(credentials))
             throw new IllegalArgumentException("credentials aren't valid");
@@ -101,7 +105,7 @@ public final class Customer {
     /**
      * @param fullName not null
      */
-    public void changeFullName(FullNameVO fullName) {
+    public void changeFullName(FullName fullName) {
 
         if (!ValidationUtil.isValid(fullName))
             throw new IllegalArgumentException("full name isn't valid");

@@ -1,5 +1,7 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
+import ukma.eCommerce.core.userModule.model.domain.vo.Address;
+import ukma.eCommerce.core.userModule.model.domain.vo.Credentials;
 import ukma.eCommerce.util.IBuilder;
 
 import java.util.Objects;
@@ -7,8 +9,8 @@ import java.util.Objects;
 public final class Seller {
 
     private final long id;
-    private CredentialsVO credentials;
-    private AddressVO address;
+    private Credentials credentials;
+    private Address address;
     private String businessName;
 
     /**
@@ -19,8 +21,8 @@ public final class Seller {
     public static class Builder implements IBuilder<Seller> {
 
         private long id;
-        private CredentialsVO credentials;
-        private AddressVO address;
+        private Credentials credentials;
+        private Address address;
         private String businessName;
 
         public Builder() {
@@ -41,20 +43,20 @@ public final class Seller {
             return id;
         }
 
-        public CredentialsVO getCredentials() {
+        public Credentials getCredentials() {
             return credentials;
         }
 
-        public Builder setCredentials(CredentialsVO credentials) {
+        public Builder setCredentials(Credentials credentials) {
             this.credentials = credentials;
             return this;
         }
 
-        public AddressVO getAddress() {
+        public Address getAddress() {
             return address;
         }
 
-        public Builder setAddress(AddressVO address) {
+        public Builder setAddress(Address address) {
             this.address = address;
             return this;
         }
@@ -109,11 +111,11 @@ public final class Seller {
         return id;
     }
 
-    public CredentialsVO getCredentials() {
+    public Credentials getCredentials() {
         return credentials;
     }
 
-    public AddressVO getAddress() {
+    public Address getAddress() {
         return address;
     }
 

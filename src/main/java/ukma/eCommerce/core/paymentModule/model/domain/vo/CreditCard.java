@@ -14,7 +14,7 @@ import java.util.Objects;
  * 
  * @author Max
  */
-public final class CreditCardVO {
+public final class CreditCard {
 
 	@NotNull
 	@Pattern(regexp = "^\\d{12}$")
@@ -26,7 +26,7 @@ public final class CreditCardVO {
 	@Future
 	private final DateTime expirationDate;
 
-	public CreditCardVO(String number, String cvv, DateTime expirationDate) {
+	public CreditCard(String number, String cvv, DateTime expirationDate) {
 		this.number = Objects.requireNonNull(number, "card number must not be null");
 		this.cvc = Objects.requireNonNull(cvv, "cvc must not be null");
 		this.expirationDate = Objects.requireNonNull(expirationDate, "expirationDate must not be null");
@@ -62,7 +62,7 @@ public final class CreditCardVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CreditCardVO other = (CreditCardVO) obj;
+		CreditCard other = (CreditCard) obj;
 		if (cvc == null) {
 			if (other.cvc != null)
 				return false;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.userModule.model.domain.bo.AddressVO;
+import ukma.eCommerce.core.userModule.model.domain.vo.Address;
 import ukma.eCommerce.core.userModule.validation.vo.CustomerVOValidator;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
@@ -60,7 +60,7 @@ public final class AddressVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return AddressVO.class.isAssignableFrom(aClass);
+        return Address.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -71,7 +71,7 @@ public final class AddressVOValidator implements Validator {
             return;
         }
 
-        final AddressVO address = (AddressVO) o;
+        final Address address = (Address) o;
 
 
 

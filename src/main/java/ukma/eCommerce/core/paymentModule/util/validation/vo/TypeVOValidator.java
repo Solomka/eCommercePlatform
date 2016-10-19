@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ukma.eCommerce.core.paymentModule.model.domain.vo.TypeVO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.Type;
 import ukma.eCommerce.util.TextUtils;
 
 /**
@@ -30,7 +30,7 @@ public final class TypeVOValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> aClass) {
-		return TypeVO.class.isAssignableFrom(aClass);
+		return Type.class.isAssignableFrom(aClass);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public final class TypeVOValidator implements Validator {
 			return;
 		}
 
-		final TypeVO type = (TypeVO) o;
+		final Type type = (Type) o;
 
 		if (categoryVOValidator.supports(Objects.requireNonNull(type.getCategory()).getClass()))
 			throw new RuntimeException();

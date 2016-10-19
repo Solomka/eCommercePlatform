@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ProductVO;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Product;
 import ukma.eCommerce.core.userModule.validation.vo.SellerVOValidator;
 import ukma.eCommerce.util.TextUtils;
 import ukma.eCommerce.util.validation.ValidationUtil;
@@ -32,7 +32,7 @@ public final class ProductVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return ProductVO.class.isAssignableFrom(aClass);
+        return Product.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class ProductVOValidator implements Validator {
             return;
         }
 
-        final ProductVO product = (ProductVO) o;
+        final Product product = (Product) o;
 
         if(sellerVOValidator.supports(Objects.requireNonNull(product.getSeller()).getClass()))
             throw new RuntimeException();
@@ -68,9 +68,9 @@ public final class ProductVOValidator implements Validator {
                     String.format("Item price less then zero, was %s", product.getPrice()));
         }
 
-        if(product.getQuantity() < 1) {
+        if(product.getAvailableQuantity() < 1) {
             errors.rejectValue("quantity", "error.product.vo.quantity",
-                    String.format("Item quantity less then one, was %d", product.getQuantity()));
+                    String.format("Item quantity less then one, was %d", product.getAvailableQuantity()));
         }
 
         if(TextUtils.nullOrEmpty(product.getDescription()) || product.getDescription().length() > 50) {

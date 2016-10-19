@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.CategoryVO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.Category;
 import ukma.eCommerce.util.TextUtils;
 
 import java.util.regex.Pattern;
@@ -24,7 +24,7 @@ public final class CategoryVOValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return CategoryVO.class.isAssignableFrom(aClass);
+        return Category.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -35,7 +35,7 @@ public final class CategoryVOValidator implements Validator {
             return;
         }
 
-        final CategoryVO category = (CategoryVO) o;
+        final Category category = (Category) o;
 
 
         if (TextUtils.nullOrEmpty(category.getName())

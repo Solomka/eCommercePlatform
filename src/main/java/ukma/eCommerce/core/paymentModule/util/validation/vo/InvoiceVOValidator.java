@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceItemVO;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceVO;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceItem;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
 
 /**
@@ -34,7 +34,7 @@ public final class InvoiceVOValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> aClass) {
-		return InvoiceVO.class.isAssignableFrom(aClass);
+		return Invoice.class.isAssignableFrom(aClass);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public final class InvoiceVOValidator implements Validator {
 			return;
 		}
 
-		final InvoiceVO invoice = (InvoiceVO) o;
+		final Invoice invoice = (Invoice) o;
 
 		if (!orderValidator.supports(Objects.requireNonNull(invoice.getOrder()).getClass()))
 			throw new RuntimeException();
@@ -59,7 +59,7 @@ public final class InvoiceVOValidator implements Validator {
 			int quantity = 0;
 			BigDecimal totalSum = BigDecimal.ZERO;
 
-			for (final InvoiceItemVO item : invoice.getInvoiceItems()) {
+			for (final InvoiceItem item : invoice.getInvoiceItems()) {
 				totalSum = totalSum.add(item.getSumTotal());
 				quantity += item.getQuantity();
 				invoiceItemValidator.validate(item, errors);
@@ -87,7 +87,7 @@ public final class InvoiceVOValidator implements Validator {
 					.format("Current time is recent than creation date, now is %s, but was - %s", now, creationDate));
 		}
 		/**
-		 * payment date in ChargeVO
+		 * payment date in Charge
 		 */
 
 		/*
