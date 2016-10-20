@@ -1,122 +1,122 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
-public final class Seller extends User {
+import ukma.eCommerce.core.userModule.model.domain.vo.Address;
+import ukma.eCommerce.core.userModule.model.domain.vo.Credentials;
+import ukma.eCommerce.util.IBuilder;
 
-	private final String company;
+import java.util.Objects;
 
-	/**
-	 * Builder which creates instance of {@linkplain Seller}
-	 * 
-	 * @author Max Oliynick
-	 */
-	public static class Builder extends User.Builder {
+public final class Seller {
 
-		private String company;
+    private final long id;
+    private Credentials credentials;
+    private Address address;
+    private String businessName;
 
-		public Builder(String id, String email) {
-			super(id, email);
-		}
+    /**
+     * Builder which creates instance of {@linkplain Seller}
+     *
+     * @author Max Oliynick
+     */
+    public static class Builder implements IBuilder<Seller> {
 
-		public Builder(Seller user) {
-			super(user);
-			setCompany(user.getCompany());
-		}
+        private long id;
+        private Credentials credentials;
+        private Address address;
+        private String businessName;
 
-		public String getCompany() {
-			return company;
-		}
+        public Builder() {
+        }
 
-		public Builder setCompany(String company) {
-			this.company = company;
-			return this;
-		}
+        public Builder(Seller user) {
+            Objects.requireNonNull(user, "user == null");
+            setId(user.getId()).setCredentials(user.getCredentials()).
+                    setAddress(user.getAddress()).setBusinessName(user.getBusinessName());
+        }
 
-		@Override
-		public Builder setId(String id) {
-			super.setId(id);
-			return this;
-		}
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
 
-		@Override
-		public Builder setName(String name) {
-			super.setName(name);
-			return this;
-		}
+        public long getId() {
+            return id;
+        }
 
-		@Override
-		public Builder setSurname(String surname) {
-			super.setSurname(surname);
-			return this;
-		}
+        public Credentials getCredentials() {
+            return credentials;
+        }
 
-		@Override
-		public Builder setEmail(String email) {
-			super.setEmail(email);
-			return this;
-		}
+        public Builder setCredentials(Credentials credentials) {
+            this.credentials = credentials;
+            return this;
+        }
 
-		@Override
-		public Builder setAddress(String address) {
-			super.setAddress(address);
-			return this;
-		}
+        public Address getAddress() {
+            return address;
+        }
 
-		@Override
-		public Builder setCountry(String country) {
-			super.setCountry(country);
-			return this;
-		}
+        public Builder setAddress(Address address) {
+            this.address = address;
+            return this;
+        }
 
-		@Override
-		public Seller build() {
-			return new Seller(this);
-		}
+        public String getBusinessName() {
+            return businessName;
+        }
 
-	}
+        public Builder setBusinessName(String businessName) {
+            this.businessName = businessName;
+            return this;
+        }
 
-	/**
-	 * Constructs instance from builder
-	 * 
-	 * @param builder
-	 *            builder to use
-	 */
-	public Seller(Builder builder) {
-		super(builder);
-		this.company = builder.getCompany();
-	}
+        @Override
+        public Seller build() {
+            return new Seller(this);
+        }
 
-	public String getCompany() {
-		return company;
-	}
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((company == null) ? 0 : company.hashCode());
-		return result;
-	}
+    /**
+     * Constructs instance from builder
+     *
+     * @param builder builder to use
+     */
+    private Seller(Builder builder) {
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Seller other = (Seller) obj;
-		if (company == null) {
-			if (other.company != null)
-				return false;
-		} else if (!company.equals(other.company))
-			return false;
-		return true;
-	}
+        Objects.requireNonNull(builder, "builder == null");
 
-	@Override
-	public String toString() {
-		return "Seller [company=" + company + ", toString()=" + super.toString() + "]";
-	}
+        if (builder.getId() <= 0)
+            throw new IllegalArgumentException("id <= 0");
+
+        Objects.requireNonNull(builder.getBusinessName(), "business name == null");
+
+        final int bNameLen = builder.getBusinessName().length();
+
+        if (bNameLen < 3 || bNameLen > 50)
+            throw new IllegalArgumentException(
+                    String.format("business name length is out of bounds, was %d", bNameLen));
+
+        this.id = builder.getId();
+        this.businessName = Objects.requireNonNull(builder.getBusinessName());
+        this.credentials = Objects.requireNonNull(builder.getCredentials());
+        this.address = Objects.requireNonNull(builder.getAddress());
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
 
 }

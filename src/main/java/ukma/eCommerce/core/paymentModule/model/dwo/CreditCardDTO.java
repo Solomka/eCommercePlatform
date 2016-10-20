@@ -2,6 +2,10 @@ package ukma.eCommerce.core.paymentModule.model.dwo;
 
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * <p>
  * Value object which describes credit card form
@@ -11,8 +15,14 @@ import org.joda.time.DateTime;
  */
 public final class CreditCardDTO {
 
+    @NotNull
+    @Pattern(regexp = "^\\d{3}[\\s-]?\\d{3}[\\s-]?\\d{3}[\\s-]?\\d{3}$")
     private String number;
+    @NotNull
+    @Pattern(regexp = "^\\d{3}$")
     private String cvv;
+    @NotNull
+    @Future
     private DateTime expirationDate;
 
     public CreditCardDTO(String number, String cvv, DateTime expirationDate) {
@@ -21,7 +31,8 @@ public final class CreditCardDTO {
         this.expirationDate = expirationDate;
     }
 
-    public CreditCardDTO() {}
+    public CreditCardDTO() {
+    }
 
     public void setNumber(String number) {
         this.number = number;

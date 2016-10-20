@@ -27,6 +27,14 @@ final class CardController {
     @Autowired
     public CardController(CreditCardDTOValidator validator) {
         this.validator = validator;
+
+        /*ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+
+        javax.validation.Validator validator1 = validatorFactory.getValidator();
+
+        Set<ConstraintViolation<T>> set = validator1.validate(new T(DateTime.now().plusDays(10), "asddsadsadasdadad"));
+
+        System.out.println("Set "+set);*/
     }
 
     @InitBinder

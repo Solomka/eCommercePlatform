@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ChargeVO;
 import ukma.eCommerce.core.userModule.model.domain.bo.Seller;
 import ukma.eCommerce.util.IRetrieveCallback;
 import ukma.eCommerce.util.filter.ChargeFilter;
@@ -27,6 +26,6 @@ public interface IChargeManager {
 	// add whatever you need
 	// ......
 
-	void conductCharge(@NotNull ChargeVO charge, @NotNull IRetrieveCallback<Charge> callback);
+	void conductCharge(@NotNull Charge charge, @NotNull IRetrieveCallback<Charge> callback);
 
 }

@@ -6,12 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ukma.eCommerce.core.paymentModule.util.validation.vo.FullNameVOValidator;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
-import ukma.eCommerce.util.TextUtils;
 
 import java.util.Objects;
-
-import static ukma.eCommerce.util.validation.ValidationUtil.LOGIN_PATTERN;
-import static ukma.eCommerce.util.validation.ValidationUtil.PASSWORD_PATTERN;
 
 /**
  * Created by Максим on 10/16/2016.
@@ -52,17 +48,7 @@ public final class CustomerVOValidator implements Validator {
         userValidator.validate(customer, errors);
         fullNameVOValidator.validate(customer.getFullName(), errors);
 
-        if (TextUtils.nullOrEmpty(customer.getLogin())
-                || !LOGIN_PATTERN.matcher(customer.getLogin()).matches()) {
-            errors.rejectValue("login", "error.customer.vo.login",
-                    String.format("Login '%s' is invalid", customer.getLogin()));
-        }
 
-        if (TextUtils.nullOrEmpty(customer.getPassword())
-                || !PASSWORD_PATTERN.matcher(customer.getPassword()).matches()) {
-            errors.rejectValue("password", "error.customer.vo.password",
-                    String.format("Password '%s' is invalid", customer.getPassword()));
-        }
 
     }
 }

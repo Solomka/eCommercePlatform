@@ -6,9 +6,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ukma.eCommerce.core.userModule.model.domain.bo.Seller;
-import ukma.eCommerce.util.TextUtils;
-
-import static ukma.eCommerce.core.userModule.validation.UserValidator.PLAIN_STR_PATTERN;
 
 /**
  * Created by Максим on 10/15/2016.
@@ -35,8 +32,8 @@ public final class SellerValidator implements Validator {
 
         ValidationUtils.invokeValidator(validator, seller, errors);
 
-        if (!TextUtils.nullOrEmpty(seller.getCompany()) && !PLAIN_STR_PATTERN.matcher(seller.getCompany()).matches()) {
+        /*if (!TextUtils.nullOrEmpty(seller.getCompany()) && !PLAIN_STR_PATTERN.matcher(seller.getCompany()).matches()) {
             errors.rejectValue("company", "error.user.company", String.format("Company name '%s' is invalid", seller.getCompany()));
-        }
+        }*/
     }
 }
