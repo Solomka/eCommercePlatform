@@ -16,7 +16,6 @@
 			<user-service>
 				<user name="solomka" password="solomka" authorities="ROLE_USER" />
 				<user name="max" password="max" authorities="ROLE_ADMIN" />
-
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
