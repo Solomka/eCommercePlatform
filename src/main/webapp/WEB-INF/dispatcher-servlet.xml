@@ -20,12 +20,21 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+
 	<!-- declare mvc to be annotation driven -->
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
+
 	<context:annotation-config />
+
 	<!-- provide Your Base package to scan annotations for components -->
 	<context:component-scan base-package="ukma.eCommerce" />
+
+	<!-- Spring validation beans -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	<bean
+		class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor" />
 
 	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -51,6 +60,7 @@
 			<list>
 				<value>classpath:jdbc.properties</value>
 				<value>classpath:hibernate.properties</value>
+				<value>classpath:validation.properties</value>
 			</list>
 		</property>
 
