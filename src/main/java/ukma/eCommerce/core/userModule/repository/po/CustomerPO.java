@@ -1,44 +1,60 @@
 package ukma.eCommerce.core.userModule.repository.po;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import ukma.eCommerce.core.paymentModule.repository.po.AddressPO;
+import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 
 @Entity
 @Table(name = "customer")
-public class CustomerPO implements Serializable{
+public class CustomerPO implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4161497809953626589L;
+	private static final long serialVersionUID = -6989120513965832589L;
 
 	@Id
-	@Column(name = "customer_id")
-	@GeneratedValue
+	@Column(name = "id", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Column(name = "first_name", nullable = false)
-	private String firstName;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "email", column = @Column(name = "email") ),
+			@AttributeOverride(name = "phone", column = @Column(name = "phone") ),
+			@AttributeOverride(name = "login", column = @Column(name = "login") ),
+			@AttributeOverride(name = "password", column = @Column(name = "password") ) })
+	private Credentials credentials;
 
-	@Column(name = "last_name", nullable = false)
-	private String lastName;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "firstName", column = @Column(name = "first_name") ),
+			@AttributeOverride(name = "lastName", column = @Column(name = "last_name") )
 
-	@Column(name = "email", nullable = false)
-	private String email;
+	})
+	private FullName fullName;
 
-	@Column(name = "phone", nullable = false)
-	private String phone;
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.REFRESH)
+	private List<OrderPO> orders;
 
-	@Column(name = "login", nullable = false)
-	private String login;
-
-	@Column(name = "password", nullable = false)
-	private String password;
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.REFRESH)
+	private List<AddressPO> addresses;
+	
+	public CustomerPO(){
+		
+	}
 
 	public long getId() {
 		return id;
@@ -48,54 +64,20 @@ public class CustomerPO implements Serializable{
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public Credentials getCredentials() {
+		return credentials;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public FullName getFullname() {
+		return fullName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setFullname(FullName fullName) {
+		this.fullName = fullName;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	
 
 }
