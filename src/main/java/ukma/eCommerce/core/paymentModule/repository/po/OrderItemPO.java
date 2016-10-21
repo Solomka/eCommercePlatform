@@ -24,11 +24,11 @@ public class OrderItemPO implements Serializable {
 	private static final long serialVersionUID = -1849033798209228948L;
 
 	@Id
-	@Column(name = "order_id", nullable = false)
+	@Column(name = "order_id", insertable = false, updatable = false, nullable = false)
 	private long orderId;
 
 	@Id
-	@Column(name = "product_id", nullable = false)
+	@Column(name = "product_id", insertable = false, updatable = false, nullable = false)
 	private long productId;
 
 	@Embedded
