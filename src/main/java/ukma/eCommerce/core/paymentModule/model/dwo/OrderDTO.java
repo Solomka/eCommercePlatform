@@ -2,8 +2,6 @@ package ukma.eCommerce.core.paymentModule.model.dwo;
 
 import java.io.Serializable;
 
-import ukma.eCommerce.core.userModule.model.domain.vo.CustomerVO;
-import ukma.eCommerce.core.userModule.model.domain.vo.SellerVO;
 
 /**
  * Created by Максим on 10/8/2016.
