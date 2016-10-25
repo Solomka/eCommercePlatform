@@ -6,7 +6,9 @@ import javax.validation.constraints.NotNull;
  * Interface to process long-running operations 
  * asynchronously
  * @author ������
+ * @deprecated use rx observable instead
  * */
+@Deprecated
 public interface IUpdateCallback {
 	/**
 	 * Called before operation execution
