@@ -1,7 +1,7 @@
 package ukma.eCommerce.core.paymentModule.util;
 
 import org.springframework.stereotype.Service;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.Money;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.Price;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 
 import java.math.BigDecimal;
@@ -14,21 +14,21 @@ import java.util.Collection;
 public final class MoneyConverter implements IMoneyConverter {
 
     @Override
-    public Money convert(Currency currency, BigDecimal amount) {
+    public Price convert(Currency currency, BigDecimal amount) {
         // todo remove stub
-        return new Money(currency, amount);
+        return new Price(currency, amount);
     }
 
     @Override
-    public Money convert(Collection<Money> money, Currency currency) {
+    public Price convert(Collection<Price> money, Currency currency) {
 // todo remove stub
         BigDecimal amount = BigDecimal.ZERO;
 
-        for (Money mMoney : money) {
+        for (Price mMoney : money) {
             amount = amount.add(mMoney.getAmount());
         }
 
-        return new Money(currency, amount);
+        return new Price(currency, amount);
     }
 
 }

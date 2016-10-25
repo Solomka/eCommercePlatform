@@ -1,7 +1,7 @@
 package ukma.eCommerce.core.paymentModule.util;
 
 import org.springframework.validation.annotation.Validated;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.Money;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.Price;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 
 import javax.validation.constraints.NotNull;
@@ -15,9 +15,9 @@ import java.util.Collection;
 public interface IMoneyConverter {
 
     @NotNull
-    Money convert(@NotNull Currency currency, @NotNull BigDecimal amount);
+    Price convert(@NotNull Currency currency, @NotNull BigDecimal amount);
 
     @NotNull
-    Money convert(@NotNull Collection<Money> money, @NotNull Currency currency);
+    Price convert(@NotNull Collection<Price> money, @NotNull Currency currency);
 
 }

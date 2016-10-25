@@ -25,14 +25,14 @@ public final class OrderItem {
     private final SellerID seller;
     @NotNull
     @Valid
-    private final Money money;
+    private final Price price;
     @Min(1)
     private final int quantity;
 
-    public OrderItem(ProductID product, SellerID seller, Money money, int quantity) {
+    public OrderItem(ProductID product, SellerID seller, Price money, int quantity) {
         this.product = Objects.requireNonNull(product);
-        this.quantity = quantity;
-        this.money = Objects.requireNonNull(money);
+        this.quantity = Objects.requireNonNull(quantity);
+        this.price = Objects.requireNonNull(money);
         this.seller = Objects.requireNonNull(seller);
     }
 
@@ -40,8 +40,8 @@ public final class OrderItem {
         return product;
     }
 
-    public Money getMoney() {
-        return money;
+    public Price getPrice() {
+        return price;
     }
 
     public int getQuantity() {
@@ -62,7 +62,7 @@ public final class OrderItem {
         if (quantity != orderItem.quantity) return false;
         if (!product.equals(orderItem.product)) return false;
         if (!seller.equals(orderItem.seller)) return false;
-        return money.equals(orderItem.money);
+        return price.equals(orderItem.price);
 
     }
 
@@ -70,7 +70,7 @@ public final class OrderItem {
     public int hashCode() {
         int result = product.hashCode();
         result = 31 * result + seller.hashCode();
-        result = 31 * result + money.hashCode();
+        result = 31 * result + price.hashCode();
         result = 31 * result + quantity;
         return result;
     }
@@ -80,7 +80,7 @@ public final class OrderItem {
         return "OrderItem{" +
                 "product=" + product +
                 ", seller=" + seller +
-                ", money=" + money +
+                ", price=" + price +
                 ", quantity=" + quantity +
                 '}';
     }

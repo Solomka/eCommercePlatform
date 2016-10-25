@@ -1,43 +1,57 @@
 package ukma.eCommerce.core.userModule.model.domain.vo;
 
-import javax.validation.constraints.Min;
+import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Максим on 10/19/2016.
  */
 public final class SellerID {
 
-    @Min(1)
-    private final long id;
+	@NotNull
+	private final UUID id;
 
-    public SellerID(long id) {
-        this.id = id;
-    }
+	/**
+	 * generate random GUID id
+	 */
 
-    public long getId() {
-        return id;
-    }
+	public SellerID() {
+		this.id = UUID.randomUUID();
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public UUID getId() {
+		return id;
+	}
 
-        SellerID that = (SellerID) o;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
-        return id == that.id;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SellerID other = (SellerID) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 
-    }
+	@Override
+	public String toString() {
+		return "SellerID [id=" + id + "]";
+	}
 
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
-
-    @Override
-    public String toString() {
-        return "SellerID{" +
-                "id=" + id +
-                '}';
-    }
 }

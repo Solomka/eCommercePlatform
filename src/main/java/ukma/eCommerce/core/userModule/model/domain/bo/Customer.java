@@ -1,116 +1,167 @@
 package ukma.eCommerce.core.userModule.model.domain.bo;
 
+import java.util.Objects;
+
 import ukma.eCommerce.core.userModule.model.domain.vo.Credentials;
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.model.domain.vo.FullName;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
-import java.util.Objects;
-
 /**
  * Customer aggregate root
  */
+
 public final class Customer {
 
-    private final long id;
-    private FullName fullName;
-    private Credentials credentials;
+	private final CustomerID id;
+	private FullName fullName;
+	private Credentials credentials;
 
-    /**
-     * Builder which creates instance of {@linkplain Seller}
-     *
-     * @author Max Oliynick
-     */
-    public static class Builder implements IBuilder<Customer> {
+	/**
+	 * Builder which creates instance of {@linkplain Customer}
+	 *
+	 * @author Max Oliynick
+	 */
+	public static class Builder implements IBuilder<Customer> {
 
-        private long id;
-        private FullName fullNameVO;
-        private Credentials credentials;
+		private CustomerID id;
+		private FullName fullName;
+		private Credentials credentials;
 
-        public long getId() {
-            return id;
-        }
+		public Builder() {
+		}
 
-        public Builder setId(long id) {
-            this.id = id;
-            return this;
-        }
+		public Builder(Customer customer) {
+			Objects.requireNonNull(customer, "customer == null");
+			setId(customer.getId()).setFullName(customer.getFullName()).setCredentials(customer.getCredentials());
+		}
 
-        public FullName getFullNameVO() {
-            return fullNameVO;
-        }
+		public CustomerID getId() {
+			return id;
+		}
 
-        public Builder setFullNameVO(FullName fullNameVO) {
-            this.fullNameVO = fullNameVO;
-            return this;
-        }
+		public Builder setId(CustomerID id) {
+			this.id = id;
+			return this;
+		}
 
-        public Credentials getCredentials() {
-            return credentials;
-        }
+		public FullName getFullName() {
+			return fullName;
+		}
 
-        public Builder setCredentials(Credentials credentials) {
-            this.credentials = credentials;
-            return this;
-        }
+		public Builder setFullName(FullName fullNameVO) {
+			this.fullName = fullNameVO;
+			return this;
+		}
 
-        @Override
-        public Customer build() {
-            return new Customer(this);
-        }
+		public Credentials getCredentials() {
+			return credentials;
+		}
 
-    }
+		public Builder setCredentials(Credentials credentials) {
+			this.credentials = credentials;
+			return this;
+		}
 
-    /**
-     * Constructs instance from builder
-     *
-     * @param builder builder to use
-     */
-    private Customer(Builder builder) {
+		@Override
+		public Customer build() {
+			return new Customer(this);
+		}
 
-        Objects.requireNonNull(builder, "builder == null");
+	}
 
-        if (builder.getId() <= 0)
-            throw new IllegalArgumentException("id <= 0");
+	/**
+	 * Constructs instance from builder
+	 *
+	 * @param builder
+	 *            builder to use
+	 */
+	private Customer(Builder builder) {
 
-        this.id = builder.getId();
-        this.fullName = Objects.requireNonNull(builder.getFullNameVO());
-        this.credentials = Objects.requireNonNull(builder.getCredentials());
+		Objects.requireNonNull(builder, "builder == null");
 
-    }
+		this.id = ValidationUtil.validate(builder.getId());
+		this.fullName = ValidationUtil.validate(builder.getFullName());
+		this.credentials = ValidationUtil.validate(builder.getCredentials());
 
-    public long getId() {
-        return id;
-    }
+	}
 
-    public FullName getFullNameVO() {
-        return fullName;
-    }
+	public CustomerID getId() {
+		return id;
+	}
 
-    public Credentials getCredentials() {
-        return credentials;
-    }
+	public FullName getFullName() {
+		return fullName;
+	}
 
-    /**
-     * @param credentials not null
-     */
-    public void changeCredentials(Credentials credentials) {
+	public Credentials getCredentials() {
+		return credentials;
+	}
 
-        if (!ValidationUtil.isValid(credentials))
-            throw new IllegalArgumentException("credentials aren't valid");
+	/**
+	 * @param credentials
+	 *            not null
+	 */
+	public void changeCredentials(Credentials credentials) {
 
-        this.credentials = credentials;
-    }
+		if (!ValidationUtil.isValid(credentials))
+			throw new IllegalArgumentException("credentials are not valid");
 
-    /**
-     * @param fullName not null
-     */
-    public void changeFullName(FullName fullName) {
+		this.credentials = credentials;
+	}
 
-        if (!ValidationUtil.isValid(fullName))
-            throw new IllegalArgumentException("full name isn't valid");
+	/**
+	 * @param fullName
+	 *            not null
+	 */
+	public void changeFullName(FullName fullName) {
+		if(!ValidationUtil.isValid((fullName)))
+				throw new IllegalArgumentException("fullName is not valid");
 
-        this.fullName = fullName;
-    }
+		this.fullName = fullName;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
+		result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Customer other = (Customer) obj;
+		if (credentials == null) {
+			if (other.credentials != null)
+				return false;
+		} else if (!credentials.equals(other.credentials))
+			return false;
+		if (fullName == null) {
+			if (other.fullName != null)
+				return false;
+		} else if (!fullName.equals(other.fullName))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", fullName=" + fullName + ", credentials=" + credentials + "]";
+	}
 
 }

@@ -1,16 +1,16 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import org.joda.time.DateTime;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
-import ukma.eCommerce.core.userModule.model.domain.vo.Address;
-import ukma.eCommerce.util.IBuilder;
+import java.util.Objects;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.math.BigDecimal;
-import java.util.Objects;
+
+import org.joda.time.DateTime;
+
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
+import ukma.eCommerce.util.IBuilder;
 
 /**
  * <p>
@@ -21,164 +21,182 @@ import java.util.Objects;
  */
 public final class Shipment {
 
-    @Pattern(regexp = "[a-zA-z]{3,50}")
-    private final String deliveryService;
-    @NotNull
-    @Valid
-    private final Money money;
-    @NotNull
-    @Valid
-    private final Address address;
-    @NotNull
-    @Future
-    private final DateTime deliveryDate;
-    @NotNull
-    private final ShipmentStatus status;
+	@Pattern(regexp = "[a-zA-z]{3,50}")
+	private final String deliveryService;
+	@NotNull
+	@Valid
+	private final Price price;
+	@NotNull
+	@Valid
+	private final ShipmentDetails shipmentDetails;
+	@Future
+	private final DateTime deliveryDate;
+	@NotNull
+	private final ShipmentStatus status;
 
-    /**
-     * builder that creates immutable instance of {@linkplain Shipment}
-     *
-     * @author Solomka
-     */
+	/**
+	 * builder that creates immutable instance of {@linkplain Shipment}
+	 *
+	 * @author Solomka
+	 */
 
-    public static class Builder implements IBuilder<Shipment> {
+	public static class Builder implements IBuilder<Shipment> {
 
-        private String deliveryService;
-        private BigDecimal totalSum;
-        private Money money;
-        private Address address;
-        private DateTime deliveryDate;
-        private ShipmentStatus status;
+		private String deliveryService;
+		private Price price;
+		private ShipmentDetails shipmentDetails;
+		private DateTime deliveryDate;
+		private ShipmentStatus status;
 
-        public Builder() {
-        }
+		public Builder() {
+		}
 
-        public Builder(final Shipment shipment) {
+		public Builder(final Shipment shipment) {
 
-            Objects.requireNonNull(shipment, "shipment must not be null");
+			Objects.requireNonNull(shipment, "shipment must not be null");
 
-            setDeliveryService(shipment.getDeliveryService()).setMoney(shipment.getMoney())
-                    .setAddress(shipment.getAddress()).setDeliveryDate(shipment.getDeliveryDate())
-                    .setStatus(shipment.getStatus());
-        }
+			setDeliveryService(shipment.getDeliveryService()).setMoney(shipment.getPrice())
+					.setShipmentDetails(shipment.getShipmentDetails()).setDeliveryDate(shipment.getDeliveryDate())
+					.setStatus(shipment.getStatus());
+		}
 
-        public Money getMoney() {
-            return money;
-        }
+		public Price getPrice() {
+			return price;
+		}
 
-        public Builder setMoney(Money money) {
-            this.money = money;
-            return this;
-        }
+		public Builder setMoney(Price price) {
+			this.price = price;
+			return this;
+		}
 
-        public String getDeliveryService() {
-            return deliveryService;
-        }
+		public String getDeliveryService() {
+			return deliveryService;
+		}
 
-        public Builder setDeliveryService(String deliveryService) {
-            this.deliveryService = deliveryService;
-            return this;
-        }
+		public Builder setDeliveryService(String deliveryService) {
+			this.deliveryService = deliveryService;
+			return this;
+		}
 
-        public BigDecimal getTotalSum() {
-            return totalSum;
-        }
+		public ShipmentDetails getShipmentDetails() {
+			return shipmentDetails;
+		}
 
-        public Builder setTotalSum(BigDecimal totalSum) {
-            this.totalSum = totalSum;
-            return this;
-        }
+		public Builder setShipmentDetails(ShipmentDetails shipmentDetails) {
+			this.shipmentDetails = shipmentDetails;
+			return this;
+		}
 
-        public Address getAddress() {
-            return address;
-        }
+		public void setPrice(Price price) {
+			this.price = price;
+		}
 
-        public Builder setAddress(Address address) {
-            this.address = address;
-            return this;
-        }
+		public DateTime getDeliveryDate() {
+			return deliveryDate;
+		}
 
-        public DateTime getDeliveryDate() {
-            return deliveryDate;
-        }
+		public Builder setDeliveryDate(DateTime deliveryDate) {
+			this.deliveryDate = deliveryDate;
+			return this;
+		}
 
-        public Builder setDeliveryDate(DateTime deliveryDate) {
-            this.deliveryDate = deliveryDate;
-            return this;
-        }
+		public ShipmentStatus getStatus() {
+			return status;
+		}
 
-        public ShipmentStatus getStatus() {
-            return status;
-        }
+		public Builder setStatus(ShipmentStatus status) {
+			this.status = status;
+			return this;
+		}
 
-        public Builder setStatus(ShipmentStatus status) {
-            this.status = status;
-            return this;
-        }
+		@Override
+		public Shipment build() {
+			return new Shipment(this);
+		}
 
-        @Override
-        public Shipment build() {
-            return new Shipment(this);
-        }
+	}
 
-    }
+	private Shipment(Builder builder) {
 
-    private Shipment(Builder builder) {
+		Objects.requireNonNull(builder, "builder must not be null");
 
-        Objects.requireNonNull(builder, "builder must not be null");
+		this.shipmentDetails = Objects.requireNonNull(builder.getShipmentDetails(), "address must not be null");
+		this.status = Objects.requireNonNull(builder.getStatus(), "status must not be null");
+		this.price = Objects.requireNonNull(builder.getPrice(), "price == null");
+		this.deliveryService = builder.getDeliveryService();
+		this.deliveryDate = builder.getDeliveryDate();
+	}
 
-        this.address = Objects.requireNonNull(builder.getAddress(), "address must not be null");
-        this.status = Objects.requireNonNull(builder.getStatus(), "status must not be null");
-        this.money = Objects.requireNonNull(builder.getMoney(), "money == null");
-        this.deliveryService = builder.getDeliveryService();
-        this.deliveryDate = builder.getDeliveryDate();
-    }
+	public String getDeliveryService() {
+		return deliveryService;
+	}
 
-    public String getDeliveryService() {
-        return deliveryService;
-    }
+	public ShipmentDetails getShipmentDetails() {
+		return shipmentDetails;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public DateTime getDeliveryDate() {
+		return deliveryDate;
+	}
 
-    public DateTime getDeliveryDate() {
-        return deliveryDate;
-    }
+	public ShipmentStatus getStatus() {
+		return status;
+	}
 
-    public ShipmentStatus getStatus() {
-        return status;
-    }
+	public Price getPrice() {
+		return price;
+	}
 
-    public Money getMoney() {
-        return money;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((deliveryDate == null) ? 0 : deliveryDate.hashCode());
+		result = prime * result + ((deliveryService == null) ? 0 : deliveryService.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((shipmentDetails == null) ? 0 : shipmentDetails.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Shipment other = (Shipment) obj;
+		if (deliveryDate == null) {
+			if (other.deliveryDate != null)
+				return false;
+		} else if (!deliveryDate.equals(other.deliveryDate))
+			return false;
+		if (deliveryService == null) {
+			if (other.deliveryService != null)
+				return false;
+		} else if (!deliveryService.equals(other.deliveryService))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (shipmentDetails == null) {
+			if (other.shipmentDetails != null)
+				return false;
+		} else if (!shipmentDetails.equals(other.shipmentDetails))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
 
-        Shipment shipment = (Shipment) o;
-
-        if (deliveryService != null ? !deliveryService.equals(shipment.deliveryService) : shipment.deliveryService != null)
-            return false;
-        if (!money.equals(shipment.money)) return false;
-        if (!address.equals(shipment.address)) return false;
-        if (deliveryDate != null ? !deliveryDate.equals(shipment.deliveryDate) : shipment.deliveryDate != null)
-            return false;
-        return status == shipment.status;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = deliveryService != null ? deliveryService.hashCode() : 0;
-        result = 31 * result + money.hashCode();
-        result = 31 * result + address.hashCode();
-        result = 31 * result + (deliveryDate != null ? deliveryDate.hashCode() : 0);
-        result = 31 * result + status.hashCode();
-        return result;
-    }
+	@Override
+	public String toString() {
+		return "Shipment [deliveryService=" + deliveryService + ", price=" + price + ", shipmentDetails="
+				+ shipmentDetails + ", deliveryDate=" + deliveryDate + ", status=" + status + "]";
+	}
 
 }

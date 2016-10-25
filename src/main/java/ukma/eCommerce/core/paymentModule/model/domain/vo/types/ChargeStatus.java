@@ -9,30 +9,34 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo.types;
  */
 public enum ChargeStatus {
 
-    PENDING(1), SUCCEEDED(2), FAILED(3);
+	PENDING(1), SUCCEEDED(2), FAILED(3);
 
-    private int value;
+	private int value;
 
-    ChargeStatus(int value) {
-        this.value = value;
-    }
+	//class/package access level
+	ChargeStatus(int value) {
+		this.value = value;
+	}
 
-    public int getValue() {
-        return this.value;
-    }
+	public int getValue() {
+		return this.value;
+	}
 
-    /**
-     * Returns charge status for a given int value
-     * @param value value describing charge status
-     * @return null if such status wasn't found
-     */
-    public static ChargeStatus forValue(int value) {
+	/**
+	 * Returns charge status for a given int value
+	 * 
+	 * @param value
+	 *            value describing charge status
+	 * @return null if such status wasn't found
+	 */
+	public static ChargeStatus forValue(int value) {
 
-        for (final ChargeStatus status : ChargeStatus.values()) {
-            if (status.getValue() == value) return status;
-        }
+		for (final ChargeStatus status : ChargeStatus.values()) {
+			if (status.getValue() == value)
+				return status;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
 }

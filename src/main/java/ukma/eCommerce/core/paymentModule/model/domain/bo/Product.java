@@ -1,137 +1,211 @@
 package ukma.eCommerce.core.paymentModule.model.domain.bo;
 
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ProductInfo;
+import java.util.Objects;
+
+import javax.validation.constraints.Min;
+
+import ukma.eCommerce.core.paymentModule.model.domain.vo.Price;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.ProdCharacteritics;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.ProductID;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerID;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
-
 /**
- * <p>
- * Value object that represents Product
- * </p>
+ * Product aggregate root
  *
  * @author Solomka
  */
 
 public final class Product {
 
-    private final long id;
-    private final SellerID seller;
-    private ProductInfo productInfo;
+	private final ProductID id;
+	private final SellerID seller;
+	private Price price;
+	@Min(1)
+	private int availableQuantity;
+	private ProdCharacteritics characteristics;
 
-    /**
-     * builder that creates immutable instance of {@linkplain Product}
-     *
-     * @author Solomka
-     */
-    public static class Builder implements IBuilder<Product> {
+	/**
+	 * builder that creates immutable instance of {@linkplain Product}
+	 *
+	 * @author Solomka
+	 */
+	public static class Builder implements IBuilder<Product> {
 
-        private long id;
-        private ProductInfo productInfo;
-        private SellerID seller;
+		private ProductID id;
+		private SellerID seller;
+		private Price price;
+		private int availableQuantity;
+		private ProdCharacteritics characteristics;
 
-        public Builder(Product product) {
+		public Builder() {
 
-            Objects.requireNonNull(product, "product must not be null");
+		}
 
-            setId(product.getId()).setProductInfo(product.getProductInfo()).
-                    setSeller(product.getSeller());
-        }
+		public Builder(Product product) {
 
-        public Builder() {
-        }
+			Objects.requireNonNull(product, "product == null");
 
-        public long getId() {
-            return id;
-        }
+			setId(product.getId()).setSeller(product.getSeller()).setPrice(product.getPrice())
+					.setAvailableQuantity(product.getAvailableQuantity())
+					.setCharacteristics(product.getCharacteristics());
 
-        public Builder setId(long id) {
-            this.id = id;
-            return this;
-        }
+		}
 
-        public ProductInfo getProductInfo() {
-            return productInfo;
-        }
+		public ProductID getId() {
+			return id;
+		}
 
-        public Builder setProductInfo(ProductInfo productInfo) {
-            this.productInfo = productInfo;
-            return this;
-        }
+		public Builder setId(ProductID id) {
+			this.id = id;
+			return this;
+		}
 
-        public SellerID getSeller() {
-            return seller;
-        }
+		public SellerID getSeller() {
+			return seller;
+		}
 
-        public Builder setSeller(SellerID seller) {
-            this.seller = seller;
-            return this;
-        }
+		public Builder setSeller(SellerID seller) {
+			this.seller = seller;
+			return this;
+		}
 
-        @Override
-        public Product build() {
-            return new Product(this);
-        }
-    }
+		public Price getPrice() {
+			return price;
+		}
 
-    private Product(@NotNull Builder builder) {
+		public Builder setPrice(Price price) {
+			this.price = price;
+			return this;
+		}
 
-        Objects.requireNonNull(builder, "builder must no be null");
+		public int getAvailableQuantity() {
+			return availableQuantity;
+		}
 
-        if (builder.getId() < 1)
-            throw new IllegalArgumentException("id < 1");
+		public Builder setAvailableQuantity(int availableQuantity) {
+			this.availableQuantity = availableQuantity;
+			return this;
+		}
 
-        this.id = builder.getId();
-        this.productInfo = ValidationUtil.validate(builder.getProductInfo());
-        this.seller = ValidationUtil.validate(builder.getSeller());
-    }
+		public ProdCharacteritics getCharacteristics() {
+			return characteristics;
+		}
 
-    public long getId() {
-        return id;
-    }
+		public Builder setCharacteristics(ProdCharacteritics characteristics) {
+			this.characteristics = characteristics;
+			return this;
+		}
 
-    public SellerID getSeller() {
-        return seller;
-    }
+		@Override
+		public Product build() {
+			return new Product(this);
+		}
+	}
 
-    public ProductInfo getProductInfo() {
-        return productInfo;
-    }
+	private Product(Builder builder) {
+		Objects.requireNonNull(builder, "builder == null");
 
-    public void updateInfo(ProductInfo productInfo) {
-        this.productInfo = ValidationUtil.validate(productInfo);
-    }
+		this.id = ValidationUtil.validate(builder.getId());
+		this.seller = ValidationUtil.validate(builder.getSeller());
+		this.price = ValidationUtil.validate(builder.getPrice());
+		this.availableQuantity = Objects.requireNonNull(builder.getAvailableQuantity(),
+				"availableQuantity must not be null");
+		this.characteristics = ValidationUtil.validate(builder.getCharacteristics());
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public Price getPrice() {
+		return price;
+	}
 
-        Product product = (Product) o;
+	public void changePrice(Price price) {
+		if (!ValidationUtil.isValid(price)) {
+			throw new IllegalArgumentException("price is not valid");
+		}
+		this.price = price;
+	}
 
-        if (id != product.id) return false;
-        if (!seller.equals(product.seller)) return false;
-        return productInfo.equals(product.productInfo);
+	public int getAvailableQuantity() {
+		return availableQuantity;
+	}
 
-    }
+	public void changeAvailableQuantity(int availableQuantity) {
+		Objects.requireNonNull(availableQuantity, "availableQuantity must not be null");
+		this.availableQuantity = availableQuantity;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + seller.hashCode();
-        result = 31 * result + productInfo.hashCode();
-        return result;
-    }
+	public ProdCharacteritics getCharacteristics() {
+		return characteristics;
+	}
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", seller=" + seller +
-                ", productInfo=" + productInfo +
-                '}';
-    }
+	public void changeCharacteristics(ProdCharacteritics characteristics) {
+
+		if (!ValidationUtil.isValid(characteristics)) {
+			throw new IllegalArgumentException("characteristics are not valid");
+		}
+
+		this.characteristics = characteristics;
+	}
+
+	public ProductID getId() {
+		return id;
+	}
+
+	public SellerID getSeller() {
+		return seller;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + availableQuantity;
+		result = prime * result + ((characteristics == null) ? 0 : characteristics.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (availableQuantity != other.availableQuantity)
+			return false;
+		if (characteristics == null) {
+			if (other.characteristics != null)
+				return false;
+		} else if (!characteristics.equals(other.characteristics))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (seller == null) {
+			if (other.seller != null)
+				return false;
+		} else if (!seller.equals(other.seller))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", seller=" + seller + ", price=" + price + ", availableQuantity="
+				+ availableQuantity + ", characteristics=" + characteristics + "]";
+	}
+
 }

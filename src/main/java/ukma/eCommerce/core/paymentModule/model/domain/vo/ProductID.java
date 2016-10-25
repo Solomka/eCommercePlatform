@@ -1,43 +1,53 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import javax.validation.constraints.Min;
+import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Максим on 10/19/2016.
  */
 public final class ProductID {
 
-    @Min(1)
-    private final long id;
+	@NotNull
+	private final UUID id;
 
-    public ProductID(long id) {
-        this.id = id;
-    }
+	public ProductID() {
+		this.id = UUID.randomUUID();
+	}
 
-    public long getId() {
-        return id;
-    }
+	public UUID getId() {
+		return id;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
-        ProductID productID = (ProductID) o;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductID other = (ProductID) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 
-        return id == productID.id;
+	@Override
+	public String toString() {
+		return "ProductID [id=" + id + "]";
+	}
 
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
-
-    @Override
-    public String toString() {
-        return "ProductID{" +
-                "id=" + id +
-                '}';
-    }
 }
