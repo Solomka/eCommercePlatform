@@ -10,7 +10,6 @@ import org.joda.time.DateTime;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
@@ -38,6 +37,7 @@ public final class Charge {
 		private UUID id;
 		private InvoiceID invoice;
 		private CreditCard creditCard;
+		private DateTime paymentDate;
 		private ChargeStatus status;
 
 		public Builder() {
@@ -82,6 +82,15 @@ public final class Charge {
 			return this;
 		}
 
+		public DateTime getPaymentDate() {
+			return paymentDate;
+		}
+
+		public Builder setPaymentDate(DateTime paymentDate) {
+			this.paymentDate = paymentDate;
+			return this;
+		}
+
 		public ChargeStatus getStatus() {
 			return status;
 		}
@@ -105,6 +114,7 @@ public final class Charge {
 		this.id = ValidationUtil.validate(builder.getId());
 		this.invoice = ValidationUtil.validate(builder.getInvoice());
 		this.creditCard = ValidationUtil.validate(builder.getCreditCard());
+		this.paymentDate = builder.getPaymentDate();
 		this.status = Objects.requireNonNull(builder.getStatus(), "status == null");
 	}
 
@@ -123,39 +133,34 @@ public final class Charge {
 	public ChargeStatus getStatus() {
 		return status;
 	}
-	
-	
 
-	public void declineInvoice() {
-
-		if (status != InvoiceStatus.PENDING || paymentDate != null)
-			throw new IllegalStateException("cannot decline non-pending invoice, or payment date was already set");
-
-		this.status = InvoiceStatus.NOT_PAID;
+	public DateTime getPaymentDate() {
+		return paymentDate;
 	}
 
-	public void payInvoice(DateTime date) {
+	public void setPaymentDate(DateTime paymentDate) {
 
-		if (status != InvoiceStatus.PENDING || paymentDate != null)
-			throw new IllegalStateException("cannot pay for non-pending invoice, or payment date was already set");
-
-		if (creationDate.compareTo(Objects.requireNonNull(date, "date == null")) > 0)
-			throw new IllegalArgumentException("payment date cannot be earlier than creation date");
-
-		this.status = InvoiceStatus.PAID;
-		this.paymentDate = date;
+		Objects.requireNonNull(paymentDate, "paymentDate == null");
+		this.paymentDate = paymentDate;
 	}
-	
-	private static InvoiceStatus checkStatus(DateTime paymentDate, InvoiceStatus status) {
+
+	public void changeStatus(ChargeStatus status) {
+		this.status = Charge.checkStatus(this.paymentDate, status);
+	}
+
+	private static ChargeStatus checkStatus(DateTime paymentDate, ChargeStatus status) {
 
 		Objects.requireNonNull(status);
 
-		if (paymentDate != null && (status == InvoiceStatus.NOT_PAID || status == InvoiceStatus.PENDING))
-			throw new IllegalArgumentException(String.format("cannot apply payment date in case status is %s", status));
-
-		if (paymentDate == null && status == InvoiceStatus.PAID)
+		if (paymentDate != null && (status == ChargeStatus.PENDING))
 			throw new IllegalArgumentException(
-					String.format("either payment date shouldn't be set or status shouldn't be %s", status));
+					String.format("Charge with paymentDate can't have ChargeStatus.PENDING ", status));
+
+		if (paymentDate == null && (status == ChargeStatus.SUCCEEDED || status == ChargeStatus.RETURNED
+				|| status == ChargeStatus.FAILED))
+			throw new IllegalArgumentException(
+					String.format("Charge without paymentDate can't have ChargeStatus.SUCCEEDED" + " || "
+							+ "status == ChargeStatus.RETURNED || status == ChargeStatus.FAILED ", status));
 
 		return status;
 	}
@@ -167,6 +172,7 @@ public final class Charge {
 		result = prime * result + ((creditCard == null) ? 0 : creditCard.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
+		result = prime * result + ((paymentDate == null) ? 0 : paymentDate.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -195,6 +201,11 @@ public final class Charge {
 				return false;
 		} else if (!invoice.equals(other.invoice))
 			return false;
+		if (paymentDate == null) {
+			if (other.paymentDate != null)
+				return false;
+		} else if (!paymentDate.equals(other.paymentDate))
+			return false;
 		if (status != other.status)
 			return false;
 		return true;
@@ -202,7 +213,8 @@ public final class Charge {
 
 	@Override
 	public String toString() {
-		return "Charge [id=" + id + ", invoice=" + invoice + ", creditCard=" + creditCard + ", status=" + status + "]";
+		return "Charge [id=" + id + ", invoice=" + invoice + ", creditCard=" + creditCard + ", paymentDate="
+				+ paymentDate + ", status=" + status + "]";
 	}
 
 }

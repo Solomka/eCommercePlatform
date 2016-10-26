@@ -9,7 +9,7 @@ package ukma.eCommerce.core.paymentModule.model.domain.vo.types;
  */
 public enum ChargeStatus {
 
-	PENDING(1), SUCCEEDED(2), FAILED(3);
+	PENDING(1), SUCCEEDED(2), FAILED(3), RETURNED(4);
 
 	private int value;
 

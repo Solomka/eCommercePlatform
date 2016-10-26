@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.model.domain.bo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -134,6 +135,7 @@ public final class Invoice {
 
 		Objects.requireNonNull(builder, "builder must not be null");
 
+		// ???? I don't understand what's going on
 		if (Objects.requireNonNull(builder.getCreationDate(), "creationDate must not be null").isAfterNow())
 			throw new IllegalArgumentException("creation time should be earlier then current one");
 
@@ -153,11 +155,26 @@ public final class Invoice {
 		this.price = calculateTotalPrice(builder.getInvoiceItems(), builder.getCurrency());
 		this.quantityTotal = invoiceItems.stream().mapToInt(InvoiceItem::getQuantity).sum();
 
-		// this.status = Invoice.checkStatus(paymentDate, builder.getStatus());
+		this.status = Objects.requireNonNull(builder.getStatus(), "status must not be null");
 	}
+
+	/**
+	 * calculate total invoice price
+	 * 
+	 * @param invoiceItems
+	 * @param currency
+	 * @return
+	 */
 
 	private Price calculateTotalPrice(Collection<InvoiceItem> invoiceItems, Currency currency) {
 
+		BigDecimal sumTotal = BigDecimal.ZERO;
+
+		for (InvoiceItem item : invoiceItems) {
+			sumTotal = sumTotal.add(item.getPrice().getAmount());
+		}
+
+		final Price price = new Price(currency, sumTotal);
 		return price;
 
 	}
@@ -188,6 +205,67 @@ public final class Invoice {
 
 	public DateTime getCreationDate() {
 		return creationDate;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((invoiceItems == null) ? 0 : invoiceItems.hashCode());
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + quantityTotal;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Invoice other = (Invoice) obj;
+		if (creationDate == null) {
+			if (other.creationDate != null)
+				return false;
+		} else if (!creationDate.equals(other.creationDate))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (invoiceItems == null) {
+			if (other.invoiceItems != null)
+				return false;
+		} else if (!invoiceItems.equals(other.invoiceItems))
+			return false;
+		if (order == null) {
+			if (other.order != null)
+				return false;
+		} else if (!order.equals(other.order))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (quantityTotal != other.quantityTotal)
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Invoice [id=" + id + ", order=" + order + ", invoiceItems=" + invoiceItems + ", price=" + price
+				+ ", quantityTotal=" + quantityTotal + ", creationDate=" + creationDate + ", status=" + status + "]";
 	}
 
 	/*
