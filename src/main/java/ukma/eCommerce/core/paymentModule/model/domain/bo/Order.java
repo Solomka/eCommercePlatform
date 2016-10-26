@@ -19,14 +19,15 @@ import static ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatu
 
 /**
  * <p>
- * Aggregate root that represents Order
+ * Aggregate root that represents Order. This is thread-safe class
  * </p>
  *
  * @author Solomka
  */
 public final class Order {
 
-    private final ReadWriteLock shipmentReadWriteLock;
+    private final ReadWriteLock shipmentLock;
+    private final ReadWriteLock orderItemsLock;
     private final OrderID id;
     private final CustomerID customer;
     private Shipment shipment;
@@ -153,7 +154,8 @@ public final class Order {
 
         this.fulfilmentDate = builder.getFulfilmentDate();
         this.status = checkOrderStatus(fulfilmentDate, builder.getOrderStatus());
-        this.shipmentReadWriteLock = new ReentrantReadWriteLock();
+        this.shipmentLock = new ReentrantReadWriteLock();
+        this.orderItemsLock = new ReentrantReadWriteLock();
     }
 
     public OrderID getId() {
@@ -166,21 +168,35 @@ public final class Order {
 
     public Shipment getShipment() {
 
-        shipmentReadWriteLock.readLock().lock();
+        shipmentLock.readLock().lock();
 
         try {
             return shipment;
         } finally {
-            shipmentReadWriteLock.readLock().unlock();
+            shipmentLock.readLock().unlock();
         }
     }
 
     public Collection<OrderItem> getOrderItems() {
-        return Collections.unmodifiableCollection(orderItems);
+
+        orderItemsLock.readLock().lock();
+
+        try {
+            return Collections.unmodifiableCollection(orderItems);
+        } finally {
+            orderItemsLock.readLock().unlock();
+        }
     }
 
     public OrderStatus getStatus() {
-        return status;
+
+        shipmentLock.readLock().lock();
+
+        try {
+            return status;
+        } finally {
+            shipmentLock.readLock().unlock();
+        }
     }
 
     public DateTime getCreationDate() {
@@ -188,7 +204,14 @@ public final class Order {
     }
 
     public DateTime getFulfilmentDate() {
-        return fulfilmentDate;
+
+        shipmentLock.readLock().lock();
+
+        try {
+            return fulfilmentDate;
+        } finally {
+            shipmentLock.readLock().unlock();
+        }
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -196,7 +219,13 @@ public final class Order {
         if (!ValidationUtil.isValid(orderItem))
             throw new IllegalArgumentException("orderItem isn't valid");
 
-        orderItems.add(orderItem);
+        orderItemsLock.writeLock().lock();
+
+        try {
+            orderItems.add(orderItem);
+        } finally {
+            orderItemsLock.writeLock().unlock();
+        }
     }
 
     public void removeOrderItem(OrderItem orderItem) {
@@ -205,7 +234,13 @@ public final class Order {
             throw new IllegalArgumentException("orderItem isn't valid");
         }
 
-        orderItems.remove(orderItem);
+        orderItemsLock.writeLock().lock();
+
+        try {
+            orderItems.remove(orderItem);
+        } finally {
+            orderItemsLock.writeLock().unlock();
+        }
     }
 
     public void changeDeliveryDate(DateTime date) {
@@ -240,6 +275,7 @@ public final class Order {
      * </table>
      *
      * @param status status to be set
+     * @throws IllegalArgumentException parameter is invalid
      */
     public void changeShipmentStatus(ShipmentStatus status) {
         changeStatus(getFulfilmentDate(), getStatus(), status);
@@ -262,7 +298,7 @@ public final class Order {
      */
     public void changeStatus(DateTime fulfilmentDate, OrderStatus orderStatus, ShipmentStatus shipmentStatus) {
 
-        shipmentReadWriteLock.writeLock().lock();
+        shipmentLock.writeLock().lock();
 
         try {
 
@@ -274,7 +310,7 @@ public final class Order {
             this.fulfilmentDate = fulfilmentDate;
             this.status = orderStatus;
         } finally {
-            shipmentReadWriteLock.writeLock().unlock();
+            shipmentLock.writeLock().unlock();
         }
     }
 
@@ -287,7 +323,9 @@ public final class Order {
      * <tr><td>DELIVERED_PARTIALLY</td><td>no</td><td>no</td><td>no</td><td>no</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
      * <tr><td>DELIVERED</td><td>no</td><td>no</td><td>no</td><td>yes</td><td>no</td><td>yes</td><td>yes</td><td>yes</td></tr>
      * </table>
+     *
      * @param status status to set
+     * @throws IllegalArgumentException parameter is invalid
      */
     public void changeOrderStatus(final OrderStatus status) {
         changeStatus(getFulfilmentDate(), status, getShipment().getStatus());
@@ -304,20 +342,21 @@ public final class Order {
      * </table>
      *
      * @param shipment shipment to set
+     * @throws IllegalArgumentException parameter is invalid
      */
     private void setShipment(final Shipment shipment) {
 
         if (!ValidationUtil.isValid(shipment))
             throw new IllegalArgumentException("shipment isn't valid");
 
-        shipmentReadWriteLock.writeLock().lock();
+        shipmentLock.writeLock().lock();
 
         try {
             checkShipmentStatus(shipment.getStatus());
             checkState(shipment.getStatus(), status);
             this.shipment = shipment;
         } finally {
-            shipmentReadWriteLock.writeLock().unlock();
+            shipmentLock.writeLock().unlock();
         }
     }
 
