@@ -1,3 +1,11 @@
-.idea
-eCommerce.iml
+.settings/
+.springBeans
+
 target/
+classes/
+/build
+
+.project
+.classpath
+
+.gitignore
