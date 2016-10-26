@@ -1,16 +1,14 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.util.Objects;
+import org.joda.time.DateTime;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
+import ukma.eCommerce.util.IBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import org.joda.time.DateTime;
-
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
-import ukma.eCommerce.util.IBuilder;
+import java.util.Objects;
 
 /**
  * <p>
@@ -87,8 +85,9 @@ public final class Shipment {
 			return this;
 		}
 
-		public void setPrice(Price price) {
+		public Builder setPrice(Price price) {
 			this.price = price;
+			return this;
 		}
 
 		public DateTime getDeliveryDate() {

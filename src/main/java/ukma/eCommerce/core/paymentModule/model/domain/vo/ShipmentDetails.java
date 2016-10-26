@@ -1,14 +1,13 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import java.util.Objects;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import ukma.eCommerce.core.userModule.model.domain.vo.Address;
 import ukma.eCommerce.core.userModule.model.domain.vo.FullName;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.Phone;
 import ukma.eCommerce.util.validation.ValidationUtil;
+
+import java.util.Objects;
 
 public final class ShipmentDetails {
 
@@ -65,7 +64,6 @@ public final class ShipmentDetails {
 
 		@Override
 		public ShipmentDetails build() {
-			// TODO Auto-generated method stub
 			return new ShipmentDetails(this);
 		}
 
