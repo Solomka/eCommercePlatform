@@ -4,24 +4,13 @@ import rx.Observable;
 import ukma.eCommerce.util.filter.BasicFilter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import java.util.Collection;
 
 /**
  * Repository abstraction. It is a base interface for all repositories.
  *
  * @author Max
  */
-public interface IRepository<BO, Key, VO, Filter extends BasicFilter> {
-
-    /**
-     * Asynchronously finds and returns collection of objects in abstract
-     * repository whose type matches specified one
-     *
-     * @param filter filter chain
-     * @return instance of {@linkplain Observable} to monitor request status
-     */
-    Observable<Collection<BO>> find(@Null Filter filter);
+public interface IRepository<BO, Key, VO, Filter extends BasicFilter> extends IReadonlyRepository<BO, Filter> {
 
     /**
      * Asynchronously creates object in repository from given form. In case of
