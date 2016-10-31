@@ -16,8 +16,8 @@ public final class SellerID {
 	 * generate random GUID id
 	 */
 
-	public SellerID() {
-		this.id = UUID.randomUUID();
+	public SellerID(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {

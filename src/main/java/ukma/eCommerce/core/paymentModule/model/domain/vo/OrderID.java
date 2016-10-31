@@ -15,8 +15,8 @@ public final class OrderID {
 	/**
 	 * generate random GUID id
 	 */
-	public OrderID() {
-		this.id = UUID.randomUUID();
+	public OrderID(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {

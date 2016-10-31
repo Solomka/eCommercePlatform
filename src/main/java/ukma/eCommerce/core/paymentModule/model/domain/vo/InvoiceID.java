@@ -15,8 +15,8 @@ public final class InvoiceID {
 	/**
 	 * generate random GUID id
 	 */
-	public InvoiceID() {
-		this.id = UUID.randomUUID();
+	public InvoiceID(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {

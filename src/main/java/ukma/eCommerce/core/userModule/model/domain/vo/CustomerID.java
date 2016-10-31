@@ -15,8 +15,12 @@ public final class CustomerID {
 	/**
 	 * generate random GUID id
 	 */
-	public CustomerID() {
-		this.id = UUID.randomUUID();
+	/*
+	 * public CustomerID() { this.id = UUID.randomUUID(); }
+	 */
+
+	public CustomerID(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {

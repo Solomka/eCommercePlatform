@@ -12,8 +12,8 @@ public final class ProductID {
 	@NotNull
 	private final UUID id;
 
-	public ProductID() {
-		this.id = UUID.randomUUID();
+	public ProductID(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {
