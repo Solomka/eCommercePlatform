@@ -81,19 +81,20 @@ public class PaymentPO implements Serializable {
 	public void setInvoice(InvoicePO invoice) {
 		this.invoice = invoice;
 	}
-	
+
 	/**
-	 * TODO: rewrite fields access to getters access for props because of Hibernate proxy   
+	 * rewrite fields access to getters access for props because of Hibernate
+	 * proxy
 	 */
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((getCreationDate() == null) ? 0 : getCreationDate().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result + ((getInvoice() == null) ? 0 : getInvoice().hashCode());
+		result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
 		return result;
 	}
 
@@ -109,28 +110,28 @@ public class PaymentPO implements Serializable {
 			return false;
 		}
 		PaymentPO other = (PaymentPO) obj;
-		if (creationDate == null) {
-			if (other.creationDate != null) {
+		if (getCreationDate() == null) {
+			if (other.getCreationDate() != null) {
 				return false;
 			}
-		} else if (!creationDate.equals(other.creationDate)) {
+		} else if (!getCreationDate().equals(other.getCreationDate())) {
 			return false;
 		}
-		if (id == null) {
-			if (other.id != null) {
+		if (getId() == null) {
+			if (other.getId() != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!getId().equals(other.getId())) {
 			return false;
 		}
-		if (invoice == null) {
-			if (other.invoice != null) {
+		if (getInvoice() == null) {
+			if (other.getInvoice() != null) {
 				return false;
 			}
-		} else if (!invoice.equals(other.invoice)) {
+		} else if (!getInvoice().equals(other.getInvoice())) {
 			return false;
 		}
-		if (status != other.status) {
+		if (getStatus() != other.getStatus()) {
 			return false;
 		}
 		return true;

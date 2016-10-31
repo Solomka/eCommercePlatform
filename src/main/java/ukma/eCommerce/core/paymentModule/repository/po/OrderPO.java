@@ -140,22 +140,22 @@ public class OrderPO {
 	}
 
 	/**
-	 * TODO: rewrite fields access to getters access for props because of
-	 * Hibernate proxy
+	 * rewrite fields access to getters access for props because of Hibernate
+	 * proxy
 	 */
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((fulfilmentDate == null) ? 0 : fulfilmentDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((invoices == null) ? 0 : invoices.hashCode());
-		result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
-		result = prime * result + ((shipment == null) ? 0 : shipment.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((getCreationDate() == null) ? 0 : getCreationDate().hashCode());
+		result = prime * result + ((getCustomer() == null) ? 0 : getCustomer().hashCode());
+		result = prime * result + ((getFulfilmentDate() == null) ? 0 : getFulfilmentDate().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result + ((getInvoices() == null) ? 0 : getInvoices().hashCode());
+		result = prime * result + ((getOrderItems() == null) ? 0 : getOrderItems().hashCode());
+		result = prime * result + ((getShipment() == null) ? 0 : getShipment().hashCode());
+		result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
 		return result;
 	}
 
@@ -171,56 +171,56 @@ public class OrderPO {
 			return false;
 		}
 		OrderPO other = (OrderPO) obj;
-		if (creationDate == null) {
-			if (other.creationDate != null) {
+		if (getCreationDate() == null) {
+			if (other.getCreationDate() != null) {
 				return false;
 			}
-		} else if (!creationDate.equals(other.creationDate)) {
+		} else if (!getCreationDate().equals(other.getCreationDate())) {
 			return false;
 		}
-		if (customer == null) {
-			if (other.customer != null) {
+		if (getCustomer() == null) {
+			if (other.getCustomer() != null) {
 				return false;
 			}
-		} else if (!customer.equals(other.customer)) {
+		} else if (!getCustomer().equals(other.getCustomer())) {
 			return false;
 		}
-		if (fulfilmentDate == null) {
-			if (other.fulfilmentDate != null) {
+		if (getFulfilmentDate() == null) {
+			if (other.getFulfilmentDate() != null) {
 				return false;
 			}
-		} else if (!fulfilmentDate.equals(other.fulfilmentDate)) {
+		} else if (!getFulfilmentDate().equals(other.getFulfilmentDate())) {
 			return false;
 		}
-		if (id == null) {
-			if (other.id != null) {
+		if (getId() == null) {
+			if (other.getId() != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!getId().equals(other.getId())) {
 			return false;
 		}
-		if (invoices == null) {
-			if (other.invoices != null) {
+		if (getInvoices() == null) {
+			if (other.getInvoices() != null) {
 				return false;
 			}
-		} else if (!invoices.equals(other.invoices)) {
+		} else if (!getInvoices().equals(other.getInvoices())) {
 			return false;
 		}
-		if (orderItems == null) {
-			if (other.orderItems != null) {
+		if (getOrderItems() == null) {
+			if (other.getOrderItems() != null) {
 				return false;
 			}
-		} else if (!orderItems.equals(other.orderItems)) {
+		} else if (!getOrderItems().equals(other.getOrderItems())) {
 			return false;
 		}
-		if (shipment == null) {
-			if (other.shipment != null) {
+		if (getShipment() == null) {
+			if (other.getShipment() != null) {
 				return false;
 			}
-		} else if (!shipment.equals(other.shipment)) {
+		} else if (!getShipment().equals(other.getShipment())) {
 			return false;
 		}
-		if (status != other.status) {
+		if (getStatus() != other.getStatus()) {
 			return false;
 		}
 		return true;

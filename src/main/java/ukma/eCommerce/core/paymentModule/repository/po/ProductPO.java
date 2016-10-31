@@ -102,12 +102,12 @@ public class ProductPO implements Serializable {
 		this.name = name;
 	}
 
-	public Price getMoney() {
+	public Price getPrice() {
 		return price;
 	}
 
-	public void setMoney(Price money) {
-		this.price = money;
+	public void setMoney(Price price) {
+		this.price = price;
 	}
 
 	public int getQuantity() {
@@ -151,22 +151,22 @@ public class ProductPO implements Serializable {
 	}
 
 	/**
-	 * TODO: rewrite fields access to getters access for props because of
-	 * Hibernate proxy
+	 * rewrite fields access to getters access for props because of Hibernate
+	 * proxy
 	 */
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((orderItems == null) ? 0 : orderItems.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + quantity;
-		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+		result = prime * result + ((getOrderItems() == null) ? 0 : getOrderItems().hashCode());
+		result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
+		result = prime * result + getQuantity();
+		result = prime * result + ((getSeller() == null) ? 0 : getSeller().hashCode());
+		result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
 		return result;
 	}
 
@@ -182,56 +182,56 @@ public class ProductPO implements Serializable {
 			return false;
 		}
 		ProductPO other = (ProductPO) obj;
-		if (description == null) {
-			if (other.description != null) {
+		if (getDescription() == null) {
+			if (other.getDescription() != null) {
 				return false;
 			}
-		} else if (!description.equals(other.description)) {
+		} else if (!getDescription().equals(other.getDescription())) {
 			return false;
 		}
-		if (id == null) {
-			if (other.id != null) {
+		if (getId() == null) {
+			if (other.getId() != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!getId().equals(other.getId())) {
 			return false;
 		}
-		if (name == null) {
-			if (other.name != null) {
+		if (getName() == null) {
+			if (other.getName() != null) {
 				return false;
 			}
-		} else if (!name.equals(other.name)) {
+		} else if (!getName().equals(other.getName())) {
 			return false;
 		}
-		if (orderItems == null) {
-			if (other.orderItems != null) {
+		if (getOrderItems() == null) {
+			if (other.getOrderItems() != null) {
 				return false;
 			}
-		} else if (!orderItems.equals(other.orderItems)) {
+		} else if (!getOrderItems().equals(other.getOrderItems())) {
 			return false;
 		}
-		if (price == null) {
-			if (other.price != null) {
+		if (getPrice() == null) {
+			if (other.getPrice() != null) {
 				return false;
 			}
-		} else if (!price.equals(other.price)) {
+		} else if (!getPrice().equals(other.getPrice())) {
 			return false;
 		}
-		if (quantity != other.quantity) {
+		if (getQuantity() != other.getQuantity()) {
 			return false;
 		}
-		if (seller == null) {
-			if (other.seller != null) {
+		if (getSeller() == null) {
+			if (other.getSeller() != null) {
 				return false;
 			}
-		} else if (!seller.equals(other.seller)) {
+		} else if (!getSeller().equals(other.getSeller())) {
 			return false;
 		}
-		if (type == null) {
-			if (other.type != null) {
+		if (getType() == null) {
+			if (other.getType() != null) {
 				return false;
 			}
-		} else if (!type.equals(other.type)) {
+		} else if (!getType().equals(other.getType())) {
 			return false;
 		}
 		return true;

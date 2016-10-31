@@ -85,11 +85,11 @@ public class InvoicePO implements Serializable {
 		this.totalQuantity = totalQuantity;
 	}
 
-	public Price getMoney() {
+	public Price getPrice() {
 		return price;
 	}
 
-	public void setMoney(Price money) {
+	public void setPrice(Price money) {
 		this.price = money;
 	}
 
@@ -108,21 +108,22 @@ public class InvoicePO implements Serializable {
 	public void setOrder(OrderPO order) {
 		this.order = order;
 	}
-	
+
 	/**
-	 * TODO: rewrite fields access to getters access for props because of Hibernate proxy   
+	 * rewrite fields access to getters access for props because of Hibernate
+	 * proxy
 	 */
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((order == null) ? 0 : order.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + totalQuantity;
+		result = prime * result + ((getCreationDate() == null) ? 0 : getCreationDate().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
+		result = prime * result + ((getOrder() == null) ? 0 : getOrder().hashCode());
+		result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+		result = prime * result + getTotalQuantity();
 		return result;
 	}
 
@@ -138,38 +139,38 @@ public class InvoicePO implements Serializable {
 			return false;
 		}
 		InvoicePO other = (InvoicePO) obj;
-		if (creationDate == null) {
-			if (other.creationDate != null) {
+		if (getCreationDate() == null) {
+			if (other.getCreationDate() != null) {
 				return false;
 			}
-		} else if (!creationDate.equals(other.creationDate)) {
+		} else if (!getCreationDate().equals(other.getCreationDate())) {
 			return false;
 		}
-		if (id == null) {
-			if (other.id != null) {
+		if (getId() == null) {
+			if (other.getId() != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!getId().equals(getId())) {
 			return false;
 		}
-		if (price == null) {
-			if (other.price != null) {
+		if (getPrice() == null) {
+			if (other.getPrice() != null) {
 				return false;
 			}
-		} else if (!price.equals(other.price)) {
+		} else if (!getPrice().equals(other.getPrice())) {
 			return false;
 		}
-		if (order == null) {
-			if (other.order != null) {
+		if (getOrder() == null) {
+			if (other.getOrder() != null) {
 				return false;
 			}
-		} else if (!order.equals(other.order)) {
+		} else if (!getOrder().equals(other.getOrder())) {
 			return false;
 		}
-		if (status != other.status) {
+		if (getStatus() != other.getStatus()) {
 			return false;
 		}
-		if (totalQuantity != other.totalQuantity) {
+		if (getTotalQuantity() != other.getTotalQuantity()) {
 			return false;
 		}
 		return true;
