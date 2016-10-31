@@ -2,6 +2,7 @@ package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -10,12 +11,14 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import ukma.eCommerce.core.userModule.repository.po.Address;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
@@ -31,9 +34,11 @@ public class AddressPO implements Serializable {
 	private static final long serialVersionUID = 4387307304438823005L;
 
 	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name = "id", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@Type(type = "uuid-char")
+	private UUID id;
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "country", column = @Column(name = "country") ),
@@ -51,11 +56,11 @@ public class AddressPO implements Serializable {
 	})
 	private FullName fullName;
 
-	@JoinColumn(name = "phone", unique = true, nullable = false, updatable = false)
+	@Column(name = "phone", nullable = false, length = 16)
 	private String phone;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "customer_id", unique = true, nullable = false, updatable = false)
+	@JoinColumn(name = "customer_id", nullable = false)
 	private CustomerPO customer;
 
 	@OneToMany(mappedBy = "address", cascade = CascadeType.REFRESH)
@@ -65,11 +70,11 @@ public class AddressPO implements Serializable {
 
 	}
 
-	public long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -111,6 +116,82 @@ public class AddressPO implements Serializable {
 
 	public void setShipments(List<ShipmentPO> shipments) {
 		this.shipments = shipments;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+		result = prime * result + ((getCustomer() == null) ? 0 : getCustomer().hashCode());
+		result = prime * result + ((getFullName() == null) ? 0 : getFullName().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
+		result = prime * result + ((getShipments() == null) ? 0 : getShipments().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof AddressPO)) {
+			return false;
+		}
+		AddressPO other = (AddressPO) obj;
+		if (getAddress() == null) {
+			if (other.getAddress() != null) {
+				return false;
+			}
+		} else if (!getAddress().equals(other.getAddress())) {
+			return false;
+		}
+		if (getCustomer() == null) {
+			if (other.getCustomer() != null) {
+				return false;
+			}
+		} else if (!getCustomer().equals(other.getCustomer())) {
+			return false;
+		}
+		if (getFullName() == null) {
+			if (other.getFullName() != null) {
+				return false;
+			}
+		} else if (!getFullName().equals(other.getFullName())) {
+			return false;
+		}
+		if (getId() == null) {
+			if (other.getId() != null) {
+				return false;
+			}
+		} else if (!getId().equals(other.getId())) {
+			return false;
+		}
+		if (getPhone() == null) {
+			if (other.getPhone() != null) {
+				return false;
+			}
+		} else if (!getPhone().equals(other.getPhone())) {
+			return false;
+		}
+		if (getShipments() == null) {
+			if (other.getShipments() != null) {
+				return false;
+			}
+		} else if (!getShipments().equals(other.getShipments())) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "AddressPO [id=" + id + ", address=" + address + ", fullName=" + fullName + ", phone=" + phone
+				+ ", customer=" + customer + ", shipments=" + shipments + "]";
 	}
 
 }

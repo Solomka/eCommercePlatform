@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
+/*
+ * TODO DON'T WORK WITH UUID IDS =( 
+ */
 @Entity
 @Table(name = "order_item")
 public class OrderItemID implements Serializable {

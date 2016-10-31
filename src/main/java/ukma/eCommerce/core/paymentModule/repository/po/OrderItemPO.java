@@ -13,6 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/*
+ * TODO DON'T WORK WITH UUID IDS =( 
+ */
+
 @Entity
 @Table(name = "order_item")
 @IdClass(OrderItemID.class)
@@ -34,7 +38,7 @@ public class OrderItemPO implements Serializable {
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "price", column = @Column(name = "total_sum") ),
 			@AttributeOverride(name = "currency", column = @Column(name = "currency") ) })
-	private Money money;
+	private Price money;
 
 	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "order_id", referencedColumnName = "id")
@@ -77,11 +81,11 @@ public class OrderItemPO implements Serializable {
 		this.productId = productId;
 	}
 
-	public Money getMoney() {
+	public Price getMoney() {
 		return money;
 	}
 
-	public void setMoney(Money money) {
+	public void setMoney(Price money) {
 		this.money = money;
 	}
 

@@ -23,7 +23,7 @@ public class AccountPO implements Serializable {
 	private String stripeAccountId;
 
 	@OneToOne(optional = false)
-	@JoinColumn(name = "seller_id", unique = true, nullable = false, updatable = false)
+	@JoinColumn(name = "seller_id", unique = true, nullable = false /*, updatable = false*/)
 	private SellerPO seller;
 
 	public AccountPO() {
@@ -45,5 +45,11 @@ public class AccountPO implements Serializable {
 	public void setSeller(SellerPO seller) {
 		this.seller = seller;
 	}
+
+	@Override
+	public String toString() {
+		return "AccountPO [stripeAccountId=" + stripeAccountId + ", seller=" + seller + "]";
+	}
+	
 
 }
