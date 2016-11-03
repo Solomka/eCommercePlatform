@@ -1,15 +1,17 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
+import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.util.IRepository;
 import ukma.eCommerce.util.filter.ChargeFilter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.Collection;
-
-public class ChargeRepository implements IRepository<Charge, String, Charge, ChargeFilter> {
+@Repository
+public class ChargeRepository implements IRepository<Charge, String, Invoice, ChargeFilter> {
 
 	@Override
 	public Observable<Collection<Charge>> find(@Null ChargeFilter filter) {
@@ -17,7 +19,7 @@ public class ChargeRepository implements IRepository<Charge, String, Charge, Cha
 	}
 
 	@Override
-	public Observable<Charge> create(@NotNull Charge charge) {
+	public Observable<Charge> create(@NotNull Invoice invoice) {
 		return null;
 	}
 

@@ -1,118 +1,113 @@
 package ukma.eCommerce.core.paymentModule.domainLogic;
 
 import com.stripe.Stripe;
+import com.stripe.model.Card;
 import com.stripe.model.Customer;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 import ukma.eCommerce.core.paymentModule.domainLogic.repository.IStripeRepository;
-import ukma.eCommerce.core.paymentModule.domainLogic.repository.StripeFilter;
+import ukma.eCommerce.core.paymentModule.domainLogic.util.IChargeFactory;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
-import ukma.eCommerce.util.IReadonlyRepository;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
-public class ChargeManager implements IChargeManager {
+// TODO charge processing queue + synchronization
+public final class ChargeManager implements IChargeManager {
+
+    // Stripe charge params fields
+    private static final String AMOUNT_FIELD = "amount";
+    private static final String CURRENCY_FIELD = "currency";
+    private static final String SOURCE_FIELD = "source";
+    private static final String EXP_MONTH_FIELD = "exp_month";
+    private static final String EXP_YEAR_FIELD = "exp_year";
+    private static final String NUMBER_FIELD = "number";
+    private static final String CVC_FIELD = "cvc";
+    private static final String CARD_SOURCE_FIELD = "object";
+    private static final String CARD_SOURCE_FIELD_VAL = "card";
 
     static {
-        Stripe.apiKey = "sk_test_BQokikJOvBiI2HlWgH4olfQ2";
+        // just for test purposes
+        Stripe.apiKey = "some key";
     }
 
-    private final IReadonlyRepository<ukma.eCommerce.core.userModule.model.domain.bo.Customer, CustomerFilter> repository;
     private final IStripeRepository stripeRepository;
+    private final IChargeFactory chargeFactory;
 
     @Autowired
-    public ChargeManager(IReadonlyRepository<ukma.eCommerce.core.userModule.model.domain.bo.Customer, CustomerFilter> repository, IStripeRepository stripeRepository) {
-        this.repository = repository;
-        this.stripeRepository = stripeRepository;
+    public ChargeManager(IStripeRepository stripeRepository, IChargeFactory chargeFactory) {
+        this.stripeRepository = Objects.requireNonNull(stripeRepository);
+        this.chargeFactory = chargeFactory;
     }
 
     @Override
     public Observable<Charge> conductCharge(@NotNull Invoice invoice) {
-
-        return repository.find(new CustomerFilter().withInvoiceId(invoice.getId()))
+        // conducts charge, using default customer's credit card
+        return stripeRepository.find(invoice.getCustomer())
                 .observeOn(Schedulers.newThread())
-                .flatMap(customers -> {
-                    if (customers.isEmpty())
-                        return Observable.error(new Exception("No customer found"));
-
-                    if (customers.size() > 1)
-                        return Observable.error(new Exception("More than one customer with given invoice id"));
-
-                    return Observable.just(customers.iterator().next());
-                }).flatMap(customer -> stripeRepository.find(new StripeFilter().setCustomerID(customer.getId())))
-                .flatMap(stripeIds -> {
-
-                    if (stripeIds.isEmpty())
-                        return Observable.error(new Exception("No stripe id with associated customer"));
-
-                    if (stripeIds.size() > 1)
-                        return Observable.error(new Exception("More than one stripe id associated with given customer"));
-
-                    return Observable.just(stripeIds.iterator().next());
-                })
-                .flatMap(stripeId -> {
+                .flatMap(usrStripeId -> {
 
                     try {
 
-                        final Customer stripeCustomer = Customer.retrieve(stripeId);
+                        final Customer customer = Customer.retrieve(usrStripeId);
+                        final Card source = (Card) customer.getSources().retrieve("{CARD_ID!}");
                         final Map<String, Object> chargeParams = new HashMap<>();
+                        // charge parameters preparation
+                        chargeParams.put(ChargeManager.AMOUNT_FIELD, invoice.getPrice().getAmount());
+                        chargeParams.put(ChargeManager.CURRENCY_FIELD, invoice.getPrice().getCurrency().getShortName());
+                        chargeParams.put(ChargeManager.SOURCE_FIELD, source);
+                        com.stripe.model.Charge.create(chargeParams);
 
-                        chargeParams.put("amount", invoice.getPrice().getAmount());
-                        chargeParams.put("currency", invoice.getPrice().getCurrency().getShortName());
-                        chargeParams.put("customer", stripeCustomer.getId());
-
-                        return Observable.just(com.stripe.model.Charge.create(chargeParams));
+                        return Observable.just(source);
                     } catch (final Exception e) {
+                        // return 'failed' charge instead of error
                         return Observable.error(e);
                     }
-                }).flatMap(stripeCharge -> Observable.just(null));
+                })
+                // transform into charge instance
+                .flatMap(stripeCard -> {
+                    final DateTime expDate = new DateTime(stripeCard.getExpYear(), stripeCard.getExpMonth(), 1, 0, 0);
+                    // no card number, no cvv, should be removed?
+                    return Observable.just(chargeFactory.create(invoice, new CreditCard(stripeCard.getLast4(), "cvv", expDate)));
+                });
     }
 
-    /**
-     * final Observable<Collection<ukma.eCommerce.core.userModule.model.domain.bo.Customer>> result =
-     repository.find(new CustomerFilter().withInvoiceId(invoice.getId()));
+    @Override
+    public Observable<Charge> conductCharge(@NotNull Invoice invoice, @NotNull CreditCard creditCard) {
+        // conducts charge, using default customer's credit card
+        return Observable.create((Observable.OnSubscribe<Charge>) subscriber -> {
 
-     result.subscribe(customers -> {
+            try {
 
-     if(customers.isEmpty());// error
-     if(customers.size() > 1);//error
+                final Map<String, Object> sourceParams = new HashMap<>();
+                final Map<String, Object> chargeParams = new HashMap<>();
+                // card preparation
+                sourceParams.put(ChargeManager.EXP_YEAR_FIELD, creditCard.getExpirationDate().getYear());
+                sourceParams.put(ChargeManager.EXP_MONTH_FIELD, creditCard.getExpirationDate().getMonthOfYear());
+                sourceParams.put(ChargeManager.NUMBER_FIELD, creditCard.getNumber());
+                sourceParams.put(ChargeManager.CVC_FIELD, creditCard.getCvv());
+                sourceParams.put(ChargeManager.CARD_SOURCE_FIELD, ChargeManager.CARD_SOURCE_FIELD_VAL);
+                // charge parameters preparation
+                chargeParams.put(ChargeManager.AMOUNT_FIELD, invoice.getPrice().getAmount());
+                chargeParams.put(ChargeManager.CURRENCY_FIELD, invoice.getPrice().getCurrency().getShortName());
+                chargeParams.put(ChargeManager.SOURCE_FIELD, sourceParams);
+                com.stripe.model.Charge.create(chargeParams);
 
-     final ukma.eCommerce.core.userModule.model.domain.bo.Customer customer = customers.iterator().next();
-
-     Observable<Collection<String>> stripeObs =
-     stripeRepository.find(new StripeFilter().setCustomerID(customer.getId()));
-
-     stripeObs.subscribe(ids -> {
-
-     if(ids.isEmpty());// error
-     if(ids.size() > 1);//error
-
-     final String stripeId = ids.iterator().next();
-
-     try {
-     final Customer stripeCustomer = Customer.retrieve(stripeId);
-     final Map<String, Object> chargeParams = new HashMap<>();
-
-     chargeParams.put("amount", invoice.getPrice().getAmount());
-     chargeParams.put("currency", invoice.getPrice().getCurrency().getShortName());
-     chargeParams.put("customer", stripeCustomer.getId());
-
-     com.stripe.model.Charge charge = com.stripe.model.Charge.create(chargeParams);
-     } catch (final Exception e) {
-     e.printStackTrace();
-     }
-
-     }, th -> {
-
-     });
-
-     }, th -> {});
-     */
+                subscriber.onNext(chargeFactory.create(invoice, creditCard));
+                subscriber.onCompleted();
+            } catch (final Exception e) {
+                // return 'failed' charge instead of error
+                subscriber.onError(e);
+            }
+        }).observeOn(Schedulers.newThread());
+    }
 
 }

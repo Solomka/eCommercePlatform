@@ -7,6 +7,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.Price;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.InvoiceStatus;
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
 
@@ -27,6 +28,7 @@ import java.util.Objects;
 public final class Invoice {
 
     private final InvoiceID id;
+    private final CustomerID customer;
     private final OrderID order;
     private final Collection<InvoiceItem> invoiceItems;
     private final Price price;
@@ -43,6 +45,7 @@ public final class Invoice {
     public static class Builder implements IBuilder<Invoice> {
 
         private InvoiceID id;
+        private CustomerID customer;
         private OrderID order;
         private Collection<InvoiceItem> invoiceItems;
         private InvoiceStatus status;
@@ -56,11 +59,20 @@ public final class Invoice {
 
             setId(invoice.getId()).setOrder(invoice.getOrder()).setInvoiceItems(invoice.getInvoiceItems())
                     .setStatus(invoice.getStatus()).setCreationDate(invoice.getCreationDate())
-                    .setCurrency(invoice.getPrice().getCurrency())
-                    /* .setConverter(converter) */;
+                    .setCurrency(invoice.getPrice().getCurrency()).setCustomer(invoice.getCustomer());
+                    /* .setConverter(converter) */
         }
 
         public Builder() {
+        }
+
+        public CustomerID getCustomer() {
+            return customer;
+        }
+
+        public Builder setCustomer(CustomerID customer) {
+            this.customer = customer;
+            return this;
         }
 
         public InvoiceID getId() {
@@ -142,6 +154,7 @@ public final class Invoice {
         final Collection<InvoiceItem> invoiceItems = ValidationUtil.validate(builder.getInvoiceItems());
 
         this.id = ValidationUtil.validate(builder.getId());
+        this.customer = ValidationUtil.validate(builder.getCustomer());
         this.order = ValidationUtil.validate(builder.getOrder());
         this.invoiceItems = new ArrayList<>(invoiceItems);
         this.creationDate = builder.getCreationDate();
@@ -176,6 +189,10 @@ public final class Invoice {
 
     }
 
+    public CustomerID getCustomer() {
+        return customer;
+    }
+
     public InvoiceID getId() {
         return id;
     }
@@ -205,64 +222,48 @@ public final class Invoice {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Invoice invoice = (Invoice) o;
+
+        if (quantityTotal != invoice.quantityTotal) return false;
+        if (!id.equals(invoice.id)) return false;
+        if (!customer.equals(invoice.customer)) return false;
+        if (!order.equals(invoice.order)) return false;
+        if (!invoiceItems.equals(invoice.invoiceItems)) return false;
+        if (!price.equals(invoice.price)) return false;
+        if (!creationDate.equals(invoice.creationDate)) return false;
+        return status == invoice.status;
+
+    }
+
+    @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((invoiceItems == null) ? 0 : invoiceItems.hashCode());
-        result = prime * result + ((order == null) ? 0 : order.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + quantityTotal;
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        int result = id.hashCode();
+        result = 31 * result + customer.hashCode();
+        result = 31 * result + order.hashCode();
+        result = 31 * result + invoiceItems.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + quantityTotal;
+        result = 31 * result + creationDate.hashCode();
+        result = 31 * result + status.hashCode();
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Invoice other = (Invoice) obj;
-        if (creationDate == null) {
-            if (other.creationDate != null)
-                return false;
-        } else if (!creationDate.equals(other.creationDate))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (invoiceItems == null) {
-            if (other.invoiceItems != null)
-                return false;
-        } else if (!invoiceItems.equals(other.invoiceItems))
-            return false;
-        if (order == null) {
-            if (other.order != null)
-                return false;
-        } else if (!order.equals(other.order))
-            return false;
-        if (price == null) {
-            if (other.price != null)
-                return false;
-        } else if (!price.equals(other.price))
-            return false;
-        if (quantityTotal != other.quantityTotal)
-            return false;
-        if (status != other.status)
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "Invoice [id=" + id + ", order=" + order + ", invoiceItems=" + invoiceItems + ", price=" + price
-                + ", quantityTotal=" + quantityTotal + ", creationDate=" + creationDate + ", status=" + status + "]";
+        return "Invoice{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", order=" + order +
+                ", invoiceItems=" + invoiceItems +
+                ", price=" + price +
+                ", quantityTotal=" + quantityTotal +
+                ", creationDate=" + creationDate +
+                ", status=" + status +
+                '}';
     }
 
     /*
