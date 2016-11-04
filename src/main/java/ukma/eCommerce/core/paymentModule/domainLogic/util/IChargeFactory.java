@@ -2,9 +2,10 @@ package ukma.eCommerce.core.paymentModule.domainLogic.util;
 
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * <p>
@@ -18,11 +19,21 @@ public interface IChargeFactory {
      * Creates instance of {@linkplain Charge} using given
      * instance of {@linkplain Invoice}
      *
-     * @param invoice    invoice to build charge from
-     * @param creditCard credit card which were used to conduct charge
+     * @param invoice invoice to build charge from
+     * @param status  charge status to be set. If null, then default {@link ChargeStatus#SUCCEEDED}
+     *                will be set
      * @return instance of {@linkplain Charge}
      */
     @NotNull
-    Charge create(@NotNull Invoice invoice, @NotNull CreditCard creditCard);
+    Charge create(@NotNull Invoice invoice, @Null ChargeStatus status);
+
+    /**
+     * Just a shortcut for {@link #create(Invoice, ChargeStatus)}. In this case default status will be set
+     *
+     * @param invoice invoice to build charge from
+     * @return instance of {@linkplain Charge}
+     */
+    @NotNull
+    Charge create(@NotNull Invoice invoice);
 
 }

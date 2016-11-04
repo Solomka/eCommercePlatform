@@ -1,26 +1,31 @@
 package ukma.eCommerce.core.paymentModule.domainLogic;
 
 import com.stripe.Stripe;
-import com.stripe.model.Card;
+import com.stripe.exception.*;
 import com.stripe.model.Customer;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 import ukma.eCommerce.core.paymentModule.domainLogic.repository.IStripeRepository;
 import ukma.eCommerce.core.paymentModule.domainLogic.util.IChargeFactory;
+import ukma.eCommerce.core.paymentModule.domainLogic.util.ICommand;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Component
-// TODO charge processing queue + synchronization
+// TODO charge processing queue + synchronization + logging
 public final class ChargeManager implements IChargeManager {
 
     // Stripe charge params fields
@@ -33,6 +38,8 @@ public final class ChargeManager implements IChargeManager {
     private static final String CVC_FIELD = "cvc";
     private static final String CARD_SOURCE_FIELD = "object";
     private static final String CARD_SOURCE_FIELD_VAL = "card";
+
+    private static final Logger LOGGER = Logger.getLogger(ChargeManager.class.getName());
 
     static {
         // just for test purposes
@@ -58,25 +65,23 @@ public final class ChargeManager implements IChargeManager {
                     try {
 
                         final Customer customer = Customer.retrieve(usrStripeId);
-                        final Card source = (Card) customer.getSources().retrieve("{CARD_ID!}");
-                        final Map<String, Object> chargeParams = new HashMap<>();
+                        final Map<String, Object> chargeParams = new HashMap<>(3);
                         // charge parameters preparation
                         chargeParams.put(ChargeManager.AMOUNT_FIELD, invoice.getPrice().getAmount());
                         chargeParams.put(ChargeManager.CURRENCY_FIELD, invoice.getPrice().getCurrency().getShortName());
-                        chargeParams.put(ChargeManager.SOURCE_FIELD, source);
+                        chargeParams.put(ChargeManager.SOURCE_FIELD, customer.getId());
                         com.stripe.model.Charge.create(chargeParams);
 
-                        return Observable.just(source);
+                        return Observable.just(chargeFactory.create(invoice));
+                    } catch (final APIConnectionException | CardException | APIException | AuthenticationException e) {
+                        // error on the Stripe side
+                        LOGGER.log(Level.WARNING, "Internal stripe exception", e);
+                        return Observable.just(chargeFactory.create(invoice, ChargeStatus.FAILED));
                     } catch (final Exception e) {
-                        // return 'failed' charge instead of error
+                        // critical internal error
+                        LOGGER.log(Level.SEVERE, "Internal exception", e);
                         return Observable.error(e);
                     }
-                })
-                // transform into charge instance
-                .flatMap(stripeCard -> {
-                    final DateTime expDate = new DateTime(stripeCard.getExpYear(), stripeCard.getExpMonth(), 1, 0, 0);
-                    // no card number, no cvv, should be removed?
-                    return Observable.just(chargeFactory.create(invoice, new CreditCard(stripeCard.getLast4(), "cvv", expDate)));
                 });
     }
 
@@ -87,8 +92,8 @@ public final class ChargeManager implements IChargeManager {
 
             try {
 
-                final Map<String, Object> sourceParams = new HashMap<>();
-                final Map<String, Object> chargeParams = new HashMap<>();
+                final Map<String, Object> sourceParams = new HashMap<>(5);
+                final Map<String, Object> chargeParams = new HashMap<>(3);
                 // card preparation
                 sourceParams.put(ChargeManager.EXP_YEAR_FIELD, creditCard.getExpirationDate().getYear());
                 sourceParams.put(ChargeManager.EXP_MONTH_FIELD, creditCard.getExpirationDate().getMonthOfYear());
@@ -101,11 +106,17 @@ public final class ChargeManager implements IChargeManager {
                 chargeParams.put(ChargeManager.SOURCE_FIELD, sourceParams);
                 com.stripe.model.Charge.create(chargeParams);
 
-                subscriber.onNext(chargeFactory.create(invoice, creditCard));
-                subscriber.onCompleted();
+                subscriber.onNext(chargeFactory.create(invoice));
+            } catch (final APIConnectionException | CardException | APIException | AuthenticationException e) {
+                // error on the Stripe side
+                LOGGER.log(Level.WARNING, "Internal stripe exception", e);
+                subscriber.onNext(chargeFactory.create(invoice, ChargeStatus.FAILED));
             } catch (final Exception e) {
-                // return 'failed' charge instead of error
+                // critical internal error
+                LOGGER.log(Level.SEVERE, "Internal exception", e);
                 subscriber.onError(e);
+            } finally {
+                subscriber.onCompleted();
             }
         }).observeOn(Schedulers.newThread());
     }
