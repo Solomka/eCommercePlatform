@@ -10,16 +10,22 @@ import java.util.Objects;
  */
 public enum Currency {
 
-	UAH("Hryvnia"), EU("Euro"), USD("United States Dollar");
+	UAH("Hryvnia", "uah"), EU("Euro", "eu"), USD("United States Dollar", "usd");
 
 	private final String fullName;
+	private final String shortName;
 
-	Currency(String fullName) {
+	Currency(String fullName, String shortName) {
 		this.fullName = Objects.requireNonNull(fullName);
+		this.shortName = Objects.requireNonNull(shortName);
 	}
 
 	public String getFullName() {
 		return fullName;
+	}
+
+	public String getShortName() {
+		return shortName;
 	}
 
 	@Override

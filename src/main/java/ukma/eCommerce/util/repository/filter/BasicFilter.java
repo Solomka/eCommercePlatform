@@ -1,4 +1,4 @@
-package ukma.eCommerce.util.filter;
+package ukma.eCommerce.util.repository.filter;
 /**
  * Base class for repository filters. This class can be
  * easily extends to suite your needs

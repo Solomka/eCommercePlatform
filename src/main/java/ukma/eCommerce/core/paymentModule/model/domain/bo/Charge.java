@@ -2,7 +2,6 @@ package ukma.eCommerce.core.paymentModule.model.domain.bo;
 
 import org.joda.time.DateTime;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.ChargeID;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 import ukma.eCommerce.util.IBuilder;
@@ -22,7 +21,6 @@ public final class Charge {
 
     private final ChargeID id;
     private final InvoiceID invoice;
-    private final CreditCard creditCard;
     private final ReadWriteLock readWriteLock;
     private DateTime paymentDate;
     private ChargeStatus status;
@@ -37,7 +35,6 @@ public final class Charge {
 
         private ChargeID id;
         private InvoiceID invoice;
-        private CreditCard creditCard;
         private DateTime paymentDate;
         private ChargeStatus status;
 
@@ -48,7 +45,7 @@ public final class Charge {
 
             Objects.requireNonNull(charge, "charge must not be null");
 
-            setId(charge.getId()).setInvoice(charge.getInvoice()).setCreditCard(charge.getCreditCard())
+            setId(charge.getId()).setInvoice(charge.getInvoice())
                     .setStatus(charge.getStatus());
         }
 
@@ -71,15 +68,6 @@ public final class Charge {
 
         public Builder setInvoice(InvoiceID invoice) {
             this.invoice = invoice;
-            return this;
-        }
-
-        public CreditCard getCreditCard() {
-            return creditCard;
-        }
-
-        public Builder setCreditCard(CreditCard creditCard) {
-            this.creditCard = creditCard;
             return this;
         }
 
@@ -114,7 +102,6 @@ public final class Charge {
 
         this.id = ValidationUtil.validate(builder.getId());
         this.invoice = ValidationUtil.validate(builder.getInvoice());
-        this.creditCard = ValidationUtil.validate(builder.getCreditCard());
         this.paymentDate = builder.getPaymentDate();
         this.status = Objects.requireNonNull(builder.getStatus(), "status == null");
 
@@ -127,10 +114,6 @@ public final class Charge {
 
     public InvoiceID getInvoice() {
         return invoice;
-    }
-
-    public CreditCard getCreditCard() {
-        return creditCard;
     }
 
     public ChargeStatus getStatus() {
@@ -229,7 +212,6 @@ public final class Charge {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((creditCard == null) ? 0 : creditCard.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
         result = prime * result + ((paymentDate == null) ? 0 : paymentDate.hashCode());
@@ -246,11 +228,6 @@ public final class Charge {
         if (getClass() != obj.getClass())
             return false;
         Charge other = (Charge) obj;
-        if (creditCard == null) {
-            if (other.creditCard != null)
-                return false;
-        } else if (!creditCard.equals(other.creditCard))
-            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -273,7 +250,7 @@ public final class Charge {
 
     @Override
     public String toString() {
-        return "Charge [id=" + id + ", invoice=" + invoice + ", creditCard=" + creditCard + ", paymentDate="
+        return "Charge [id=" + id + ", invoice=" + invoice + ", paymentDate="
                 + paymentDate + ", status=" + status + "]";
     }
 

@@ -1,4 +1,4 @@
-package ukma.eCommerce.util.filter;
+package ukma.eCommerce.util.repository.filter;
 
 /**
  * Result set ordering

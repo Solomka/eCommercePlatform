@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.async.DeferredResult;
+import ukma.eCommerce.core.paymentModule.domainLogic.IChargeManager;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
@@ -31,8 +32,16 @@ public class ChargeController {
 
     @Autowired
     private IChargeService chargeService;
+    // for test purposes only
+    @Autowired
+    private IChargeManager manager;
 
 //	private final Logger logger = (Logger) LoggerFactory.make();
+
+    @RequestMapping(value = "/charge", method = RequestMethod.GET)
+    public void createCharge() {
+      //  ((ChargeManager)manager).f();
+    }
 
     /**
      * Receive all data related to the order: userInfo cardInfo !!! orderInfo -
