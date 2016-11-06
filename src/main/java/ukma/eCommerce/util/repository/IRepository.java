@@ -1,7 +1,7 @@
-package ukma.eCommerce.util;
+package ukma.eCommerce.util.repository;
 
 import rx.Observable;
-import ukma.eCommerce.util.filter.BasicFilter;
+import ukma.eCommerce.util.repository.filter.IFilter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -10,13 +10,14 @@ import java.util.Collection;
 /**
  * Repository abstraction. It is a base interface for all repositories.
  *
- * @param <T> object type to return as result
- * @param <K> key type
- * @param <E> object to persist
- * @param <F> filter to use
+ * @param <T>  object type to return as result
+ * @param <K>  key type
+ * @param <E>  object to persist
+ * @param <F>  filter to use
+ * @param <Ft> filter type to use
  * @author Max
  */
-public interface IRepository<T, K, E, F extends BasicFilter> {
+public interface IRepository<T, K, E, Ft, F extends IFilter<Ft>> {
 
     /**
      * Asynchronously finds and returns collection of objects in abstract

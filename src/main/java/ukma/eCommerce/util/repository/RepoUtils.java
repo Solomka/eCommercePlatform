@@ -1,4 +1,4 @@
-package ukma.eCommerce.util;
+package ukma.eCommerce.util.repository;
 
 import java.util.Collection;
 

@@ -2,7 +2,7 @@ package ukma.eCommerce.core.paymentModule.domainLogic.repository;
 
 import rx.Observable;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
-import ukma.eCommerce.util.IRepository;
+import ukma.eCommerce.util.repository.IRepository;
 
 import javax.validation.constraints.NotNull;
 

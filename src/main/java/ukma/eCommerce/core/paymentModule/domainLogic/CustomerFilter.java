@@ -1,7 +1,7 @@
 package ukma.eCommerce.core.paymentModule.domainLogic;
 
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
-import ukma.eCommerce.util.filter.BasicFilter;
+import ukma.eCommerce.util.repository.filter.BasicFilter;
 
 /**
  * Created by Максим on 10/31/2016.

@@ -1,7 +1,10 @@
 package ukma.eCommerce.core.paymentModule.domainLogic;
 
 import com.stripe.Stripe;
-import com.stripe.exception.*;
+import com.stripe.exception.APIConnectionException;
+import com.stripe.exception.APIException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
 import com.stripe.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,15 +12,12 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 import ukma.eCommerce.core.paymentModule.domainLogic.repository.IStripeRepository;
 import ukma.eCommerce.core.paymentModule.domainLogic.util.IChargeFactory;
-import ukma.eCommerce.core.paymentModule.domainLogic.util.ICommand;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
-import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
