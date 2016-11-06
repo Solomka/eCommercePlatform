@@ -1,4 +1,4 @@
-package ukma.eCommerce.core.paymentModule.controller;
+package ukma.eCommerce.core.presentationModule.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

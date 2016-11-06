@@ -1,4 +1,4 @@
-package ukma.eCommerce.core.paymentModule.controller;
+package ukma.eCommerce.core.presentationModule.controller;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +15,22 @@ import ukma.eCommerce.core.paymentModule.model.dwo.ChargeDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.CreditCardDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
-import ukma.eCommerce.core.paymentModule.service.IChargeService;
-import ukma.eCommerce.core.paymentModule.service.IInvoiceService;
-import ukma.eCommerce.core.paymentModule.service.IOrderService;
+import ukma.eCommerce.core.paymentModule.service.IChargeApplicationService;
+import ukma.eCommerce.core.paymentModule.service.IInvoiceApplicationService;
+import ukma.eCommerce.core.paymentModule.service.IOrderApplicationService;
 import ukma.eCommerce.core.userModule.model.domain.bo.Customer;
-import ukma.eCommerce.util.IRetrieveCallback;
 
 @Controller
 public class ChargeController {
 
     @Autowired
-    private IOrderService IOrderService;
+    private IOrderApplicationService IOrderService;
 
     @Autowired
-    private IInvoiceService IInvoiceService;
+    private IInvoiceApplicationService IInvoiceService;
 
     @Autowired
-    private IChargeService chargeService;
+    private IChargeApplicationService chargeService;
     // for test purposes only
     @Autowired
     private IChargeManager manager;
@@ -88,7 +87,7 @@ public class ChargeController {
 		 */
         final DeferredResult<Charge> defferedResult = new DeferredResult<>(5_000L);
 
-        chargeService.createCharge(creditCardDTO, chargeDTO, new IRetrieveCallback<Charge>() {
+        /*chargeService.createCharge(creditCardDTO, chargeDTO, new IRetrieveCallback<Charge>() {
             @Override
             public void onResult(Charge result) {
                 // provide result
@@ -101,7 +100,7 @@ public class ChargeController {
                 defferedResult.setErrorResult(th);
             }
 
-        });
+        });*/
 
         if (defferedResult.hasResult() && defferedResult.getResult().getClass().equals(Charge.class)) {
             final DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> defferedOrderResult = new DeferredResult<>(5_000L);
@@ -145,10 +144,10 @@ public class ChargeController {
      * Create OrderBO
      */
 
-    private DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> createOrderBO(OrderDTO orderDTO) {
+    /*private DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> createOrderBO(OrderDTO orderDTO) {
         final DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> defferedOrderResult = new DeferredResult<>(5_000L);
 
-        IOrderService.createOrder(orderDTO, new IRetrieveCallback<ukma.eCommerce.core.paymentModule.model.domain.bo.Order>() { //
+        IOrderApplicationService.createOrder(orderDTO, new IRetrieveCallback<ukma.eCommerce.core.paymentModule.model.domain.bo.Order>() { //
             // Card card = new Card(Card.Builder(CardForm);
 
             @Override
@@ -162,7 +161,7 @@ public class ChargeController {
             }
         });
         return defferedOrderResult;
-    }
+    }*/
 
     /**
      * Create Invoice

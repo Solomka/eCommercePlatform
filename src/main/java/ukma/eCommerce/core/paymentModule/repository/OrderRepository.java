@@ -1,28 +1,30 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
+import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
 import ukma.eCommerce.util.repository.IRepository;
-import ukma.eCommerce.util.repository.filter.IFilter;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.Collection;
-
-public class OrderRepository implements IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Order, String, Order, String, IFilter<String>> {
+@Repository
+public class OrderRepository implements IRepository<Order, OrderID, OrderEntity, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Order>> find(@Null IFilter<String> stringIFilter) {
+	public Observable<Collection<Order>> find(IExposedFilter filter) {
 		return null;
 	}
 
 	@Override
-	public Observable<Order> create(@NotNull Order order) {
+	public Observable<Order> create(@NotNull OrderEntity orderEntity) {
 		return null;
 	}
 
 	@Override
-	public Observable<Void> delete(@NotNull String s) {
+	public Observable<Void> delete(@NotNull OrderID orderID) {
 		return null;
 	}
 
@@ -30,5 +32,6 @@ public class OrderRepository implements IRepository<ukma.eCommerce.core.paymentM
 	public Observable<Order> update(@NotNull Order order) {
 		return null;
 	}
+
 
 }

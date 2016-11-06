@@ -5,16 +5,15 @@ import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.util.repository.IRepository;
-import ukma.eCommerce.util.repository.filter.IFilter;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.Collection;
 @Repository
-public class ChargeRepository implements IRepository<Charge, String, Invoice, String, IFilter<String>> {
+public class ChargeRepository implements IRepository<Charge, String, Invoice, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Charge>> find(@Null IFilter<String> filter) {
+	public Observable<Collection<Charge>> find(IExposedFilter filter) {
 		return null;
 	}
 
