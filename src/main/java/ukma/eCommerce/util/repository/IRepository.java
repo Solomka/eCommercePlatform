@@ -1,32 +1,31 @@
 package ukma.eCommerce.util.repository;
 
 import rx.Observable;
-import ukma.eCommerce.util.repository.filter.IFilter;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.Collection;
 
 /**
  * Repository abstraction. It is a base interface for all repositories.
  *
- * @param <T>  object type to return as result
- * @param <K>  key type
- * @param <E>  object to persist
- * @param <F>  filter to use
- * @param <Ft> filter type to use
+ * @param <T> object type to return as result
+ * @param <K> key type
+ * @param <E> object to persist
+ * @param <F> filter to use
  * @author Max
  */
-public interface IRepository<T, K, E, Ft, F extends IFilter<Ft>> {
+public interface IRepository<T, K, E, F extends IExposedFilter> {
 
     /**
      * Asynchronously finds and returns collection of objects in abstract
      * repository whose type matches specified one
      *
-     * @param f filter chain
+     * @param f filter chain, can be null
      * @return instance of {@linkplain Observable} to monitor request status
      */
-    Observable<Collection<T>> find(@Null F f);
+    @NotNull
+    Observable<Collection<T>> find(F f);
 
     /**
      * Asynchronously creates object in repository from given form. In case of
@@ -35,6 +34,7 @@ public interface IRepository<T, K, E, Ft, F extends IFilter<Ft>> {
      * @param e form to create object from
      * @return instance of {@linkplain Observable} to monitor request status
      */
+    @NotNull
     Observable<T> create(@NotNull E e);
 
     /**
@@ -43,6 +43,7 @@ public interface IRepository<T, K, E, Ft, F extends IFilter<Ft>> {
      * @param k key which uniquely identifies object
      * @return instance of {@linkplain Observable} to monitor request status
      */
+    @NotNull
     Observable<Void> delete(@NotNull K k);
 
     /**
@@ -53,6 +54,7 @@ public interface IRepository<T, K, E, Ft, F extends IFilter<Ft>> {
      * @param t object instance to update
      * @return instance of {@linkplain Observable} to monitor request status
      */
+    @NotNull
     Observable<T> update(@NotNull T t);
 
 }

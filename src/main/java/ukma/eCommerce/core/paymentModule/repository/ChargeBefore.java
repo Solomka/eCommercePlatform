@@ -1,7 +1,7 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
 import org.joda.time.DateTime;
-import ukma.eCommerce.util.repository.filter.IFilter;
+import ukma.eCommerce.util.repository.IFilter;
 
 /**
  * Created by Максим on 11/6/2016.

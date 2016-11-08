@@ -1,4 +1,4 @@
-package ukma.eCommerce.util.repository.filter;
+package ukma.eCommerce.util.repository;
 
 import javax.validation.constraints.NotNull;
 

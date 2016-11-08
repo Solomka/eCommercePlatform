@@ -1,18 +1,19 @@
 package ukma.eCommerce.core.paymentModule.service;
 
 import org.springframework.stereotype.Service;
+import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
-import ukma.eCommerce.util.IRetrieveCallback;
 
 import javax.validation.constraints.NotNull;
 
-@Service("invoiceService")
-public class InvoiceService implements IInvoiceService {
-
-
+/**
+ * Created by Максим on 11/6/2016.
+ */
+@Service
+final class InvoiceApplicationService implements IInvoiceApplicationService {
     @Override
-    public void createInvoice(@NotNull InvoiceDTO invoiceDTO, @NotNull IRetrieveCallback<Invoice> callback) {
-
+    public Observable<Invoice> createInvoice(@NotNull InvoiceDTO invoiceDTO) {
+        return null;
     }
 }

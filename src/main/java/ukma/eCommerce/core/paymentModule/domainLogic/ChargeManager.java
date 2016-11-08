@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-// TODO charge processing queue + synchronization + logging
 public final class ChargeManager implements IChargeManager {
 
     // Stripe charge params fields

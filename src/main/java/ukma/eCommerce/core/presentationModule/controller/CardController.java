@@ -1,4 +1,4 @@
-package ukma.eCommerce.core.paymentModule.controller;
+package ukma.eCommerce.core.presentationModule.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

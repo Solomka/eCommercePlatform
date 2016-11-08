@@ -10,26 +10,39 @@ import java.util.Objects;
  */
 public enum Currency {
 
-	UAH("Hryvnia", "uah"), EU("Euro", "eu"), USD("United States Dollar", "usd");
+    UAH("Hryvnia", "uah", 1), EU("Euro", "eu", 2), USD("United States Dollar", "usd", 3);
 
-	private final String fullName;
-	private final String shortName;
+    private final String fullName;
+    private final String shortName;
+    private final int id;
 
-	Currency(String fullName, String shortName) {
-		this.fullName = Objects.requireNonNull(fullName);
-		this.shortName = Objects.requireNonNull(shortName);
-	}
+    Currency(String fullName, String shortName, int id) {
+        this.fullName = Objects.requireNonNull(fullName);
+        this.shortName = Objects.requireNonNull(shortName);
+        this.id = id;
+    }
 
-	public String getFullName() {
-		return fullName;
-	}
+    public String getFullName() {
+        return fullName;
+    }
 
-	public String getShortName() {
-		return shortName;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	@Override
-	public String toString() {
-		return fullName;
-	}
+    public int getId() {
+        return id;
+    }
+
+    public static Currency forId(int id) {
+        for (final Currency currency : Currency.values()) {
+            if (currency.getId() == id) return currency;
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return fullName;
+    }
 }

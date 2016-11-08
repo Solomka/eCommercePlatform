@@ -3,16 +3,15 @@ package ukma.eCommerce.core.paymentModule.repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.util.repository.IRepository;
-import ukma.eCommerce.util.repository.filter.IFilter;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.Collection;
 
-public class InvoiceRepository implements IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice, String, Invoice, String, IFilter<String>> {
+public class InvoiceRepository implements IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice, String, Invoice, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Invoice>> find(@Null IFilter<String> stringIFilter) {
+	public Observable<Collection<Invoice>> find(IExposedFilter filter) {
 		return null;
 	}
 
