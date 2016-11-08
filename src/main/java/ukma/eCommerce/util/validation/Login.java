@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(
-        validatedBy = {}
+        validatedBy = {LoginValidator.class}
 )
 public @interface Login {
     String message() default "{e-commerce.validation.constraints.Login.message}";

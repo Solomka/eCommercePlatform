@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public final class Shipment {
 
-	@Pattern(regexp = "[a-zA-z]{3,50}")
+	@Pattern(regexp = "(\\w\\s?){3,50}")
 	private final String deliveryService;
 	@NotNull
 	@Valid
@@ -53,18 +53,13 @@ public final class Shipment {
 
 			Objects.requireNonNull(shipment, "shipment must not be null");
 
-			setDeliveryService(shipment.getDeliveryService()).setMoney(shipment.getPrice())
+			setDeliveryService(shipment.getDeliveryService()).setPrice(shipment.getPrice())
 					.setShipmentDetails(shipment.getShipmentDetails()).setDeliveryDate(shipment.getDeliveryDate())
 					.setStatus(shipment.getStatus());
 		}
 
 		public Price getPrice() {
 			return price;
-		}
-
-		public Builder setMoney(Price price) {
-			this.price = price;
-			return this;
 		}
 
 		public String getDeliveryService() {

@@ -14,7 +14,7 @@ import java.util.Collection;
  * Created by Максим on 11/6/2016.
  */
 @Service
-final class ChargeApplicationService implements IChargeApplicationService {
+final class  ChargeApplicationService implements IChargeApplicationService {
 
     @Override
     public Observable<Collection<Charge>> fetchCharges(@NotNull Period period) {

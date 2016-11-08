@@ -1,8 +1,7 @@
 package ukma.eCommerce.core.userModule.model.domain.vo;
 
-import java.util.UUID;
-
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Created by Максим on 10/19/2016.
@@ -16,8 +15,8 @@ public final class SellerID {
 	 * generate random GUID id
 	 */
 
-	public SellerID() {
-		this.id = UUID.randomUUID();
+	public SellerID(String uuid) {
+		this.id = UUID.fromString(uuid);
 	}
 
 	public UUID getId() {

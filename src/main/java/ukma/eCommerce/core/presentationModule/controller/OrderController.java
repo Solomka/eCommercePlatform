@@ -40,7 +40,7 @@ final class OrderController {
         return "order";
     }
 
-    @RequestMapping(value = "/order/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/order/create", method = RequestMethod.GET)
     public ModelAndView createOrder(@Valid @ModelAttribute("order") OrderDTO dto, BindingResult bindingResult) {
 
         ModelAndView model = new ModelAndView("order");

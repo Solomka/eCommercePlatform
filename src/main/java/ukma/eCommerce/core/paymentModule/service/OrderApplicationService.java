@@ -19,20 +19,20 @@ import java.util.logging.Logger;
  * Created by Максим on 11/6/2016.
  */
 @Service
-final class OrderApplicationService implements IOrderApplicationService {
+public final class OrderApplicationService implements IOrderApplicationService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());
     private final IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository;
 
     @Autowired
-    OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository) {
+    public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository) {
         this.repository = repository;
     }
 
     @Override
     public Observable<OrderDTO> createOrder(OrderDTO dto) {
 
-        if(!dto.getClass().isAnnotationPresent(Validated.class))
+        if (!dto.getClass().isAnnotationPresent(Validated.class))
             throw new RuntimeException("@Validate annotation expected!");
 
         return Observable.create(subscriber ->
