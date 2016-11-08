@@ -20,18 +20,15 @@
 <table border="0" width="90%">
     <form:form action="order/create" method="post" commandName="order">
     <tr>
-        <td align="left" width="20%">Number:</td>
+        <td align="left" width="20%">Customer name:</td>
         <td align="left" width="40%"><form:input path="customer" size="30"/></td>
         <td align="left"><form:errors path="customer" cssClass="error"/></td>
     </tr>
-    <!--<tr>
-        <td>cvv2:</td>
-        <td><form:input path="cvv" size="30"/></td>
-        <td><form:errors path="cvv" cssClass="error"/></td>
+    <tr>
+        <td align="left" width="20%">Customer name:</td>
+        <td align="left" width="40%"><form:input path="shipment" size="30"/></td>
+        <td align="left"><form:errors path="customer" cssClass="error"/></td>
     </tr>
-    <td>date:</td>
-    <td><form:input path="expirationDate" size="30"/></td>
-    <td><form:errors path="expirationDate" type="date" cssClass="error"/></td>-->
     <tr>
         <td></td>
         <td align="center"><input type="submit" value="Check"/></td>

@@ -12,8 +12,14 @@ public final class ProductID {
 	@NotNull
 	private final UUID id;
 
+	//convert from ProductPO to Product
 	public ProductID(UUID id) {
 		this.id = id;
+	}
+
+	//convert from ProductDTO to ProductEntity
+	public ProductID(String uuid) {
+		this.id = UUID.fromString(uuid);
 	}
 
 	public UUID getId() {

@@ -15,8 +15,16 @@ public final class OrderID {
 	/**
 	 * generate random GUID id
 	 */
+
+	// convert from OrderPO to Order
 	public OrderID(UUID id) {
 		this.id = id;
+	}
+
+	//convert from OrderDTO to OrderEntity
+	public OrderID(String uuid) {
+		this.id = UUID.fromString(uuid);
+
 	}
 
 	public UUID getId() {

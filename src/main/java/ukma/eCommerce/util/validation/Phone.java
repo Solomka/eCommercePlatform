@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(
-        validatedBy = {}
+        validatedBy = {PhoneValidator.class}
 )
 public @interface Phone {
     String message() default "{e-commerce.validation.constraints.Phone.message}";

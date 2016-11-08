@@ -21,14 +21,14 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  * Created by Максим on 11/6/2016.
  */
 @Service
-final class OrderApplicationService implements IOrderApplicationService {
+public final class OrderApplicationService implements IOrderApplicationService {
 
 	private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());
-	// @Autowired
+
 	private final IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository;
 
 	@Autowired
-	OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository) {
+	public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository) {
 		this.repository = repository;
 	}
 

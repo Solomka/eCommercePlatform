@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
  * service can be used by other services.
  */
 @Validated
+@Service
 public interface IOrderApplicationService {
 
     /**

@@ -16,8 +16,14 @@ public final class SellerID {
 	 * generate random GUID id
 	 */
 
+	//convert from SellerPO to Seller
 	public SellerID(UUID id) {
 		this.id = id;
+	}
+
+	//convert from SellerDTO to SellerEntity
+	public SellerID(String uuid) {
+		this.id = UUID.fromString(uuid);
 	}
 
 	public UUID getId() {

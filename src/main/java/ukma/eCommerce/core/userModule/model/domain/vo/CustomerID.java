@@ -15,12 +15,20 @@ public final class CustomerID {
 	/**
 	 * generate random GUID id
 	 */
+
 	/*
 	 * public CustomerID() { this.id = UUID.randomUUID(); }
 	 */
 
+	// convert from CustomerPO to Customer
 	public CustomerID(UUID id) {
 		this.id = id;
+	}
+	
+	//convert from CustomerDTO to CustomerEntity
+	public CustomerID(String id) {
+		this.id = UUID.fromString(id);
+
 	}
 
 	public UUID getId() {
