@@ -8,7 +8,7 @@ import javax.persistence.criteria.Root;
 import org.joda.time.DateTime;
 
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
-import ukma.eCommerce.util.repository.filter.IFilter;
+import ukma.eCommerce.util.repository.IFilter;
 import ukma.eCommerce.util.repository.filter.sql.And;
 import ukma.eCommerce.util.repository.filter.sql.FilterUtils;
 import ukma.eCommerce.util.repository.filter.sql.Or;
@@ -85,6 +85,7 @@ public class ChargeId implements IFilter<String> {
 			this.second = second;
 		}
 
+		// transform Service Filter to Hibernate Filter
 		@Override
 		public Predicate toFilter() {
 			return builder.and(first.toFilter(), second.toFilter());
@@ -103,7 +104,7 @@ public class ChargeId implements IFilter<String> {
 	 */
 
 	public static void main(String[] args) {
-		
+
 		/*
 		 * To create sql request independently from DB
 		 */
@@ -119,23 +120,23 @@ public class ChargeId implements IFilter<String> {
 
 		// Create query adding criteria sql representation
 		String sql1 = "select * from `some_table` where " + or.toFilter();
-		
+
 		System.out.println(sql1);
 
 		/*
-		 * METHOD #2 Using FilterUtils (public final class FilterUtils)
-		 * Better one
+		 * METHOD #2 Using FilterUtils (public final class FilterUtils) Better
+		 * one
 		 */
 
 		String sql2 = "select * from `some_table` where " + FilterUtils
 				.or(new ChargeId(30), FilterUtils.and(new ChargeId(20), new ChargeBefore(DateTime.now()))).toFilter();
-		
+
 		System.out.println(sql2);
-		
-		//***********************************************************************************
-		
+
+		// ***********************************************************************************
+
 		// do no run code below, it is just example
-		//createAndFilter(createIdFilter(30), createIdFilter(40));
+		createAndFilter(createIdFilter(30), createIdFilter(40));
 	}
 
 }
