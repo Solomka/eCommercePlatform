@@ -24,11 +24,6 @@ public class ChargeId implements IFilter<String> {
 
 	private long id;
 
-	interface SomeFilter extends IFilter<Predicate> {
-		// type to return to client; in this case we can change
-		// <Predicate> to something else and client won't be affected!!!
-	}
-
 	public ChargeId(long id) {
 		this.id = id;
 	}
@@ -38,34 +33,15 @@ public class ChargeId implements IFilter<String> {
 		return String.format("id=%d", id);
 	}
 
-	/**
-	 * 
-	 * @author Solomka
-	 *
-	 */
-	static class ChargeIdHibernate implements SomeFilter {
+	// ***************************** Base Service Filter interface ***************************************
 
-		private CriteriaBuilder builder;
-		private Root<Charge> root;
-		private int id;
-
-		public ChargeIdHibernate(Root<Charge> root, CriteriaBuilder builder, int id) {
-			this.builder = builder;
-			this.root = root;
-			this.id = id;
-		}
-
-		@Override
-		public Predicate toFilter() {
-			return builder.equal(root.get("id"), id);
-		}
+	interface SomeFilter extends IFilter<Predicate> {
+		// type to return to client; in this case we can change
+		// <Predicate> to something else and client won't be affected!!!
 	}
+	// *******************************************************************************************
 
-	static SomeFilter createIdFilter(int id) {
-		// example in conjunction with hibernate
-		return new ChargeIdHibernate(root, builder, id);
-	}
-
+	// ***************************** Service AndHibernate    Service SomeFilter implementation
 	/**
 	 * 
 	 * @author Solomka
@@ -91,6 +67,8 @@ public class ChargeId implements IFilter<String> {
 			return builder.and(first.toFilter(), second.toFilter());
 		}
 	}
+
+	// ******************
 
 	static SomeFilter createAndFilter(SomeFilter first, SomeFilter second) {
 		// example in conjunction with hibernate
@@ -124,8 +102,8 @@ public class ChargeId implements IFilter<String> {
 		System.out.println(sql1);
 
 		/*
-		 * METHOD #2 Using FilterUtils (public final class FilterUtils) Better
-		 * one
+		 * METHOD #2 Using FilterUtils (public final class FilterUtils) 
+		 * Better one
 		 */
 
 		String sql2 = "select * from `some_table` where " + FilterUtils
@@ -133,10 +111,36 @@ public class ChargeId implements IFilter<String> {
 
 		System.out.println(sql2);
 
-		// ***********************************************************************************
+		// ******** Repo Hibernate Service Filter usage example **********************************
+ 		createAndFilter(createIdFilter(30), createIdFilter(40));
+	}
 
-		// do no run code below, it is just example
-		createAndFilter(createIdFilter(30), createIdFilter(40));
+	static SomeFilter createIdFilter(int id) {
+		// example in conjunction with hibernate
+		return new ChargeIdHibernate(root, builder, id);
+	}
+
+	/**
+	 * 
+	 * @author Solomka
+	 *
+	 */
+	static class ChargeIdHibernate implements SomeFilter {
+
+		private CriteriaBuilder builder;
+		private Root<Charge> root;
+		private int id;
+
+		public ChargeIdHibernate(Root<Charge> root, CriteriaBuilder builder, int id) {
+			this.builder = builder;
+			this.root = root;
+			this.id = id;
+		}
+
+		@Override
+		public Predicate toFilter() {
+			return builder.equal(root.get("id"), id);
+		}
 	}
 
 }

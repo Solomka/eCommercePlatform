@@ -21,7 +21,7 @@ public class InvoiceRepository implements IRepository<ukma.eCommerce.core.paymen
 	}
 
 	@Override
-	public Observable<Void> delete(@NotNull String s) {
+	public Observable<Void> delete(@NotNull Invoice s) {
 		return null;
 	}
 

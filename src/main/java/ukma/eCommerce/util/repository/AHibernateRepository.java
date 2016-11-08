@@ -9,12 +9,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class HibernateRepository<Entity, Key extends Serializable> {
+/**
+ * abstract class that has to be extended by each repo hibernate implementation class
+ * @author Solomka
+ *
+ * @param <Entity> entity with which Hibernate is working
+ * @param <Key> primary key type
+ */
+public abstract class AHibernateRepository<Entity, Key extends Serializable> {
 
+	// ***PO.java
 	private final Class<Entity> entityClass;
 
 	@SuppressWarnings("unchecked")
-	public HibernateRepository() {
+	public AHibernateRepository() {
 		this.entityClass = (Class<Entity>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
 	}

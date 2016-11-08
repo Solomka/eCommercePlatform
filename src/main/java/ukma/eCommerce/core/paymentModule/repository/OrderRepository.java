@@ -10,12 +10,12 @@ import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
-import ukma.eCommerce.util.repository.HibernateRepository;
+import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 @Repository("orderRepository")
-public class OrderRepository extends HibernateRepository<OrderPO, UUID> implements
+public class OrderRepository extends AHibernateRepository<OrderPO, UUID> implements
 		IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Order, OrderID, OrderEntity, IExposedFilter> {
 
 	@Override
@@ -25,29 +25,25 @@ public class OrderRepository extends HibernateRepository<OrderPO, UUID> implemen
 	}
 
 	@Override
-	public Observable<Order> create(OrderEntity e) {
+	public Observable<Order> create(OrderEntity orderEntity) {
 		// TODO Auto-generated method stub
 
-		// create orderPO on base of Order
-		OrderPO orderPO = new OrderPO();
-		persist(orderPO);
+		persist(OrderPOConverter.fromOrderEntity(orderEntity));
 		return null;
 	}
 
 	@Override
-	public Observable<Void> delete(OrderID key) {
+	public Observable<Order> update(Order order) {
 		// TODO Auto-generated method stub
-		delete(key);
+
+		update(OrderPOConverter.fromOrder(order));
 		return null;
 	}
 
 	@Override
-	public Observable<Order> update(Order t) {
+	public Observable<Void> delete(Order order) {
 		// TODO Auto-generated method stub
-
-		// create orderPO on base of Order
-		OrderPO orderPO = new OrderPO();
-		update(orderPO);
+		delete(order);
 		return null;
 	}
 

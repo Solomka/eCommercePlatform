@@ -23,7 +23,7 @@ public class ChargeRepository implements IRepository<Charge, String, Invoice, IE
 	}
 
 	@Override
-	public Observable<Void> delete(@NotNull String s) {
+	public Observable<Void> delete(@NotNull Charge s) {
 		return null;
 	}
 
