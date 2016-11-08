@@ -18,7 +18,7 @@ public final class ChargeFactory implements IChargeFactory {
 
     @Override
     public Charge create(@NotNull Invoice invoice, @Null ChargeStatus status) {
-        return new Charge.Builder().setId(new ChargeID())
+        return new Charge.Builder().setId(null)
                 .setPaymentDate(DateTime.now())
                 .setInvoice(invoice.getId())
                 .setStatus(status == null ? ChargeStatus.SUCCEEDED : status)

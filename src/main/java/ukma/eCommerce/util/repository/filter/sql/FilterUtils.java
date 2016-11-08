@@ -7,16 +7,22 @@ import ukma.eCommerce.util.repository.filter.IFilter;
  */
 public final class FilterUtils {
 
-    private FilterUtils() {
-        throw new RuntimeException();
-    }
+	private FilterUtils() {
+		throw new RuntimeException();
+	}
 
-    public static And and(IFilter<String> first, IFilter<String> second) {
-        return new And(first, second);
-    }
+	public static And and(IFilter<String> first, IFilter<String> second) {
+		return new And(first, second);
+	}
 
-    public static Or or(IFilter<String> first, IFilter<String> second) {
-        return new Or(first, second);
-    }
+	public static Or or(IFilter<String> first, IFilter<String> second) {
+		return new Or(first, second);
+	}
+
+	
+	// for understanding practive
+	public static Not not(IFilter<String> value) {
+		return new Not(value);
+	}
 
 }
