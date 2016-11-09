@@ -10,11 +10,15 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * abstract class that has to be extended by each repo hibernate implementation class
+ * abstract class that has to be extended by each repo hibernate implementation
+ * class
+ * 
  * @author Solomka
  *
- * @param <Entity> entity with which Hibernate is working
- * @param <Key> primary key type
+ * @param <Entity>
+ *            entity with which Hibernate is working
+ * @param <Key>
+ *            primary key type
  */
 public abstract class AHibernateRepository<Entity, Key extends Serializable> {
 
@@ -50,6 +54,11 @@ public abstract class AHibernateRepository<Entity, Key extends Serializable> {
 
 	public void delete(Entity entity) {
 		getSession().delete(entity);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Entity loadEntity(Key key) {
+		return (Entity) getSession().load(entityClass, key);
 	}
 
 	protected Criteria createEntityCriteria() {

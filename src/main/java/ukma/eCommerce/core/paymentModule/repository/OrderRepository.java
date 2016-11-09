@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -41,9 +42,11 @@ public class OrderRepository extends AHibernateRepository<OrderPO, UUID> impleme
 	}
 
 	@Override
-	public Observable<Void> delete(Order order) {
+	public Observable<Void> delete(OrderID orderId) {
 		// TODO Auto-generated method stub
-		delete(order);
+		OrderPO orderPO = (OrderPO) loadEntity(orderId.getId());
+		if (Objects.nonNull(orderPO))
+			delete(orderPO);
 		return null;
 	}
 

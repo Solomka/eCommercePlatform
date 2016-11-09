@@ -44,7 +44,7 @@ public interface IRepository<T, K, E, F extends IExposedFilter> {
      * @return instance of {@linkplain Observable} to monitor request status
      */
     @NotNull
-    Observable<Void> delete(@NotNull T t);
+    Observable<Void> delete(@NotNull K k);
 
     /**
      * Asynchronously updates object in repository using given key and update

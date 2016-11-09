@@ -1,32 +1,44 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
+import java.util.Collection;
+import java.util.UUID;
+
+import org.springframework.stereotype.Repository;
+
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceEntity;
+import ukma.eCommerce.core.paymentModule.repository.po.InvoicePO;
+import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
-
-public class InvoiceRepository implements IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice, String, Invoice, IExposedFilter> {
+@Repository("invoiceRepository")
+public class InvoiceRepository extends AHibernateRepository<InvoicePO, UUID> implements
+		IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice, InvoiceID, InvoiceEntity, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Invoice>> find(IExposedFilter filter) {
+	public Observable<Collection<Invoice>> find(IExposedFilter f) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Invoice> create(@NotNull Invoice invoice) {
+	public Observable<Invoice> create(InvoiceEntity e) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Void> delete(@NotNull Invoice s) {
+	public Observable<Void> delete(InvoiceID k) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Invoice> update(@NotNull Invoice invoice) {
+	public Observable<Invoice> update(Invoice t) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
