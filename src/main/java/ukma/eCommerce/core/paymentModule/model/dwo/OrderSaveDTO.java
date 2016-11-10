@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * Created by Максим on 11/6/2016.
  */
-public final class OrderEntity {
+public final class OrderSaveDTO {
 
     private final CustomerID customer;
     private final Shipment shipment;
@@ -25,7 +25,7 @@ public final class OrderEntity {
     private final DateTime creationDate;
     private final DateTime fulfilmentDate;
 
-    public static final class Builder implements IBuilder<OrderEntity> {
+    public static final class Builder implements IBuilder<OrderSaveDTO> {
 
         private CustomerID customer;
         private Shipment shipment;
@@ -101,13 +101,13 @@ public final class OrderEntity {
         }
 
         @Override
-        public OrderEntity build() {
-            return new OrderEntity(this);
+        public OrderSaveDTO build() {
+            return new OrderSaveDTO(this);
         }
 
     }
 
-    private OrderEntity(Builder builder) {
+    private OrderSaveDTO(Builder builder) {
 
         Objects.requireNonNull(builder, "builder must no be null");
 

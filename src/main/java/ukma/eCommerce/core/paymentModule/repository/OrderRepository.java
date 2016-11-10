@@ -9,15 +9,20 @@ import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
+/**
+ * 
+ * @author Solomka
+ *
+ */
 @Repository("orderRepository")
 public class OrderRepository extends AHibernateRepository<OrderPO, UUID> implements
-		IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Order, OrderID, OrderEntity, IExposedFilter> {
+		IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Order, OrderID, OrderSaveDTO, IExposedFilter> {
 
 	@Override
 	public Observable<Collection<Order>> find(IExposedFilter f) {
@@ -26,7 +31,7 @@ public class OrderRepository extends AHibernateRepository<OrderPO, UUID> impleme
 	}
 
 	@Override
-	public Observable<Order> create(OrderEntity orderEntity) {
+	public Observable<Order> create(OrderSaveDTO orderEntity) {
 		// TODO Auto-generated method stub
 
 		persist(OrderPOConverter.fromOrderEntity(orderEntity));

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 
 /**
@@ -29,7 +29,7 @@ final class OrderPOConverter {
 	 * @param orderEntity
 	 * @return
 	 */
-	static OrderPO fromOrderEntity(@NotNull OrderEntity orderEntity) {
+	static OrderPO fromOrderEntity(@NotNull OrderSaveDTO orderEntity) {
 
 		return null;
 	}

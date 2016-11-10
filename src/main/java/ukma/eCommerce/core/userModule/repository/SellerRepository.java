@@ -13,7 +13,11 @@ import ukma.eCommerce.core.userModule.repository.po.SellerPO;
 import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
-
+/**
+ * 
+ * @author Solomka
+ *
+ */
 @Repository("sellerRepository")
 public class SellerRepository extends AHibernateRepository<SellerPO, UUID> implements
 		IRepository<ukma.eCommerce.core.userModule.model.domain.bo.Seller, SellerID, SellerEntity, IExposedFilter> {

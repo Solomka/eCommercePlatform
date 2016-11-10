@@ -8,15 +8,20 @@ import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
-import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceSaveDTO;
 import ukma.eCommerce.core.paymentModule.repository.po.InvoicePO;
 import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
+/**
+ * 
+ * @author Solomka
+ *
+ */
 @Repository("invoiceRepository")
 public class InvoiceRepository extends AHibernateRepository<InvoicePO, UUID> implements
-		IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice, InvoiceID, InvoiceEntity, IExposedFilter> {
+		IRepository<ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> {
 
 	@Override
 	public Observable<Collection<Invoice>> find(IExposedFilter f) {
@@ -25,7 +30,7 @@ public class InvoiceRepository extends AHibernateRepository<InvoicePO, UUID> imp
 	}
 
 	@Override
-	public Observable<Invoice> create(InvoiceEntity e) {
+	public Observable<Invoice> create(InvoiceSaveDTO e) {
 		// TODO Auto-generated method stub
 		return null;
 	}

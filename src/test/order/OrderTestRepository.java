@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.repository.OrderConverter;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * Created by Максим on 11/8/2016.
  */
 @Repository
-public final class OrderTestRepository implements IRepository<Order, OrderID, OrderEntity, IExposedFilter> {
+public final class OrderTestRepository implements IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> {
 
     private static final Logger LOGGER = Logger.getLogger(OrderTestRepository.class.getName());
 
@@ -36,7 +36,7 @@ public final class OrderTestRepository implements IRepository<Order, OrderID, Or
     }
 
     @Override
-    public Observable<Order> create(@NotNull OrderEntity orderEntity) {
+    public Observable<Order> create(@NotNull OrderSaveDTO orderEntity) {
         return Observable.just(OrderConverter.convert(orderEntity, new OrderID(UUID.randomUUID().toString())))
                 .map(order -> {
                     data.add(order);

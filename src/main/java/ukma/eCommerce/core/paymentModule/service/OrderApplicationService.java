@@ -13,7 +13,7 @@ import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
@@ -25,10 +25,10 @@ public final class OrderApplicationService implements IOrderApplicationService {
 
 	private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());
 
-	private final IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository;
+	private final IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository;
 
 	@Autowired
-	public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository) {
+	public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository) {
 		this.repository = repository;
 	}
 

@@ -2,7 +2,7 @@ package ukma.eCommerce.core.paymentModule.repository;
 
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +15,7 @@ public final class OrderConverter {
         throw new RuntimeException();
     }
 
-    public static Order convert(@NotNull OrderEntity entity, @NotNull OrderID id) {
+    public static Order convert(@NotNull OrderSaveDTO entity, @NotNull OrderID id) {
 
         return new Order.Builder().setId(id)
                 .setOrderItems(entity.getOrderItems())
