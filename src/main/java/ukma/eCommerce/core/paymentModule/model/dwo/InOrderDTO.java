@@ -20,7 +20,7 @@ import java.util.Collections;
  * Created by Максим on 10/8/2016.
  */
 @Validated
-public final class OrderDTO {
+public final class InOrderDTO {
 
     @NotEmpty
     private String customer;
@@ -328,7 +328,7 @@ public final class OrderDTO {
 
     @Override
     public String toString() {
-        return "OrderDTO{" +
+        return "InOrderDTO{" +
                 "customer='" + customer + '\'' +
                 ", shipment=" + shipment +
                 ", items=" + items +

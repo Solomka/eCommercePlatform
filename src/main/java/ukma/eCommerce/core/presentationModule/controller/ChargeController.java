@@ -14,7 +14,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.CreditCardDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
 import ukma.eCommerce.core.paymentModule.service.IChargeApplicationService;
 import ukma.eCommerce.core.paymentModule.service.IInvoiceApplicationService;
 import ukma.eCommerce.core.paymentModule.service.IOrderApplicationService;
@@ -69,7 +69,7 @@ public class ChargeController {
 		/*
          * create Order check what to do if not valid orderInfo passed - ?
 		 */
-        OrderDTO orderDTO = createOrderDTO(order);
+        InOrderDTO orderDTO = createOrderDTO(order);
 
 		/*
          * create Invoice if orderVo created successfully
@@ -135,7 +135,7 @@ public class ChargeController {
     /**
      * Create Order
      */
-    private OrderDTO createOrderDTO(Order order) {
+    private InOrderDTO createOrderDTO(Order order) {
 
         return null;
     }
@@ -144,7 +144,7 @@ public class ChargeController {
      * Create OrderBO
      */
 
-    /*private DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> createOrderBO(OrderDTO orderDTO) {
+    /*private DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> createOrderBO(InOrderDTO orderDTO) {
         final DeferredResult<ukma.eCommerce.core.paymentModule.model.domain.bo.Order> defferedOrderResult = new DeferredResult<>(5_000L);
 
         IOrderApplicationService.createOrder(orderDTO, new IRetrieveCallback<ukma.eCommerce.core.paymentModule.model.domain.bo.Order>() { //
@@ -166,7 +166,7 @@ public class ChargeController {
     /**
      * Create Invoice
      */
-    private InvoiceDTO createInvoiceDTO(OrderDTO orderVO) {
+    private InvoiceDTO createInvoiceDTO(InOrderDTO orderVO) {
         // TODO Auto-generated method stub
         return null;
     }

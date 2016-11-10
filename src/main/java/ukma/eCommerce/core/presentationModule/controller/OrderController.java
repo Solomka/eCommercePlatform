@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.portlet.ModelAndView;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
 import ukma.eCommerce.core.paymentModule.service.IOrderApplicationService;
 
 import javax.validation.Valid;
@@ -36,12 +36,12 @@ final class OrderController {
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     public String preparePage(Model model) {
-        model.addAttribute("order", new OrderDTO());
+        model.addAttribute("order", new InOrderDTO());
         return "order";
     }
 
     @RequestMapping(value = "/order/create", method = RequestMethod.GET)
-    public ModelAndView createOrder(@Valid @ModelAttribute("order") OrderDTO dto, BindingResult bindingResult) {
+    public ModelAndView createOrder(@Valid @ModelAttribute("order") InOrderDTO dto, BindingResult bindingResult) {
 
         ModelAndView model = new ModelAndView("order");
 
@@ -54,9 +54,9 @@ final class OrderController {
     }
 
     @RequestMapping(value = "/order/create1", method = RequestMethod.POST)
-    public DeferredResult<OrderDTO> createOrder1(@Valid @ModelAttribute("order") OrderDTO dto, BindingResult bindingResult) {
+    public DeferredResult<InOrderDTO> createOrder1(@Valid @ModelAttribute("order") InOrderDTO dto, BindingResult bindingResult) {
 
-        final DeferredResult<OrderDTO> deferred = new DeferredResult<>(5_000L);
+        final DeferredResult<InOrderDTO> deferred = new DeferredResult<>(5_000L);
 
         if (bindingResult.hasErrors()) {
             deferred.setErrorResult(bindingResult);

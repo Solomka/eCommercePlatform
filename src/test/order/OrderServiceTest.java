@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.ProductID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
 import ukma.eCommerce.core.paymentModule.service.IOrderApplicationService;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerID;
 import util.RunIf;
@@ -34,7 +34,7 @@ public final class OrderServiceTest {
     private static final Logger LOGGER = Logger.getLogger(OrderServiceTest.class.getName());
 
     private static IOrderApplicationService orderApplicationService;
-    private final OrderDTO testDto;
+    private final InOrderDTO testDto;
 
     @Rule
     public final RunIfRule runIfRule;
@@ -46,7 +46,7 @@ public final class OrderServiceTest {
         orderApplicationService = ctx.getBean(IOrderApplicationService.class);
     }
 
-    public OrderServiceTest(OrderDTO testDto, boolean isValid) {
+    public OrderServiceTest(InOrderDTO testDto, boolean isValid) {
         this.runIfRule = new RunIfRule(isValid);
         this.testDto = testDto;
     }
@@ -80,10 +80,10 @@ public final class OrderServiceTest {
     @Parameterized.Parameters
     public static Collection<Object[]> provideTestData() {
 
-        final OrderDTO dto1 = generateDtoStub();
+        final InOrderDTO dto1 = generateDtoStub();
         dto1.setCustomer(null);
 
-        final OrderDTO dto2 = generateDtoStub();
+        final InOrderDTO dto2 = generateDtoStub();
         dto2.setShipment(null);
 
         return Arrays.asList(
@@ -93,9 +93,9 @@ public final class OrderServiceTest {
         );
     }
 
-    public static OrderDTO.Item generateItemStub() {
+    public static InOrderDTO.Item generateItemStub() {
 
-        final OrderDTO.Item item = new OrderDTO.Item();
+        final InOrderDTO.Item item = new InOrderDTO.Item();
 
         item.setProduct(new ProductID("9a7efb3c-a5c6-11e6-80f5-76304dec7eb7"));
         item.setCurrency(Currency.USD);
@@ -106,12 +106,12 @@ public final class OrderServiceTest {
         return item;
     }
 
-    public static OrderDTO generateDtoStub() {
+    public static InOrderDTO generateDtoStub() {
 
-        final OrderDTO dto = new OrderDTO();
-        final OrderDTO.Shipment shipment = new OrderDTO.Shipment();
-        final OrderDTO.Shipment.Address address = new OrderDTO.Shipment.Address();
-        final OrderDTO.Shipment.Recipient recipient = new OrderDTO.Shipment.Recipient();
+        final InOrderDTO dto = new InOrderDTO();
+        final InOrderDTO.Shipment shipment = new InOrderDTO.Shipment();
+        final InOrderDTO.Shipment.Address address = new InOrderDTO.Shipment.Address();
+        final InOrderDTO.Shipment.Recipient recipient = new InOrderDTO.Shipment.Recipient();
 
         dto.setCustomer("b6953594-a5c5-11e6-80f5-76304dec7eb7");
 
@@ -133,7 +133,7 @@ public final class OrderServiceTest {
         shipment.setRecipient(recipient);
         dto.setShipment(shipment);
 
-        OrderDTO.Item item2 = generateItemStub();
+        InOrderDTO.Item item2 = generateItemStub();
 
         item2.setCurrency(Currency.UAH);
         item2.setQuantity(5);

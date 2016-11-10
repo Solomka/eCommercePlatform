@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
+import ukma.eCommerce.core.paymentModule.domainLogic.event.IOrderEventStore;
+import ukma.eCommerce.core.paymentModule.domainLogic.event.OrderCreatedEvent;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderProxy;
+import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
@@ -16,21 +20,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * <p>Default implementation of {@linkplain IOrderApplicationService}</p>
  * Created by Максим on 11/6/2016.
  */
 @Service
 public final class OrderApplicationService implements IOrderApplicationService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());
+
     private final IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository;
+    private final IOrderEventStore eventStore;
 
     @Autowired
-    public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository) {
+    public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository,
+                                   @NotNull IOrderEventStore eventStore) {
         this.repository = repository;
+        this.eventStore = eventStore;
     }
 
     @Override
-    public Observable<OrderDTO> createOrder(OrderDTO dto) {
+    public Observable<OutOrderDTO> createOrder(InOrderDTO dto) {
 
         if (!dto.getClass().isAnnotationPresent(Validated.class))
             throw new RuntimeException("@Validate annotation expected!");
@@ -41,11 +50,17 @@ public final class OrderApplicationService implements IOrderApplicationService {
                 repository.create(OrderDtoConverter.toEntity(dto))
                         // handle repository result
                         .subscribe(
-                                order -> subscriber.onNext(OrderDtoConverter.toDto(order)),
+                                order -> {
+                                    final OrderProxy proxy = new OrderProxy(order);
+                                    // publish proxy object
+                                    subscriber.onNext(OrderDtoConverter.toDto(proxy));
+                                    eventStore.store(new OrderCreatedEvent(proxy));
+                                },
                                 th -> {
                                     LOGGER.log(Level.WARNING,
                                             String.format("Error occurred while creating order for dto %s", dto),
                                             th);
+                                    // todo change exception class to -> OrderCreationException...
                                     subscriber.onError(new Exception("Failed to create order"));
                                 }
                         ));

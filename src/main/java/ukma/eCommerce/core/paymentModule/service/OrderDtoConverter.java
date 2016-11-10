@@ -2,15 +2,12 @@ package ukma.eCommerce.core.paymentModule.service;
 
 import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderItem;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.Price;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.Shipment;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ShipmentDetails;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.*;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.core.userModule.model.domain.vo.Address;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.model.domain.vo.FullName;
@@ -30,7 +27,7 @@ final class OrderDtoConverter {
         throw new RuntimeException();
     }
 
-    private static Address fromDto(OrderDTO.Shipment.Address address) {
+    private static Address fromDto(InOrderDTO.Shipment.Address address) {
         return new Address.Builder()
                 .setCity(address.getCity())
                 .setCountry(address.getCountry())
@@ -41,15 +38,15 @@ final class OrderDtoConverter {
                 .build();
     }
 
-    private static FullName fromDto(OrderDTO.Shipment.Recipient recipient) {
+    private static FullName fromDto(InOrderDTO.Shipment.Recipient recipient) {
         return new FullName(recipient.getFirstName(), recipient.getLastName());
     }
 
-    private static Collection<OrderItem> fromDto(Collection<OrderDTO.Item> items) {
+    private static Collection<OrderItem> fromDto(Collection<InOrderDTO.Item> items) {
 
         final Collection<OrderItem> result = new ArrayList<>(items.size());
 
-        for (final OrderDTO.Item toConvert : items) {
+        for (final InOrderDTO.Item toConvert : items) {
             result.add(new OrderItem(
                     toConvert.getProduct(),
                     toConvert.getSeller(),
@@ -60,7 +57,7 @@ final class OrderDtoConverter {
         return result;
     }
 
-    static OrderEntity toEntity(@NotNull OrderDTO dto) {
+    static OrderEntity toEntity(@NotNull InOrderDTO dto) {
 
         return new OrderEntity.Builder()
                 .setCustomer(new CustomerID(dto.getCustomer()))
@@ -82,8 +79,8 @@ final class OrderDtoConverter {
                 .build();
     }
 
-    static OrderDTO toDto(@NotNull Order order) {
-        return MAPPER.map(order, OrderDTO.class);
+    static OutOrderDTO toDto(@NotNull OrderProxy order) {
+        return MAPPER.map(order, OutOrderDTO.class);
     }
 
 }

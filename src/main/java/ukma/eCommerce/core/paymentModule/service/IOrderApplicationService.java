@@ -3,7 +3,8 @@ package ukma.eCommerce.core.paymentModule.service;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,6 @@ public interface IOrderApplicationService {
      * @return observable to monitor operation state
      */
     @NotNull
-    Observable<OrderDTO> createOrder(@NotNull(message = "null value isn't allowed") @Valid OrderDTO orderDTO);
+    Observable<OutOrderDTO> createOrder(@NotNull(message = "null value isn't allowed") @Valid InOrderDTO orderDTO);
 
 }
