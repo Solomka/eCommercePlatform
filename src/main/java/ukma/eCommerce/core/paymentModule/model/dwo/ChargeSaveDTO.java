@@ -1,15 +1,13 @@
 package ukma.eCommerce.core.paymentModule.model.dwo;
 
-import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
-
 import org.joda.time.DateTime;
-
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 import ukma.eCommerce.util.IBuilder;
 import ukma.eCommerce.util.validation.ValidationUtil;
+
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /**
  * Charge object to persist
@@ -19,8 +17,8 @@ import ukma.eCommerce.util.validation.ValidationUtil;
 public final class ChargeSaveDTO {
 
 	private final InvoiceID invoice;
-	private DateTime paymentDate;
-	private ChargeStatus status;
+	private final DateTime paymentDate;
+	private final ChargeStatus status;
 
 	/**
 	 * builder that creates immutable instance of {@linkplain ChargeSaveDTO}
@@ -91,16 +89,8 @@ public final class ChargeSaveDTO {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(DateTime paymentDate) {
-		this.paymentDate = paymentDate;
-	}
-
 	public ChargeStatus getStatus() {
 		return status;
-	}
-
-	public void setStatus(ChargeStatus status) {
-		this.status = status;
 	}
 
 	public InvoiceID getInvoice() {

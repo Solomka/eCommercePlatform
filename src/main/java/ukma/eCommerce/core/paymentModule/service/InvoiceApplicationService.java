@@ -1,14 +1,19 @@
 package ukma.eCommerce.core.paymentModule.service;
 
-import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
+import rx.Observable;
+import ukma.eCommerce.core.paymentModule.domainLogic.event.OrderCreatedEvent;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceSaveDTO;
+import ukma.eCommerce.util.repository.IRepository;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 import javax.validation.constraints.NotNull;
-
-import org.springframework.stereotype.Service;
-
-import rx.Observable;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
-import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
+import java.util.logging.Logger;
 
 /**
  * Created by Максим on 11/6/2016.
@@ -17,11 +22,22 @@ import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
 final class InvoiceApplicationService implements IInvoiceApplicationService {
 
 	private static final Logger LOGGER = Logger.getLogger(InvoiceApplicationService.class.getName());
-	
-	
+
+	private final IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> repository;
+
+	@Autowired
+	public InvoiceApplicationService(IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> repository) {
+		this.repository = repository;
+	}
+
+	@EventListener
+	public void onOrderCreated(OrderCreatedEvent event) {
+		repository.create(InvoiceConverter.convert(event.getOrder()))
+                .subscribe();
+	}
 
 	@Override
 	public Observable<Invoice> createInvoice(@NotNull InvoiceDTO invoiceDTO) {
-		return null;
+		return repository.create(InvoiceConverter.convert(invoiceDTO));
 	}
 }

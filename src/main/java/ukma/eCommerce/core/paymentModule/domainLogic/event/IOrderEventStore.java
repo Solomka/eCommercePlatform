@@ -1,6 +1,6 @@
 package ukma.eCommerce.core.paymentModule.domainLogic.event;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.validation.constraints.NotNull;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * </p>
  * Created by Максим on 11/11/2016.
  */
-@Component
+@Qualifier("orderEventStore")
 public interface IOrderEventStore {
 
     /**

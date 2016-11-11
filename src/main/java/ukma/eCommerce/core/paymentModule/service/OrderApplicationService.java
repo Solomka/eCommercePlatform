@@ -1,7 +1,7 @@
 package ukma.eCommerce.core.paymentModule.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.domainLogic.event.IOrderEventStore;
@@ -31,8 +31,8 @@ public final class OrderApplicationService implements IOrderApplicationService {
     private final IOrderEventStore eventStore;
 
     @Autowired
-    public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository,
-                                   @NotNull IOrderEventStore eventStore) {
+    public OrderApplicationService(@NotNull @Qualifier("orderRepository") IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository,
+                                   @NotNull @Qualifier("orderEventStore") IOrderEventStore eventStore) {
         this.repository = repository;
         this.eventStore = eventStore;
     }

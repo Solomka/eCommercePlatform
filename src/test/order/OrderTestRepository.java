@@ -1,6 +1,5 @@
 package order;
 
-import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
@@ -19,7 +18,6 @@ import java.util.logging.Logger;
 /**
  * Created by Максим on 11/8/2016.
  */
-@Repository
 public final class OrderTestRepository implements IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> {
 
     private static final Logger LOGGER = Logger.getLogger(OrderTestRepository.class.getName());
