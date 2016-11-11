@@ -1,7 +1,8 @@
 package ukma.eCommerce.core.userModule.model.domain.vo;
 
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Максим on 10/19/2016.
@@ -14,8 +15,20 @@ public final class CustomerID {
 	/**
 	 * generate random GUID id
 	 */
+
+	/*
+	 * public CustomerID() { this.id = UUID.randomUUID(); }
+	 */
+
+	// convert from CustomerPO to Customer
+	public CustomerID(UUID id) {
+		this.id = id;
+	}
+	
+	//convert from CustomerDTO to CustomerEntity
 	public CustomerID(String id) {
 		this.id = UUID.fromString(id);
+
 	}
 
 	public UUID getId() {

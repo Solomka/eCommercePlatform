@@ -3,6 +3,7 @@ package ukma.eCommerce.core.paymentModule.domainLogic.util;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
+import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -25,7 +26,7 @@ public interface IChargeFactory {
      * @return instance of {@linkplain Charge}
      */
     @NotNull
-    Charge create(@NotNull Invoice invoice, @Null ChargeStatus status);
+    ChargeSaveDTO create(@NotNull Invoice invoice, @Null ChargeStatus status);
 
     /**
      * Just a shortcut for {@link #create(Invoice, ChargeStatus)}. In this case default status will be set
@@ -34,6 +35,6 @@ public interface IChargeFactory {
      * @return instance of {@linkplain Charge}
      */
     @NotNull
-    Charge create(@NotNull Invoice invoice);
+    ChargeSaveDTO create(@NotNull Invoice invoice);
 
 }

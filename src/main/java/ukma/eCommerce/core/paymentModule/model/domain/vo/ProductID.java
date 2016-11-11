@@ -1,7 +1,8 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Максим on 10/19/2016.
@@ -11,6 +12,12 @@ public final class ProductID {
 	@NotNull
 	private final UUID id;
 
+	//convert from ProductPO to Product
+	public ProductID(UUID id) {
+		this.id = id;
+	}
+
+	//convert from ProductDTO to ProductEntity
 	public ProductID(String uuid) {
 		this.id = UUID.fromString(uuid);
 	}

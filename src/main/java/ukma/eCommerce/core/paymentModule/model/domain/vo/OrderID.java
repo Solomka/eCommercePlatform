@@ -1,7 +1,8 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Максим on 10/19/2016.
@@ -14,8 +15,16 @@ public final class OrderID {
 	/**
 	 * generate random GUID id
 	 */
+
+	// convert from OrderPO to Order
+	public OrderID(UUID id) {
+		this.id = id;
+	}
+
+	//convert from OrderDTO to OrderEntity
 	public OrderID(String uuid) {
 		this.id = UUID.fromString(uuid);
+
 	}
 
 	public UUID getId() {

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * value object that represents Credit Card
+ * Credit Card DTO
  * </p>
  * 
  * @author Max

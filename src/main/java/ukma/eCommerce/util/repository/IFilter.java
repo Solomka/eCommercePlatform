@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public interface IFilter<F> {
 
     /**
-     * Converts filter into repository-specific filter
+     * Converts service-specific filter into repository-specific filter
      *
      * @return filter representation
      */

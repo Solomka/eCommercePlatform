@@ -1,14 +1,13 @@
 package ukma.eCommerce.core.paymentModule.domainLogic.util;
 
-import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
-import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.ChargeID;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+
+import org.springframework.stereotype.Component;
+
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
+import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
+import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
 
 /**
  * Created by Максим on 11/3/2016.
@@ -16,17 +15,22 @@ import javax.validation.constraints.Null;
 @Component
 public final class ChargeFactory implements IChargeFactory {
 
-    @Override
-    public Charge create(@NotNull Invoice invoice, @Null ChargeStatus status) {
-        return new Charge.Builder().setId(new ChargeID())
-                .setPaymentDate(DateTime.now())
-                .setInvoice(invoice.getId())
-                .setStatus(status == null ? ChargeStatus.SUCCEEDED : status)
-                .build();
-    }
+	/**
+	 * AR should always be consistent (id can not be NULL)
+	 */
+	@Override
+	public ChargeSaveDTO create(@NotNull Invoice invoice, @Null ChargeStatus status) {
+		/*
+		 * return new Charge.Builder().setId(null)
+		 * .setPaymentDate(DateTime.now()) .setInvoice(invoice.getId())
+		 * .setStatus(status == null ? ChargeStatus.SUCCEEDED : status)
+		 * .build();
+		 */
+		return new ChargeSaveDTO.Builder().build();
+	}
 
-    @Override
-    public Charge create(@NotNull Invoice invoice) {
-        return create(invoice, null);
-    }
+	@Override
+	public ChargeSaveDTO create(@NotNull Invoice invoice) {
+		return create(invoice, null);
+	}
 }

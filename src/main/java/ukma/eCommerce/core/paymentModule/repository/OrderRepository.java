@@ -4,34 +4,54 @@ import org.springframework.stereotype.Repository;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
+import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
+import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
-@Repository
-public class OrderRepository implements IRepository<Order, OrderID, OrderEntity, IExposedFilter> {
+import java.util.Objects;
+import java.util.UUID;
+
+/**
+ * 
+ * @author Solomka
+ *
+ */
+@Repository("orderRepository")
+public class OrderRepository extends AHibernateRepository<OrderPO, UUID> implements
+		IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Order>> find(IExposedFilter filter) {
+	public Observable<Collection<Order>> find(IExposedFilter f) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Order> create(@NotNull OrderEntity orderEntity) {
+	public Observable<Order> create(OrderSaveDTO orderEntity) {
+		// TODO Auto-generated method stub
+
+		persist(OrderPOConverter.fromOrderEntity(orderEntity));
 		return null;
 	}
 
 	@Override
-	public Observable<Void> delete(@NotNull OrderID orderID) {
+	public Observable<Order> update(Order order) {
+		// TODO Auto-generated method stub
+
+		updateEntity(OrderPOConverter.fromOrder(order));
 		return null;
 	}
 
 	@Override
-	public Observable<Order> update(@NotNull Order order) {
+	public Observable<Void> delete(OrderID orderId) {
+		// TODO Auto-generated method stub
+		OrderPO orderPO = loadEntity(orderId.getId());
+		if (Objects.nonNull(orderPO))
+			deleteEntity(orderPO);
 		return null;
 	}
-
 
 }

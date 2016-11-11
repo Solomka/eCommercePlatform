@@ -10,7 +10,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderProxy;
 import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
@@ -23,16 +23,15 @@ import java.util.logging.Logger;
  * <p>Default implementation of {@linkplain IOrderApplicationService}</p>
  * Created by Максим on 11/6/2016.
  */
-@Service
 public final class OrderApplicationService implements IOrderApplicationService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());
 
-    private final IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository;
+    private final IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository;
     private final IOrderEventStore eventStore;
 
     @Autowired
-    public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderEntity, IExposedFilter> repository,
+    public OrderApplicationService(@NotNull IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository,
                                    @NotNull IOrderEventStore eventStore) {
         this.repository = repository;
         this.eventStore = eventStore;

@@ -6,7 +6,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.*;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
 import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
-import ukma.eCommerce.core.paymentModule.model.dwo.OrderEntity;
+import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.core.userModule.model.domain.vo.Address;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
@@ -57,9 +57,9 @@ final class OrderDtoConverter {
         return result;
     }
 
-    static OrderEntity toEntity(@NotNull InOrderDTO dto) {
+    static OrderSaveDTO toEntity(@NotNull InOrderDTO dto) {
 
-        return new OrderEntity.Builder()
+        return new OrderSaveDTO.Builder()
                 .setCustomer(new CustomerID(dto.getCustomer()))
                 .setOrderItems(fromDto(dto.getItems()))
                 .setCreationDate(DateTime.now())// should be set by db

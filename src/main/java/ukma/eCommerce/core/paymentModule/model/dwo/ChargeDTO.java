@@ -1,7 +1,48 @@
 package ukma.eCommerce.core.paymentModule.model.dwo;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
+
 /**
- * Created by Максим on 10/8/2016.
+ * 
+ * @author Solomka
+ *
  */
-public class ChargeDTO {
+public final class ChargeDTO {
+
+	@NotEmpty
+	private String InvoiceId;
+	@NotNull
+	private DateTime paymentDate;
+	
+	public ChargeDTO() {
+		
+	}
+
+	public String getInvoiceId() {
+		return InvoiceId;
+	}
+
+	public void setInvoiceId(String invoiceId) {
+		InvoiceId = invoiceId;
+	}
+
+	public DateTime getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(DateTime paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+
+	@Override
+	public String toString() {
+		return "ChargeDTO [InvoiceId=" + InvoiceId + ", paymentDate=" + paymentDate + "]";
+	}
+	
+	
+
+	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.portlet.ModelAndView;
 import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.core.paymentModule.service.IOrderApplicationService;
 
 import javax.validation.Valid;
@@ -54,9 +55,9 @@ final class OrderController {
     }
 
     @RequestMapping(value = "/order/create1", method = RequestMethod.POST)
-    public DeferredResult<InOrderDTO> createOrder1(@Valid @ModelAttribute("order") InOrderDTO dto, BindingResult bindingResult) {
+    public DeferredResult<OutOrderDTO> createOrder1(@Valid @ModelAttribute("order") InOrderDTO dto, BindingResult bindingResult) {
 
-        final DeferredResult<InOrderDTO> deferred = new DeferredResult<>(5_000L);
+        final DeferredResult<OutOrderDTO> deferred = new DeferredResult<>(5_000L);
 
         if (bindingResult.hasErrors()) {
             deferred.setErrorResult(bindingResult);
