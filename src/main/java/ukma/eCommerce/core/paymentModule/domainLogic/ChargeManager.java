@@ -17,6 +17,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoicePMDTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public final class ChargeManager implements IChargeManager {
     }
 
     @Override
-    public Observable<ChargeSaveDTO> conductCharge(@NotNull Invoice invoice) {
+    public Observable<ChargeSaveDTO> conductCharge(@NotNull InvoicePMDTO invoice) {
         // conducts charge, using default customer's credit card
         return stripeRepository.find(invoice.getCustomer())
                 .observeOn(Schedulers.newThread())
@@ -86,7 +87,7 @@ public final class ChargeManager implements IChargeManager {
     }
 
     @Override
-    public Observable<ChargeSaveDTO> conductCharge(@NotNull Invoice invoice, @NotNull CreditCard creditCard) {
+    public Observable<ChargeSaveDTO> conductCharge(@NotNull InvoicePMDTO invoice, @NotNull CreditCard creditCard) {
         // conducts charge, using default customer's credit card
         return Observable.create((Observable.OnSubscribe<ChargeSaveDTO>) subscriber -> {
 

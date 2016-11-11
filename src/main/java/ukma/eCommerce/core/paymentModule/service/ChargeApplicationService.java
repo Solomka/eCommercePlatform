@@ -22,6 +22,7 @@ import ukma.eCommerce.core.paymentModule.model.dwo.ChargeDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeExecutionDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.CreditCardDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoicePMDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceSaveDTO;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
@@ -77,11 +78,12 @@ final class ChargeApplicationService implements IChargeApplicationService {
 		// get invoice by id
 		// Invoice invoice = invoiceRepository.find(f);
 		Invoice invoice = null;
+		InvoicePMDTO invoiceDTO = new InvoicePMDTO.Builder().build();
 		CreditCard creditCard = new CreditCard(creditCardDTO.getNumber(), creditCardDTO.getCvv(),
 				creditCardDTO.getExpirationDate());
 
 		return Observable
-				.create(subscriber -> chargeManager.conductCharge(invoice, creditCard)
+				.create(subscriber -> chargeManager.conductCharge(invoiceDTO, creditCard)
 						.subscribe(
 								chargeEntity -> subscriber
 										.add(chargeRepository.create(chargeEntity)

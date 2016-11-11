@@ -2,6 +2,7 @@ package ukma.eCommerce.core.paymentModule.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.domainLogic.event.IOrderEventStore;
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
  * <p>Default implementation of {@linkplain IOrderApplicationService}</p>
  * Created by Максим on 11/6/2016.
  */
+@Service
 public final class OrderApplicationService implements IOrderApplicationService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());

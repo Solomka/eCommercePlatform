@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
  * service can be used by other services.
  */
 @Validated
-@Service
 public interface IOrderApplicationService {
 
     /**

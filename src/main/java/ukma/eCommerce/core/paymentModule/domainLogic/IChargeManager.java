@@ -6,6 +6,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.CreditCard;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.InvoicePMDTO;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,7 +26,7 @@ public interface IChargeManager {
      * @throws NullPointerException if null was passed instead of invoice instance
      */
     @NotNull
-    Observable<ChargeSaveDTO> conductCharge(@NotNull Invoice invoice);
+    Observable<ChargeSaveDTO> conductCharge(@NotNull InvoicePMDTO invoice);
 
     /**
      * Conducts charge using specified instance of {@linkplain Invoice} and specified credit card
@@ -37,6 +38,6 @@ public interface IChargeManager {
      * @throws NullPointerException if null was passed instead of invoice instance
      */
     @NotNull
-    Observable<ChargeSaveDTO> conductCharge(@NotNull Invoice invoice, @NotNull CreditCard creditCard);
+    Observable<ChargeSaveDTO> conductCharge(@NotNull InvoicePMDTO invoice, @NotNull CreditCard creditCard);
 
 }
