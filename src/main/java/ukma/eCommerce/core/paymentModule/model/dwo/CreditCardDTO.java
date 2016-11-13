@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.model.dwo;
 
 import org.joda.time.DateTime;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,8 @@ import javax.validation.constraints.Pattern;
  *
  * @author Max Oliynick
  */
+
+@Validated
 public final class CreditCardDTO {
 
     @NotNull

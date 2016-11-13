@@ -59,7 +59,7 @@ public final class ChargeManager implements IChargeManager {
     @Override
     public Observable<ChargeSaveDTO> conductCharge(@NotNull InvoicePMDTO invoice) {
         // conducts charge, using default customer's credit card
-        return stripeRepository.find(invoice.getCustomer())
+        return stripeRepository.find(invoice.getCustomerID())
                 .observeOn(Schedulers.newThread())
                 .flatMap(usrStripeId -> {
 

@@ -3,7 +3,8 @@ package ukma.eCommerce.core.paymentModule.model.dwo;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 
 /**
- * class for charge result representation
+ * dto for providing ChargeController with ChargeManager charging execution result
+ * 
  * @author Solomka
  *
  */
