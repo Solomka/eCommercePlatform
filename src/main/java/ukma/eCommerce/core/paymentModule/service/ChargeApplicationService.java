@@ -45,7 +45,7 @@ final class ChargeApplicationService implements IChargeApplicationService {
 	public ChargeApplicationService(
 			@NotNull @Qualifier("chargeRepository") IRepository<Charge, ChargeID, ChargeSaveDTO, IExposedFilter> chargeRepository,
 			@NotNull @Qualifier("invoiceRepository") IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> invoiceRepository,
-			IChargeManager chargeManager) {
+			@NotNull IChargeManager chargeManager) {
 		this.chargeRepository = chargeRepository;
 		this.invoiceRepository = invoiceRepository;
 		this.chargeManager = chargeManager;
@@ -83,20 +83,29 @@ final class ChargeApplicationService implements IChargeApplicationService {
 				creditCardDTO.getExpirationDate());
 
 		return Observable
-				.create(subsciber -> 
+				.create(subscriber -> 
+				//insteadOf null InvoiceByIdFilter 
 				invoiceRepository.find(null)
+				.take(1)
 					.flatMap(invoices -> Observable.from(invoices))
 						.flatMap(invoice -> chargeManager
 								.conductCharge(new InvoicePMDTO(invoice.getCustomer(), invoice.getPrice()), creditCard))
 							.flatMap(chargeSaveDTO -> chargeRepository.create(chargeSaveDTO))
 								.subscribe(
-											charge -> {
-												new ChargeExecutionDTO("Charge is successfully conducted", charge.getStatus());
-												},
+										// Subscriber.onNext() in Java 8
+											charge -> 
+												//subscriber.onNext(new ChargeExecutionDTO("Charge is successfully conducted", charge.getStatus())),
+											new ChargeExecutionDTO("Charge is successfully conducted", charge.getStatus()),
+										// Subscriber.onError() in Java 8
 											th -> {
-					LOGGER.log(Level.WARNING, String.format("Error occurred while creating charge"));
-					subsciber.onError(new Exception("Failed to create charge"));
-				}));
+												LOGGER.log(Level.WARNING, String.format("Error occurred while creating charge"));
+												//subscriber.onError(new Exception("Failed to create charge"));
+												new Exception("Failed to create charge");
+														}
+											// Subscriber.onCompleted() in Java 8
+											// () -> System.out.println("Completed");
+											)); 
+											
 
 		/*
 		 * 
