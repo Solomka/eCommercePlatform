@@ -1,7 +1,6 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
 import org.springframework.stereotype.Repository;
-import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceSaveDTO;
@@ -23,25 +22,24 @@ public class InvoiceRepository extends AHibernateRepository<InvoicePO, UUID> imp
 		IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Invoice>> find(IExposedFilter f) {
+	public Collection<Invoice> find(IExposedFilter f) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Invoice> create(InvoiceSaveDTO e) {
+	public Invoice create(InvoiceSaveDTO e) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Void> delete(InvoiceID k) {
+	public void delete(InvoiceID k) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public Observable<Invoice> update(Invoice t) {
+	public Invoice update(Invoice t) {
 		// TODO Auto-generated method stub
 		return null;
 	}

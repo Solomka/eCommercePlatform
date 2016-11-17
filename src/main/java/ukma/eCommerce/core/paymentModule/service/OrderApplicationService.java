@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 import ukma.eCommerce.core.paymentModule.domainLogic.event.IOrderEventStore;
 import ukma.eCommerce.core.paymentModule.domainLogic.event.OrderCreatedEvent;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderProxy;
 import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
@@ -45,26 +45,22 @@ public final class OrderApplicationService implements IOrderApplicationService {
         if (!dto.getClass().isAnnotationPresent(Validated.class))
             throw new RuntimeException("@Validate annotation expected!");
 
-        return Observable.create(subscriber ->
-                // convert dto into entity instance and
-                // try to create order in repository asynchronously
-                repository.create(OrderDtoConverter.toEntity(dto))
-                        // handle repository result
-                        .subscribe(
-                                order -> {
-                                    final OrderProxy proxy = new OrderProxy(order);
-                                    // publish proxy object
-                                    subscriber.onNext(OrderDtoConverter.toDto(proxy));
-                                    eventStore.store(new OrderCreatedEvent(proxy));
-                                },
-                                th -> {
-                                    LOGGER.log(Level.WARNING,
-                                            String.format("Error occurred while creating order for dto %s", dto),
-                                            th);
-                                    // todo change exception class to -> OrderCreationException...
-                                    subscriber.onError(new Exception("Failed to create order"));
-                                }
-                        ));
+        return Observable.create((Observable.OnSubscribe<OutOrderDTO>) subscriber -> {
+            // convert dto into entity instance and
+            // try to create order in repository asynchronously
+            try {
+                final Order order = repository.create(OrderConverter.toEntity(dto));
+                // handle repository result
+                // and publish order instance
+                subscriber.onNext(OrderConverter.toDto(order));
+                eventStore.store(new OrderCreatedEvent(order));
+            } catch (final Exception e) {
+                subscriber.onError(e);
+                LOGGER.log(Level.SEVERE, "failed to create order", e);
+            } finally {
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.newThread());
     }
 
 }

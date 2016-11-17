@@ -2,6 +2,7 @@ package ukma.eCommerce.core.paymentModule.service;
 
 import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.*;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
@@ -19,11 +20,11 @@ import java.util.Collection;
 /**
  * Created by Максим on 11/6/2016.
  */
-final class OrderDtoConverter {
+final class OrderConverter {
 
     private static final ModelMapper MAPPER = new ModelMapper();
 
-    private OrderDtoConverter() {
+    private OrderConverter() {
         throw new RuntimeException();
     }
 
@@ -79,7 +80,7 @@ final class OrderDtoConverter {
                 .build();
     }
 
-    static OutOrderDTO toDto(@NotNull OrderProxy order) {
+    static OutOrderDTO toDto(@NotNull Order order) {
         return MAPPER.map(order, OutOrderDTO.class);
     }
 

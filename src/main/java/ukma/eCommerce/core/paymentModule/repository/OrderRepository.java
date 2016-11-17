@@ -1,7 +1,6 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
 import org.springframework.stereotype.Repository;
-import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
@@ -24,13 +23,13 @@ public class OrderRepository extends AHibernateRepository<OrderPO, UUID> impleme
 		IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> {
 
 	@Override
-	public Observable<Collection<Order>> find(IExposedFilter f) {
+	public Collection<Order> find(IExposedFilter f) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Order> create(OrderSaveDTO orderEntity) {
+	public Order create(OrderSaveDTO orderEntity) {
 		// TODO Auto-generated method stub
 
 		persist(OrderPOConverter.fromOrderEntity(orderEntity));
@@ -38,7 +37,7 @@ public class OrderRepository extends AHibernateRepository<OrderPO, UUID> impleme
 	}
 
 	@Override
-	public Observable<Order> update(Order order) {
+	public Order update(Order order) {
 		// TODO Auto-generated method stub
 
 		updateEntity(OrderPOConverter.fromOrder(order));
@@ -46,12 +45,11 @@ public class OrderRepository extends AHibernateRepository<OrderPO, UUID> impleme
 	}
 
 	@Override
-	public Observable<Void> delete(OrderID orderId) {
+	public void delete(OrderID orderId) {
 		// TODO Auto-generated method stub
 		OrderPO orderPO = loadEntity(orderId.getId());
 		if (Objects.nonNull(orderPO))
 			deleteEntity(orderPO);
-		return null;
 	}
 
 }

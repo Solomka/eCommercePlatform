@@ -1,6 +1,5 @@
 package order;
 
-import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
@@ -29,26 +28,25 @@ public final class OrderTestRepository implements IRepository<Order, OrderID, Or
     }
 
     @Override
-    public Observable<Collection<Order>> find(IExposedFilter iExposedFilter) {
+    public Collection<Order> find(IExposedFilter iExposedFilter) {
         return null;
     }
 
     @Override
-    public Observable<Order> create(@NotNull OrderSaveDTO orderEntity) {
-        return Observable.just(OrderConverter.convert(orderEntity, new OrderID(UUID.randomUUID().toString())))
-                .map(order -> {
-                    data.add(order);
-                    return order;
-                });
+    public Order create(@NotNull OrderSaveDTO orderEntity) {
+
+        final Order order = OrderConverter.convert(orderEntity, new OrderID(UUID.randomUUID().toString()));
+        data.add(order);
+        return order;
     }
 
     @Override
-    public Observable<Void> delete(@NotNull OrderID orderID) {
-        return null;
+    public void delete(@NotNull OrderID orderID) {
+
     }
 
     @Override
-    public Observable<Order> update(@NotNull Order order) {
+    public Order update(@NotNull Order order) {
         return null;
     }
 }

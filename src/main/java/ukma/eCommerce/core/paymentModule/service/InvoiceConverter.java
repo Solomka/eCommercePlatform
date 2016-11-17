@@ -1,6 +1,6 @@
 package ukma.eCommerce.core.paymentModule.service;
 
-import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderProxy;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.InvoiceSaveDTO;
 
@@ -16,8 +16,8 @@ final class InvoiceConverter {
         throw new RuntimeException();
     }
 
-    static InvoiceSaveDTO convert(@NotNull OrderProxy proxy) {
-        Objects.requireNonNull(proxy);
+    static InvoiceSaveDTO convert(@NotNull Order order) {
+        Objects.requireNonNull(order);
         return new InvoiceSaveDTO();
     }
 
