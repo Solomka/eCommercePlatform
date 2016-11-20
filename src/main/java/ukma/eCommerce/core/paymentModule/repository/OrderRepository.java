@@ -1,18 +1,17 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
+import java.util.Collection;
+import java.util.UUID;
+
 import org.springframework.stereotype.Repository;
+
 import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 import ukma.eCommerce.util.repository.AHibernateRepository;
-import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
-
-import java.util.Collection;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * 
@@ -20,8 +19,7 @@ import java.util.UUID;
  *
  */
 @Repository("orderRepository")
-public class OrderRepository extends AHibernateRepository<OrderPO, UUID> implements
-		IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> {
+public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderSaveDTO, IExposedFilter, OrderPO, UUID> {
 
 	@Override
 	public Observable<Collection<Order>> find(IExposedFilter f) {
@@ -30,28 +28,23 @@ public class OrderRepository extends AHibernateRepository<OrderPO, UUID> impleme
 	}
 
 	@Override
-	public Observable<Order> create(OrderSaveDTO orderEntity) {
-		// TODO Auto-generated method stub
-
-		persist(OrderPOConverter.fromOrderEntity(orderEntity));
-		return null;
+	public Observable<Order> create(OrderSaveDTO orderSaveDTO) {
+		return Observable.just(save(OrderPOConverter.fromOrderSaveDTO(orderSaveDTO))).map(uuid -> get(uuid))
+				.map(po -> OrderPOConverter.toOrder(po));
+	}
+	
+	@Override
+	public Observable<Boolean> delete(OrderID orderID) {
+		//return Observable.create(subscriber -> getSession().delete((OrderPO) loadEntity(k)));
+		return Observable.just(deleteEntity(orderID.getId()));
 	}
 
 	@Override
 	public Observable<Order> update(Order order) {
-		// TODO Auto-generated method stub
-
+		return Observable.create(subsciber ->{
 		updateEntity(OrderPOConverter.fromOrder(order));
-		return null;
-	}
-
-	@Override
-	public Observable<Void> delete(OrderID orderId) {
-		// TODO Auto-generated method stub
-		OrderPO orderPO = loadEntity(orderId.getId());
-		if (Objects.nonNull(orderPO))
-			deleteEntity(orderPO);
-		return null;
-	}
+		OrderPOConverter.toOrder(get(order.getId().getId()));
+	
+	});}
 
 }

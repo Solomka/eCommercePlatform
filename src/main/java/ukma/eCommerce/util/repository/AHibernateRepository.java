@@ -1,34 +1,38 @@
 package ukma.eCommerce.util.repository;
 
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 /**
- * abstract class that has to be extended by each repo hibernate implementation
- * class
+ * Class that provides Hibernate Repository implementation
  * 
  * @author Solomka
  *
- * @param <Entity>
- *            entity with which Hibernate is working
- * @param <Key>
- *            primary key type
+ * @param <T>
+ * @param <K>
+ * @param <E>
+ * @param <F>
+ * @param <ObjectPO>
  */
-public abstract class AHibernateRepository<Entity, Key extends Serializable> {
+public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO, KeyPO extends Serializable>
+		implements IRepository<T, K, E, F> {
 
 	// ***PO.java
-	private final Class<Entity> entityClass;
+	private final Class<ObjectPO> entityClass;
 
 	@SuppressWarnings("unchecked")
 	public AHibernateRepository() {
-		this.entityClass = (Class<Entity>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+		this.entityClass = (Class<ObjectPO>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
+
 	}
 
 	@Autowired
@@ -38,27 +42,45 @@ public abstract class AHibernateRepository<Entity, Key extends Serializable> {
 		return this.sessionFactory.getCurrentSession();
 	}
 
-	// get element by id
 	@SuppressWarnings("unchecked")
-	public Entity get(Key key) {
-		return (Entity) getSession().get(entityClass, key);
+	public KeyPO save(ObjectPO entity) {
+		return (KeyPO) getSession().save(entity);
 	}
 
-	public void persist(Entity entity) {
-		getSession().persist(entity);
-	}
-
-	public void updateEntity(Entity entity) {
+	public void updateEntity(ObjectPO entity) {
 		getSession().update(entity);
 	}
 
-	public void deleteEntity(Entity entity) {
-		getSession().delete(entity);
+	public boolean deleteEntity(KeyPO k) {
+
+		ObjectPO objectPO = loadEntity(k);
+		if (objectPO != null) {
+			getSession().delete(objectPO);
+			return true;
+		}
+		return false;
 	}
 
+	/**
+	 * return object by id from db
+	 * 
+	 * @param key
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public Entity loadEntity(Key key) {
-		return (Entity) getSession().load(entityClass, key);
+	public ObjectPO get(KeyPO key) {
+		return (ObjectPO) getSession().get(entityClass, key);
+	}
+
+	/**
+	 * return a proxy object with the given identity value
+	 * 
+	 * @param key
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ObjectPO loadEntity(KeyPO key) {
+		return (ObjectPO) getSession().load(entityClass, key);
 	}
 
 	protected Criteria createEntityCriteria() {

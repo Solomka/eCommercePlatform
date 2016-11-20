@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.model.domain.vo;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,12 @@ import javax.validation.constraints.NotNull;
  */
 public final class OrderID {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@NotNull
 	private final UUID id;
 

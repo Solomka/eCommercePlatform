@@ -1,10 +1,12 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -37,8 +39,10 @@ public class ShipmentPO implements Serializable {
 	@Column(name = "delivery_service")
 	private String deliveryService;
 
-	@Column(name = "total_sum", nullable = false)
-	private BigDecimal totalSum;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "price", column = @Column(name = "total_sum") ),
+			@AttributeOverride(name = "currency", column = @Column(name = "currency") ) })
+	private Price price;
 
 	@Column(name = "delivery_date")
 	private DateTime deliveryDate;
@@ -70,12 +74,12 @@ public class ShipmentPO implements Serializable {
 		this.deliveryService = deliveryService;
 	}
 
-	public BigDecimal getTotalSum() {
-		return totalSum;
+	public Price getPrice() {
+		return price;
 	}
 
-	public void setTotalSum(BigDecimal totalSum) {
-		this.totalSum = totalSum;
+	public void setPrice(Price price) {
+		this.price = price;
 	}
 
 	public DateTime getDeliveryDate() {
@@ -111,7 +115,7 @@ public class ShipmentPO implements Serializable {
 		result = prime * result + ((getDeliveryService() == null) ? 0 : getDeliveryService().hashCode());
 		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-		result = prime * result + ((getTotalSum() == null) ? 0 : getTotalSum().hashCode());
+		result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
 		return result;
 	}
 
@@ -158,11 +162,11 @@ public class ShipmentPO implements Serializable {
 		if (getStatus() != other.getStatus()) {
 			return false;
 		}
-		if (getTotalSum() == null) {
-			if (other.getTotalSum() != null) {
+		if (getPrice() == null) {
+			if (other.getPrice() != null) {
 				return false;
 			}
-		} else if (!getTotalSum().equals(other.getTotalSum())) {
+		} else if (!getPrice().equals(other.getPrice())) {
 			return false;
 		}
 		return true;
@@ -170,8 +174,8 @@ public class ShipmentPO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ShipmentPO [id=" + id + ", deliveryService=" + deliveryService + ", totalSum=" + totalSum
-				+ ", deliveryDate=" + deliveryDate + ", status=" + status + ", address=" + address + "]";
+		return "ShipmentPO [id=" + id + ", deliveryService=" + deliveryService + ", price=" + price + ", deliveryDate="
+				+ deliveryDate + ", status=" + status + ", address=" + address + "]";
 	}
 
 }
