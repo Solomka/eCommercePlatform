@@ -46,7 +46,7 @@ public class AddressPO implements Serializable {
 			@AttributeOverride(name = "region", column = @Column(name = "region") ),
 			@AttributeOverride(name = "city", column = @Column(name = "city") ),
 			@AttributeOverride(name = "street", column = @Column(name = "street") ),
-			@AttributeOverride(name = "index", column = @Column(name = "index") ) })
+			@AttributeOverride(name = "index", column = @Column(name = "indexx") ) })
 	private Address address;
 
 	@Embedded

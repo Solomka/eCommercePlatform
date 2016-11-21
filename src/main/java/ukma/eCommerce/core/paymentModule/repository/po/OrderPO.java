@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -24,8 +27,13 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 
 @Entity
-@Table(name = "order")
-public class OrderPO {
+@Table(name = "orderS")
+public class OrderPO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6339656414384828558L;
 
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -48,24 +56,24 @@ public class OrderPO {
 	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
 	private CustomerPO customer;
 
-	@OneToOne(optional = false)
-	@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
-	private ShipmentPO shipment;
-
+	//@OneToOne(optional = false)
+	//@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
 	/*
 	 * Here is the annotation to add in order to Hibernate to automatically
-	 * insert and update ProducItems (if any)
-	 * 
-	 * @SuppressWarnings("deprecation")
-	 * 
-	 * @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = {
-	 * CascadeType.PERSIST, CascadeType.MERGE })
-	 * 
-	 * @Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
-	 * org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
-	 * 
+	 * insert and update ShipmentPO (if any)
 	 */
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
+	private ShipmentPO shipment;
+
+	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	/*
+	 * Here is the annotation to add in order to Hibernate to automatically
+	 * insert and update OrderItems (if any)
+	 */
+	//@SuppressWarnings("deprecation")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
 	private List<OrderItemPO> orderItems;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)

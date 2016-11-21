@@ -79,7 +79,7 @@ public class ProductPO implements Serializable {
 	 * org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
 	 * 
 	 */
-	@OneToMany(mappedBy = "product", cascade = CascadeType.REFRESH)
+	@OneToMany(mappedBy = "orderItemId.product", cascade = CascadeType.REFRESH)
 	private List<OrderItemPO> orderItems;
 
 	public ProductPO() {

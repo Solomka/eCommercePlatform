@@ -1,11 +1,9 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.Embeddable;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.ManyToOne;
 
 /**
  * class that represents the Composite Primary Key for OrderItemPO
@@ -17,84 +15,73 @@ import org.hibernate.annotations.Type;
 public class OrderItemID implements Serializable {
 
 	/**
-	* 
-	*/
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * UUID is being mapped as BINARY[1] by Hibernate, but none MySQL Dialects
-	 * maps BINARY to a MySQL data type. You can override this behavior by
-	 * explicitly specifying uuid-char as the type.
+	 * 
 	 */
+	private static final long serialVersionUID = -8877254696330828343L;
 
-	@Type(type = "uuid-char")
-	private UUID orderId;
+	
+	private OrderPO order;
+	private ProductPO product;
 
-	/**
-	 * UUID is being mapped as BINARY[1] by Hibernate, but none MySQL Dialects
-	 * maps BINARY to a MySQL data type. You can override this behavior by
-	 * explicitly specifying uuid-char as the type.
-	 */
-	@Type(type = "uuid-char")
-	private UUID productId;
-
-	// must have a default constructor
-	public OrderItemID() {
-
+	@ManyToOne
+	public OrderPO getOrder() {
+		return order;
 	}
 
-	public UUID getOrderId() {
-		return orderId;
+	public void setOrder(OrderPO order) {
+		this.order = order;
 	}
 
-	public void setOrderId(UUID orderId) {
-		this.orderId = orderId;
+	@ManyToOne
+	public ProductPO getProduct() {
+		return product;
 	}
 
-	public UUID getProductID() {
-		return productId;
+	public void setProduct(ProductPO product) {
+		this.product = product;
 	}
 
-	public void setProductID(UUID productID) {
-		this.productId = productID;
-	}
-
-	// Must have a hashCode method
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		result = prime * result + ((product == null) ? 0 : product.hashCode());
 		return result;
 	}
 
-	// Must have an equals method
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof OrderItemID)) {
 			return false;
+		}
 		OrderItemID other = (OrderItemID) obj;
-		if (orderId == null) {
-			if (other.orderId != null)
+		if (order == null) {
+			if (other.order != null) {
 				return false;
-		} else if (!orderId.equals(other.orderId))
+			}
+		} else if (!order.equals(other.order)) {
 			return false;
-		if (productId == null) {
-			if (other.productId != null)
+		}
+		if (product == null) {
+			if (other.product != null) {
 				return false;
-		} else if (!productId.equals(other.productId))
+			}
+		} else if (!product.equals(other.product)) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "OrderItemID [orderId=" + orderId + ", productID=" + productId + "]";
+		return "OrderItemID [order=" + order + ", product=" + product + "]";
 	}
 
 }

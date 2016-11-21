@@ -6,9 +6,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Address {
 
-	public Address() {
-	}
-
 	@Column(name = "country", nullable = false, length = 50)
 	private String country;
 
@@ -24,8 +21,11 @@ public class Address {
 	@Column(name = "street", nullable = false, length = 50)
 	private String street;
 
-	@Column(name = "index", nullable = false, length = 8)
+	@Column(name = "indexx", nullable = false, length = 8)
 	private String index;
+	
+	public Address() {
+	}
 
 	public String getCountry() {
 		return country;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Окт 31 2016 г., 22:10
+-- Время создания: Ноя 21 2016 г., 03:16
 -- Версия сервера: 5.1.41
 -- Версия PHP: 5.3.1
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `region` varchar(50) DEFAULT NULL,
   `city` varchar(50) NOT NULL,
   `street` varchar(50) NOT NULL,
-  `index` varchar(8) NOT NULL,
+  `indexx` varchar(8) NOT NULL,
   `phone` varchar(16) NOT NULL,
   `first_name` varchar(35) NOT NULL,
   `last_name` varchar(35) NOT NULL,
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `seller` (
   `region` varchar(50) DEFAULT NULL,
   `city` varchar(50) NOT NULL,
   `street` varchar(50) NOT NULL,
-  `index` varchar(8) NOT NULL,
+  `indexx` varchar(8) NOT NULL,
   `login` varchar(15) NOT NULL,
   `password` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
@@ -251,6 +251,7 @@ CREATE TABLE IF NOT EXISTS `shipment` (
   `id` char(36) NOT NULL,
   `delivery_service` varchar(50) DEFAULT NULL,
   `total_sum` decimal(13,2) NOT NULL DEFAULT '0.00',
+  `currency` enum('UAH','EU','USD') NOT NULL DEFAULT 'USD',
   `delivery_date` datetime DEFAULT NULL,
   `status` enum('IN_SENDER_WAREHOUSE','IN_DELIVERY','DELIVERED_PARTIALLY','DELIVERED') NOT NULL DEFAULT 'IN_SENDER_WAREHOUSE',
   `address_id` char(36) NOT NULL,

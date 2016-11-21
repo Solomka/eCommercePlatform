@@ -3,16 +3,22 @@ package ukma.eCommerce.core.paymentModule.repository.po;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name = "order_item")
+@Table(name = "orderitemx")
+@AssociationOverrides({
+	@AssociationOverride(name = "orderItemId.order",
+		joinColumns = @JoinColumn(name = "order_idx")),
+	@AssociationOverride(name = "orderItemId.product",
+		joinColumns = @JoinColumn(name = "product_idx")) })
 public class OrderItemPO implements Serializable {
 
 	/**
@@ -20,55 +26,16 @@ public class OrderItemPO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private OrderItemID orderItemId;
+	private OrderItemID orderItemId = new OrderItemID();
 
-	/**
-	 * We want to use the same order id for OrderItemPO entity that is being
-	 * used in OrderItemID embeddable. Hence annotated with MapsId("orderId")
-	 * MapsId annotation says that orderId field from OrderItemID class must
-	 * have the value of order_id field which is in its turn OrderPO id.
-	 * 
-	 * It means that value of orderId field is to be stored as foreign key.
-	 */
-	@MapsId("orderId")
-	@ManyToOne
-	@JoinColumn(name = "order_id", nullable = false, updatable = false)
-	private OrderPO order;
-
-	/**
-	 * We want to use the same product id for OrderItemPO entity that is being
-	 * used in OrderItemID embeddable. Hence annotated with MapsId("productId")
-	 * MapsId annotation says that productId field from OrderItemID class must
-	 * have the value of product_id field which is in its turn ProductPO id.
-	 * 
-	 * It means that value of productId field is to be stored as foreign key.
-	 */
-	@MapsId("productId")
-	@ManyToOne
-	@JoinColumn(name = "product_id", nullable = false, updatable = false)
-	private ProductPO product;
-
-	@Column(name = "total_quantity", nullable = false)
 	private int quantity;
-
-	@Column(name = "total_sum", nullable = false)
 	private BigDecimal totalSum;
-
-	/*
-	 * @Embedded
-	 * 
-	 * @AttributeOverrides({ @AttributeOverride(name = "price", column
-	 * = @Column(name = "total_sum") ),
-	 * 
-	 * @AttributeOverride(name = "currency", column = @Column(name = "currency")
-	 * ) }) private Price price;
-	 */
 
 	public OrderItemPO() {
 
 	}
 
+	@EmbeddedId
 	public OrderItemID getOrderItemId() {
 		return orderItemId;
 	}
@@ -77,22 +44,25 @@ public class OrderItemPO implements Serializable {
 		this.orderItemId = orderItemId;
 	}
 
+	@Transient
 	public OrderPO getOrder() {
-		return order;
+		return getOrderItemId().getOrder();
 	}
 
-	public void setOrder(OrderPO order) {
-		this.order = order;
+	public void setOrder(OrderPO orderPO) {
+		getOrderItemId().setOrder(orderPO);
 	}
 
+	@Transient
 	public ProductPO getProduct() {
-		return product;
+		return getOrderItemId().getProduct();
 	}
 
-	public void setProduct(ProductPO product) {
-		this.product = product;
+	public void setProduct(ProductPO productPO) {
+		getOrderItemId().setProduct(productPO);
 	}
 
+	@Column(name = "total_quantity", nullable = false)
 	public int getQuantity() {
 		return quantity;
 	}
@@ -101,6 +71,7 @@ public class OrderItemPO implements Serializable {
 		this.quantity = quantity;
 	}
 
+	@Column(name = "total_sum", nullable = false)
 	public BigDecimal getTotalSum() {
 		return totalSum;
 	}
@@ -113,11 +84,9 @@ public class OrderItemPO implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((getOrder() == null) ? 0 : getOrder().hashCode());
-		result = prime * result + ((getOrderItemId() == null) ? 0 : getOrderItemId().hashCode());
-		result = prime * result + ((getProduct() == null) ? 0 : getProduct().hashCode());
-		result = prime * result + getQuantity();
-		result = prime * result + ((getTotalSum() == null) ? 0 : getTotalSum().hashCode());
+		result = prime * result + ((orderItemId == null) ? 0 : orderItemId.hashCode());
+		result = prime * result + quantity;
+		result = prime * result + ((totalSum == null) ? 0 : totalSum.hashCode());
 		return result;
 	}
 
@@ -133,35 +102,21 @@ public class OrderItemPO implements Serializable {
 			return false;
 		}
 		OrderItemPO other = (OrderItemPO) obj;
-		if (getOrder() == null) {
-			if (other.getOrder() != null) {
+		if (orderItemId == null) {
+			if (other.orderItemId != null) {
 				return false;
 			}
-		} else if (!getOrder().equals(other.getOrder())) {
+		} else if (!orderItemId.equals(other.orderItemId)) {
 			return false;
 		}
-		if (getOrderItemId() == null) {
-			if (other.getOrderItemId() != null) {
+		if (quantity != other.quantity) {
+			return false;
+		}
+		if (totalSum == null) {
+			if (other.totalSum != null) {
 				return false;
 			}
-		} else if (!getOrderItemId().equals(other.getOrderItemId())) {
-			return false;
-		}
-		if (getProduct() == null) {
-			if (other.getProduct() != null) {
-				return false;
-			}
-		} else if (!getProduct().equals(other.getProduct())) {
-			return false;
-		}
-		if (getQuantity() != other.getQuantity()) {
-			return false;
-		}
-		if (getTotalSum() == null) {
-			if (other.getTotalSum() != null) {
-				return false;
-			}
-		} else if (!getTotalSum().equals(other.getTotalSum())) {
+		} else if (!totalSum.equals(other.totalSum)) {
 			return false;
 		}
 		return true;
@@ -169,8 +124,7 @@ public class OrderItemPO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OrderItemPO [orderItemId=" + orderItemId + ", order=" + order + ", product=" + product + ", quantity="
-				+ quantity + ", totalSum=" + totalSum + "]";
+		return "OrderItemPO [orderItemId=" + orderItemId + ", quantity=" + quantity + ", totalSum=" + totalSum + "]";
 	}
 
 }

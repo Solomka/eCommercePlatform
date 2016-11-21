@@ -43,7 +43,7 @@ public final class OrderTestRepository implements IRepository<Order, OrderID, Or
     }
 
     @Override
-    public Observable<Void> delete(@NotNull OrderID orderID) {
+    public Observable<Boolean> delete(@NotNull OrderID orderID) {
         return null;
     }
 
