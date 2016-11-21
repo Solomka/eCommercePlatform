@@ -41,7 +41,7 @@ public final class OrderServiceTest {
 
     @BeforeClass
     public static void prepare() {
-        BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
+        //BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
         final ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring_test_context.xml");
         orderApplicationService = ctx.getBean(IOrderApplicationService.class);
     }

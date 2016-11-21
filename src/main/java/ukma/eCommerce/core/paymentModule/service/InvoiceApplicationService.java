@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import rx.Observable;
@@ -26,7 +27,7 @@ final class InvoiceApplicationService implements IInvoiceApplicationService {
 	private final IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> repository;
 
 	@Autowired
-	public InvoiceApplicationService(IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> repository) {
+	public InvoiceApplicationService(@NotNull @Qualifier("invoiceRepository")IRepository<Invoice, InvoiceID, InvoiceSaveDTO, IExposedFilter> repository) {
 		this.repository = repository;
 	}
 

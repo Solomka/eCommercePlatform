@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import rx.Observable;
-import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 import ukma.eCommerce.core.userModule.model.domain.bo.Customer;
 import ukma.eCommerce.core.userModule.model.domain.dwo.CustomerEntity;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
@@ -47,10 +46,6 @@ public class CustomerRepository
 	public Observable<Customer> update(Customer t) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	public Observable<CustomerPO> saveCustomerPO(CustomerPO orderPO) {
-		return Observable.just(save(orderPO)).map(uuid -> get(uuid));
 	}
 
 }

@@ -1,9 +1,11 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,35 +28,39 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 
 	@Override
 	public Observable<Collection<Order>> find(IExposedFilter f) {
-		// TODO Auto-generated method stub
-		//return Observable.just(f.toFilter()).map(ordersPO -> Observable.from(ordersPO)).flatMap(orderPO -> OrderPOConverter.toOrder(orderPO));
-	return null;		
+	
+		return null;
+	}
+	
+	
+	public Observable<List<Order>> find(Specification<OrderPO> specification) {
+		
+		return  Observable.just(findAllBySpecification(specification))
+				.flatMap(ordersPO ->Observable.from(ordersPO))
+				.flatMap(orderPO ->Observable.just(OrderPOConverter.toOrder(orderPO))).buffer(500, TimeUnit.MILLISECONDS);
+		
 	}
 
 	@Override
 	public Observable<Order> create(OrderSaveDTO orderSaveDTO) {
-		return Observable.just(save(OrderPOConverter.fromOrderSaveDTO(orderSaveDTO))).map(uuid -> get(uuid))
-				.map(po -> OrderPOConverter.toOrder(po));
+		return Observable.create(subsciber -> {
+			OrderPO orderPO = OrderPOConverter.fromOrderSaveDTO(orderSaveDTO);
+			savePO(orderPO);
+			OrderPOConverter.toOrder(orderPO);
+		});
 	}
 
 	@Override
 	public Observable<Boolean> delete(OrderID orderID) {
-		//return Observable.create(subscriber -> getSession().delete((OrderPO) loadEntity(k)));
-		return Observable.just(deleteEntity(orderID.getId()));
+		// return Observable.create(subscriber -> getSession().delete((OrderPO)
+		// loadEntity(k)));
+		return Observable.just(deletePOById(orderID.getId()));
 	}
 
 	@Override
 	public Observable<Order> update(Order order) {
-		return Observable.create(subsciber ->{
-		updateEntity(OrderPOConverter.fromOrder(order));
-		OrderPOConverter.toOrder(get(order.getId().getId()));
-	
-	});}
-	
-	/*
-	public Observable<OrderPO> saveOrderPO(OrderPO orderPO) {
-		return Observable.just(save(orderPO)).map(uuid -> get(uuid));
+		return Observable.just(updatePO(OrderPOConverter.fromOrder(order)))
+				.map(orderPO -> OrderPOConverter.toOrder(orderPO));
 	}
-*/
 
 }
