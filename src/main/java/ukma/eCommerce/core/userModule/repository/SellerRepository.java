@@ -1,11 +1,12 @@
 package ukma.eCommerce.core.userModule.repository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import rx.Observable;
 import ukma.eCommerce.core.userModule.model.domain.bo.Seller;
@@ -21,11 +22,12 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  *
  */
 @Repository("sellerRepository")
+@Transactional
 public class SellerRepository extends
 		AHibernateRepository<ukma.eCommerce.core.userModule.model.domain.bo.Seller, SellerID, SellerEntity, IExposedFilter, SellerPO, UUID> {
 
 	@Override
-	public Observable<Collection<Seller>> find(IExposedFilter f) {
+	public Observable<List<Seller>> find(IExposedFilter f) {
 		// TODO Auto-generated method stub
 		return null;
 	}

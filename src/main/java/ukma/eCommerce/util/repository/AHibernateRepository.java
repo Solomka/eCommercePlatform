@@ -2,6 +2,7 @@ package ukma.eCommerce.util.repository;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,13 +11,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import rx.Observable;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 /**
- * Class that provides Hibernate Repository implementation
+ * Class that provides JPA/Hibernate Repository implementation
  * 
  * @author Solomka
  *
@@ -34,26 +37,25 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	// ***PO.java
 	private final Class<ObjectPO> entityClass;
 	
+	/*
 	private final CriteriaBuilder criteriaBuilder;
 	private final CriteriaQuery<ObjectPO> criteriaQuery;
 	private final Root<ObjectPO> root;
-
+*/
 	@SuppressWarnings("unchecked")
 	public AHibernateRepository() {
 		this.entityClass = (Class<ObjectPO>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
+		/*
 		this.criteriaBuilder = entityManager.getCriteriaBuilder();
 		this.criteriaQuery = (CriteriaQuery<ObjectPO>) criteriaBuilder.createQuery(entityClass);
 		this.root = (Root<ObjectPO>) criteriaQuery.from(entityClass);
-	}
-
-	public ObjectPO getPOById(KeyPO key) {
-		return entityManager.find(entityClass, key);
+		*/
 	}
 
 	public void savePO(ObjectPO entity) {
 		entityManager.persist(entity);
-		// entityManager.flush();
+		entityManager.flush();
 	}
 
 	public ObjectPO updatePO(ObjectPO entity) {
@@ -85,6 +87,10 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	}
 
 	public List<ObjectPO> findAllBySpecification(Specification<ObjectPO> specification) {
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<ObjectPO> criteriaQuery = (CriteriaQuery<ObjectPO>) criteriaBuilder.createQuery(entityClass);
+		Root<ObjectPO> root = (Root<ObjectPO>) criteriaQuery.from(entityClass);
 
 		// get predicate from specification
 		Predicate predicate = specification.toPredicate(root, criteriaQuery, criteriaBuilder);

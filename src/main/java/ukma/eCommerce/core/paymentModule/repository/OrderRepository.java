@@ -26,12 +26,14 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
 @Transactional
 public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderSaveDTO, IExposedFilter, OrderPO, UUID> {
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Observable<Collection<Order>> find(IExposedFilter f) {
-	
-		return null;
+	public Observable<List<Order>> find(IExposedFilter f) {
+		return  Observable.just(findAllBySpecification((Specification<OrderPO>)f.toFilter()))
+				.flatMap(ordersPO ->Observable.from(ordersPO))
+				.flatMap(orderPO ->Observable.just(OrderPOConverter.toOrder(orderPO))).buffer(500, TimeUnit.MILLISECONDS);
 	}
-	
+	/*
 	
 	public Observable<List<Order>> find(Specification<OrderPO> specification) {
 		
@@ -39,7 +41,7 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 				.flatMap(ordersPO ->Observable.from(ordersPO))
 				.flatMap(orderPO ->Observable.just(OrderPOConverter.toOrder(orderPO))).buffer(500, TimeUnit.MILLISECONDS);
 		
-	}
+	}*/
 
 	@Override
 	public Observable<Order> create(OrderSaveDTO orderSaveDTO) {

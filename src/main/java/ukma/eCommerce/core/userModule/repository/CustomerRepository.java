@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.userModule.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,7 @@ public class CustomerRepository
 		extends AHibernateRepository<Customer, CustomerID, CustomerEntity, IExposedFilter, CustomerPO, UUID> {
 
 	@Override
-	public Observable<Collection<Customer>> find(IExposedFilter f) {
+	public Observable<List<Customer>> find(IExposedFilter f) {
 		// TODO Auto-generated method stub
 		return null;
 	}

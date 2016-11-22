@@ -11,6 +11,7 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ public final class OrderTestRepository implements IRepository<Order, OrderID, Or
     }
 
     @Override
-    public Observable<Collection<Order>> find(IExposedFilter iExposedFilter) {
+    public Observable<List<Order>> find(IExposedFilter iExposedFilter) {
         return null;
     }
 
