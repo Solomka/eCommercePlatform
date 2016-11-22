@@ -11,7 +11,7 @@ import java.util.Objects;
  * </p>
  * Created by Максим on 11/11/2016.
  */
-public final class OrderCreatedEvent {
+public final class OrderCreatedEvent extends Event {
 
     private final Order order;
 

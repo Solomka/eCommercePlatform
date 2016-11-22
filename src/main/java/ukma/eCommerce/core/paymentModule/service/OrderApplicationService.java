@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import rx.Observable;
 import rx.schedulers.Schedulers;
-import ukma.eCommerce.core.paymentModule.domainLogic.event.IOrderEventStore;
+import ukma.eCommerce.core.paymentModule.domainLogic.event.IEventController;
 import ukma.eCommerce.core.paymentModule.domainLogic.event.OrderCreatedEvent;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
@@ -30,13 +30,13 @@ public final class OrderApplicationService implements IOrderApplicationService {
     private static final Logger LOGGER = Logger.getLogger(OrderApplicationService.class.getName());
 
     private final IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository;
-    private final IOrderEventStore eventStore;
+    private final IEventController eventController;
 
     @Autowired
     public OrderApplicationService(@NotNull @Qualifier("orderRepository") IRepository<Order, OrderID, OrderSaveDTO, IExposedFilter> repository,
-                                   @NotNull @Qualifier("orderEventStore") IOrderEventStore eventStore) {
+                                   @NotNull IEventController eventController) {
         this.repository = repository;
-        this.eventStore = eventStore;
+        this.eventController = eventController;
     }
 
     @Override
@@ -53,7 +53,7 @@ public final class OrderApplicationService implements IOrderApplicationService {
                 // handle repository result
                 // and publish order instance
                 subscriber.onNext(OrderConverter.toDto(order));
-                eventStore.store(new OrderCreatedEvent(order));
+                eventController.dispatch(new OrderCreatedEvent(order));
             } catch (final Exception e) {
                 subscriber.onError(e);
                 LOGGER.log(Level.SEVERE, "failed to create order", e);

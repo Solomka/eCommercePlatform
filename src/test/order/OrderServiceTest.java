@@ -1,17 +1,17 @@
 package order;
 
 import org.apache.log4j.*;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.ProductID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 import ukma.eCommerce.core.paymentModule.model.dwo.InOrderDTO;
+import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.core.paymentModule.service.IOrderApplicationService;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerID;
 import util.RunIf;
@@ -39,6 +39,8 @@ public final class OrderServiceTest {
     @Rule
     public final RunIfRule runIfRule;
 
+    private final boolean isValid;
+
     @BeforeClass
     public static void prepare() {
         BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
@@ -49,6 +51,7 @@ public final class OrderServiceTest {
     public OrderServiceTest(InOrderDTO testDto, boolean isValid) {
         this.runIfRule = new RunIfRule(isValid);
         this.testDto = testDto;
+        this.isValid = isValid;
     }
 
     @Test(expected = Exception.class)
@@ -56,15 +59,39 @@ public final class OrderServiceTest {
         orderApplicationService.createOrder(null);
     }
 
+    OrderServiceTest getRef() {
+        return this;
+    }
+
     @Test
-    @RunIf(condition = true)
+    // @RunIf(condition = true)
     public void testDtoArgValid() {
 
+        final Object sync = new Object();
+
         try {
-            orderApplicationService.createOrder(testDto).subscribe(
-                    result-> LOGGER.log(Level.INFO, String.format("service result %s", result)),
-                    th -> Assert.fail(String.format("unexpected exception: %s", th.toString()))
-            );
+            Assume.assumeTrue(isValid);
+
+            final Action1<OutOrderDTO> resultOk = result -> {
+                sync.notify();
+                LOGGER.log(Level.INFO, String.format("service result %s", result));
+            };
+
+            final Action1<Throwable> resultErr = th -> {
+             //   sync.notify();
+                Assert.fail(String.format("unexpected exception: %s", th.toString()));
+            };
+
+            orderApplicationService.createOrder(testDto).subscribeOn(Schedulers.immediate()).subscribe(resultOk, resultErr);
+
+            synchronized (sync) {
+                try {
+                    sync.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
         } catch (final ConstraintViolationException e) {
             Assert.fail(String.format("unexpected constraint violation: %s", e.getConstraintViolations().toString()));
         }
