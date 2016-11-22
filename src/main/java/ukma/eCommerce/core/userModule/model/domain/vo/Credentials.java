@@ -1,12 +1,12 @@
 package ukma.eCommerce.core.userModule.model.domain.vo;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import ukma.eCommerce.util.validation.Login;
 import ukma.eCommerce.util.validation.Password;
 import ukma.eCommerce.util.validation.Phone;
 
-import javax.validation.constraints.Max;
 import java.util.Objects;
 
 /**
@@ -20,7 +20,7 @@ public final class Credentials {
 
     @NotEmpty
     @Email
-    @Max(255)
+    @Length(max = 255)
     private final String email;
     @NotEmpty
     @Phone
