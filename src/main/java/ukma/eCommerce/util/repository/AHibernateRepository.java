@@ -2,7 +2,6 @@ package ukma.eCommerce.util.repository;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,11 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import rx.Observable;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 /**
@@ -29,28 +26,30 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  * @param <F>
  * @param <ObjectPO>
  */
+
 public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO, KeyPO extends Serializable>
 		implements IRepository<T, K, E, F> {
 
-	@PersistenceContext
-	EntityManager entityManager;
 	// ***PO.java
 	private final Class<ObjectPO> entityClass;
-	
+
+	@PersistenceContext
+	EntityManager entityManager;
+
 	/*
-	private final CriteriaBuilder criteriaBuilder;
-	private final CriteriaQuery<ObjectPO> criteriaQuery;
-	private final Root<ObjectPO> root;
-*/
+	 * private final CriteriaBuilder criteriaBuilder; private final
+	 * CriteriaQuery<ObjectPO> criteriaQuery; private final Root<ObjectPO> root;
+	 */
 	@SuppressWarnings("unchecked")
 	public AHibernateRepository() {
 		this.entityClass = (Class<ObjectPO>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
 		/*
-		this.criteriaBuilder = entityManager.getCriteriaBuilder();
-		this.criteriaQuery = (CriteriaQuery<ObjectPO>) criteriaBuilder.createQuery(entityClass);
-		this.root = (Root<ObjectPO>) criteriaQuery.from(entityClass);
-		*/
+		 * this.criteriaBuilder = entityManager.getCriteriaBuilder();
+		 * this.criteriaQuery = (CriteriaQuery<ObjectPO>)
+		 * criteriaBuilder.createQuery(entityClass); this.root =
+		 * (Root<ObjectPO>) criteriaQuery.from(entityClass);
+		 */
 	}
 
 	public void savePO(ObjectPO entity) {
@@ -87,7 +86,7 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	}
 
 	public List<ObjectPO> findAllBySpecification(Specification<ObjectPO> specification) {
-		
+
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<ObjectPO> criteriaQuery = (CriteriaQuery<ObjectPO>) criteriaBuilder.createQuery(entityClass);
 		Root<ObjectPO> root = (Root<ObjectPO>) criteriaQuery.from(entityClass);

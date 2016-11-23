@@ -61,6 +61,21 @@ public class CustomerPO implements Serializable {
 
 	}
 
+	public CustomerPO(UUID id) {
+		this.id = id;
+	}
+
+	public CustomerPO(UUID id, Credentials credentials, FullName fullName) {
+		this.id = id;
+		this.credentials = credentials;
+		this.fullName = fullName;
+	}
+
+	public CustomerPO(Credentials credentials, FullName fullName) {
+		this.credentials = credentials;
+		this.fullName = fullName;
+	}
+
 	public UUID getId() {
 		return id;
 	}

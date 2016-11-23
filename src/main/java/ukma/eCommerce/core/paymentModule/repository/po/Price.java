@@ -12,16 +12,21 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.types.Currency;
 @Embeddable
 public class Price {
 
-	public Price() {
-
-	}
-
 	@Column(name = "price", nullable = false)
 	private BigDecimal price;
 
 	@Column(name = "currency", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Currency currency;
+
+	public Price() {
+
+	}
+
+	public Price(BigDecimal price, Currency currency) {
+		this.price = price;
+		this.currency = currency;
+	}
 
 	public BigDecimal getPrice() {
 		return price;

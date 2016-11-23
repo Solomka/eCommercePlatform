@@ -1,84 +1,85 @@
 package order;
 
-import java.util.UUID;
-
 import javax.validation.ConstraintViolationException;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import rx.Observable;
+import ukma.eCommerce.core.userModule.model.domain.bo.Customer;
+import ukma.eCommerce.core.userModule.model.domain.dwo.CustomerSaveDTO;
+import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.repository.po.Credentials;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 import ukma.eCommerce.core.userModule.repository.po.FullName;
+import ukma.eCommerce.util.repository.IRepository;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
-@DirtiesContext
-@RunWith(Parameterized.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath*:**/spring_test_context.xml" })
+// @EnableTransactionManagement
 public class CustomerRepositoryTest {
 
 	private static final Logger LOGGER = Logger.getLogger(CustomerRepositoryTest.class.getName());
-	private final CustomerPO customerPO;
 
-	private static SessionFactory sessionFactory;
+	// @Autowired
+	// @Qualifier("customerRepository")
+	private static IRepository<Customer, CustomerID, CustomerSaveDTO, IExposedFilter> customerRepository;
+
+	private CustomerSaveDTO customerSaveDTO;
+	// private CustomerPO customerPO;
 
 	@BeforeClass
 	public static void prepare() {
-		//BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
+		// BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
 		final ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring_test_context.xml");
-		sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
+		// final ApplicationContext ctx = new
+		// ClassPathXmlApplicationContext("classpath:dispatcher-servlet.xml");
+		customerRepository = ctx.getBean("customerRepository", IRepository.class);
 	}
 
-	public CustomerRepositoryTest(CustomerPO customerPO) {
-		this.customerPO = customerPO;
-	}
-
-	protected Session getSession() {
-		return this.sessionFactory.getCurrentSession();
-	}
-
-	@SuppressWarnings("unchecked")
-	public UUID save(CustomerPO entity) {
-		return (UUID) getSession().save(entity);
-	}
-
-	@SuppressWarnings("unchecked")
-	public CustomerPO get(UUID key) {
-		return (CustomerPO) getSession().get(CustomerPO.class, key);
-	}
-	
-	public Observable<CustomerPO> saveCustomerPO(CustomerPO orderPO) {
-		return Observable.just(save(orderPO)).map(uuid -> get(uuid));
+	@Before
+	public void before() {
+		// this.customerPO = generateCustomerPO();
+		customerSaveDTO = new CustomerSaveDTO.Builder().setCredentials(generateVOCredentials())
+				.setFullName(generateVOFullName()).build();
 	}
 
 	@Test
-	public void testSaveCustomerPO() {
-
+	// @Transactional
+	public void saveCustomerPO() {
 		try {
-			saveCustomerPO(customerPO).subscribe(
-					result -> LOGGER.log(Level.INFO, String.format("service result %s", result)),
+			customerRepository.create(customerSaveDTO).subscribe(
+					result -> LOGGER.log(Level.INFO, String.format("repositroey create result %s", result)),
 					th -> Assert.fail(String.format("unexpected exception: %s", th.toString())));
 		} catch (final ConstraintViolationException e) {
 			Assert.fail(String.format("unexpected constraint violation: %s", e.getConstraintViolations().toString()));
 		}
+
 	}
 
-	@Parameterized.Parameters
-	public static Object[] data() {
-		return new Object[] { generateCustomerPO() };
+	/*
+	 * public static void generateCustomerSaveDTO() { customerSaveDTO = new
+	 * CustomerSaveDTO.Builder().setCredentials(generateVOCredentials()).
+	 * setFullName(generateVOFullName()).build(); }
+	 */
+	private static ukma.eCommerce.core.userModule.model.domain.vo.Credentials generateVOCredentials() {
+		return new ukma.eCommerce.core.userModule.model.domain.vo.Credentials("bla@gmail.com", "+380986746583",
+				"solomka123", "solomka123");
+
+	}
+
+	private static ukma.eCommerce.core.userModule.model.domain.vo.FullName generateVOFullName() {
+		return new ukma.eCommerce.core.userModule.model.domain.vo.FullName("Solomka", "Yaremko");
+
 	}
 
 	public static CustomerPO generateCustomerPO() {

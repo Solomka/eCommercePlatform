@@ -46,29 +46,17 @@ final class OrderPOConverter {
 	 * @return
 	 */
 	private static CustomerPO generateCustomerPO(CustomerID customerId) {
-		final CustomerPO customerPO = new CustomerPO();
-		customerPO.setId(customerId.getId());
-		return customerPO;
+		return new CustomerPO(customerId.getId());
 	}
 
 	private static Address generatePOAddress(ukma.eCommerce.core.userModule.model.domain.vo.Address addressVO) {
-		final Address address = new Address();
-		address.setCountry(addressVO.getCountry());
-		address.setState(addressVO.getState());
-		address.setRegion(addressVO.getRegion());
-		address.setCity(addressVO.getCity());
-		address.setStreet(addressVO.getStreet());
-		address.setIndex(addressVO.getIndex());
-
-		return address;
+		return new Address.Builder().setCity(addressVO.getCity()).setCountry(addressVO.getCountry())
+				.setIndex(addressVO.getIndex()).setRegion(addressVO.getRegion()).setState(addressVO.getState())
+				.setStreet(addressVO.getStreet()).build();
 	}
 
 	private static FullName generatePOFullName(ukma.eCommerce.core.userModule.model.domain.vo.FullName fullNameVO) {
-		final FullName fullName = new FullName();
-		fullName.setFirstName(fullNameVO.getFirstName());
-		fullName.setLastName(fullNameVO.getLastName());
-
-		return fullName;
+		return new FullName(fullNameVO.getFirstName(), fullNameVO.getLastName());
 
 	}
 
@@ -92,11 +80,7 @@ final class OrderPOConverter {
 	}
 
 	private static Price generatePOPrice(ukma.eCommerce.core.paymentModule.model.domain.vo.Price priceVO) {
-		final Price price = new Price();
-		price.setCurrency(priceVO.getCurrency());
-		price.setPrice(priceVO.getAmount());
-
-		return price;
+		return new Price(priceVO.getAmount(), priceVO.getCurrency());
 
 	}
 
@@ -129,10 +113,7 @@ final class OrderPOConverter {
 		final List<OrderItemPO> orderItemsPO = new ArrayList<OrderItemPO>(orderItems.size());
 
 		for (OrderItem orderItem : orderItems) {
-			OrderItemPO orderItemPO = new OrderItemPO();
-
-			orderItemPO.setQuantity(orderItem.getQuantity());
-			orderItemPO.setTotalSum(orderItem.getPrice().getAmount());
+			OrderItemPO orderItemPO = new OrderItemPO(orderItem.getQuantity(), orderItem.getPrice().getAmount());
 			orderItemsPO.add(orderItemPO);
 		}
 
@@ -145,6 +126,7 @@ final class OrderPOConverter {
 	 * @param orderEntity
 	 * @return
 	 */
+	@NotNull
 	static OrderPO fromOrderSaveDTO(@NotNull OrderSaveDTO orderSaveDTO) {
 
 		OrderPO orderPO = new OrderPO();
@@ -164,7 +146,7 @@ final class OrderPOConverter {
 	 * @param order
 	 * @return
 	 */
-
+	@NotNull
 	static OrderPO fromOrder(@NotNull Order order) {
 
 		OrderPO orderPO = new OrderPO();
@@ -227,6 +209,7 @@ final class OrderPOConverter {
 	 * @param orderPO
 	 * @return
 	 */
+	@NotNull
 	static Order toOrder(@NotNull OrderPO orderPO) {
 		return new Order.Builder().setId(new OrderID(orderPO.getId())).setCreationDate(orderPO.getCreationDate())
 				.setFulfilmentDate(orderPO.getFulfilmentDate()).setOrderStatus(orderPO.getStatus())

@@ -1,12 +1,13 @@
-package ukma.eCommerce.util.repository.filter;
+package ukma.eCommerce.util.service.filter;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
-import ukma.eCommerce.core.paymentModule.repository.OrderRepoFilterUtils;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
+import ukma.eCommerce.util.repository.filter.OrderRepoFilterUtils;
 
-public class OrderByIdFilter implements IExposedFilter {
+class OrderByIdFilter implements IExposedFilter {
 
 	private final OrderID orderId;
 

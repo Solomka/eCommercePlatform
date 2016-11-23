@@ -1,7 +1,6 @@
-package ukma.eCommerce.core.paymentModule.repository;
+package ukma.eCommerce.util.repository.filter;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
@@ -32,16 +31,20 @@ public final class OrderRepoFilterUtils {
 		};
 	}
 
-	public static Specifications<OrderPO> findOrderByUserIdAndStatus(CustomerID customerId, OrderStatus orderStatus) {
-		return Specifications.where(findOrderByCustomerId(customerId)).and(findOrderByStatus(orderStatus));
-
-	}
-
-	private static Specification<OrderPO> findOrderByStatus(OrderStatus orderStatus) {
+	public static Specification<OrderPO> findOrderByStatus(OrderStatus orderStatus) {
 		return (root, query, cd) -> {
 			return cd.equal(root.get("status"), orderStatus);
 		};
 
 	}
+	/*
+	 * public static Specifications<OrderPO>
+	 * findOrderByUserIdAndStatus(CustomerID customerId, OrderStatus
+	 * orderStatus) { return
+	 * Specifications.where(findOrderByCustomerId(customerId)).and(
+	 * findOrderByStatus(orderStatus));
+	 * 
+	 * }
+	 */
 
 }

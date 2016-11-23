@@ -15,10 +15,8 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "orderitemx")
 @AssociationOverrides({
-	@AssociationOverride(name = "orderItemId.order",
-		joinColumns = @JoinColumn(name = "order_idx")),
-	@AssociationOverride(name = "orderItemId.product",
-		joinColumns = @JoinColumn(name = "product_idx")) })
+		@AssociationOverride(name = "orderItemId.order", joinColumns = @JoinColumn(name = "order_idx") ),
+		@AssociationOverride(name = "orderItemId.product", joinColumns = @JoinColumn(name = "product_idx") ) })
 public class OrderItemPO implements Serializable {
 
 	/**
@@ -33,6 +31,21 @@ public class OrderItemPO implements Serializable {
 
 	public OrderItemPO() {
 
+	}
+
+	public OrderItemPO(OrderItemID orderItemId) {
+		this.orderItemId = orderItemId;
+	}
+
+	public OrderItemPO(OrderItemID orderItemId, int quantity, BigDecimal totalSum) {
+		this.orderItemId = orderItemId;
+		this.quantity = quantity;
+		this.totalSum = totalSum;
+	}
+
+	public OrderItemPO(int quantity, BigDecimal totalSum) {
+		this.quantity = quantity;
+		this.totalSum = totalSum;
 	}
 
 	@EmbeddedId

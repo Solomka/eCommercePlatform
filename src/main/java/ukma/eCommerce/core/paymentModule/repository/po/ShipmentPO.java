@@ -25,6 +25,7 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
 public class ShipmentPO implements Serializable {
 
 	/**
+	 * TODO: rewrite with Builder
 	 * 
 	 */
 	private static final long serialVersionUID = -5927906493962720311L;

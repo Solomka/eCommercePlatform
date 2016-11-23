@@ -31,6 +31,7 @@ import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 public class OrderPO implements Serializable {
 
 	/**
+	 * TODO: rewrite with Builder
 	 * 
 	 */
 	private static final long serialVersionUID = -6339656414384828558L;

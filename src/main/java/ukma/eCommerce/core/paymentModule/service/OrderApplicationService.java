@@ -1,5 +1,6 @@
 package ukma.eCommerce.core.paymentModule.service;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import rx.Observable;
@@ -21,6 +23,8 @@ import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.model.dwo.OutOrderDTO;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
+import ukma.eCommerce.util.service.filter.OrderServiceFilterUtils;
+import ukma.eCommerce.util.service.filter.ServiceFilterUtils;
 
 /**
  * <p>
@@ -54,6 +58,7 @@ public final class OrderApplicationService implements IOrderApplicationService {
 		// convert dto into entity instance and
 		// try to create order in repository asynchronously
 		// repository.find(OrderServiceFilterUtils.orderById(orderId)))
+		//repository.find(ServiceFilterUtils.and(OrderServiceFilterUtils.orderById(new OrderID(UUID.randomUUID())), OrderServiceFilterUtils.orderById(new OrderID(UUID.randomUUID()))))
 		repository.create(OrderDtoConverter.toEntity(dto))
 
 				// handle repository result

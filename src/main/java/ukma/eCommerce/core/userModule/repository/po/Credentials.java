@@ -6,10 +6,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Credentials {
 
-	public Credentials() {
-
-	}
-
 	@Column(name = "email", nullable = false, length = 255)
 	private String email;
 
@@ -21,6 +17,17 @@ public class Credentials {
 
 	@Column(name = "password", nullable = false, length = 128)
 	private String password;
+
+	public Credentials() {
+
+	}
+
+	public Credentials(String email, String phone, String login, String password) {
+		this.email = email;
+		this.phone = phone;
+		this.login = login;
+		this.password = password;
+	}
 
 	public String getEmail() {
 		return email;

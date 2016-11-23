@@ -23,7 +23,11 @@ import org.hibernate.annotations.Type;
 import ukma.eCommerce.core.userModule.repository.po.Address;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 import ukma.eCommerce.core.userModule.repository.po.FullName;
-
+/**
+ * TODO: rewrite with Builder
+ * @author Solomka
+ *
+ */
 @Entity
 @Table(name = "address")
 public class AddressPO implements Serializable {
@@ -65,7 +69,7 @@ public class AddressPO implements Serializable {
 
 	@OneToMany(mappedBy = "address", cascade = CascadeType.REFRESH)
 	private List<ShipmentPO> shipments;
-
+	
 	public AddressPO() {
 
 	}
