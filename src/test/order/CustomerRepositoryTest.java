@@ -1,10 +1,11 @@
 package order;
 
-import javax.validation.ConstraintViolationException;
+import static org.junit.Assert.assertNotNull;
 
-import org.apache.log4j.Level;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import org.apache.log4j.SimpleLayout;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,7 +25,7 @@ import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:**/spring_test_context.xml" })
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml" })
 // @EnableTransactionManagement
 public class CustomerRepositoryTest {
 
@@ -39,38 +40,42 @@ public class CustomerRepositoryTest {
 
 	@BeforeClass
 	public static void prepare() {
-		// BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
-		final ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring_test_context.xml");
+		BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
 		// final ApplicationContext ctx = new
 		// ClassPathXmlApplicationContext("classpath:dispatcher-servlet.xml");
+		final ApplicationContext ctx = new ClassPathXmlApplicationContext("file:src/main/webapp/WEB-INF/dispatcher-servlet.xml");
 		customerRepository = ctx.getBean("customerRepository", IRepository.class);
 	}
 
 	@Before
 	public void before() {
 		// this.customerPO = generateCustomerPO();
-		customerSaveDTO = new CustomerSaveDTO.Builder().setCredentials(generateVOCredentials())
-				.setFullName(generateVOFullName()).build();
+		customerSaveDTO = generateCustomerSaveDTO();
+
+		System.out.println("customerSaveDTO: " + customerSaveDTO);
 	}
 
 	@Test
-	// @Transactional
 	public void saveCustomerPO() {
-		try {
-			customerRepository.create(customerSaveDTO).subscribe(
-					result -> LOGGER.log(Level.INFO, String.format("repositroey create result %s", result)),
-					th -> Assert.fail(String.format("unexpected exception: %s", th.toString())));
-		} catch (final ConstraintViolationException e) {
-			Assert.fail(String.format("unexpected constraint violation: %s", e.getConstraintViolations().toString()));
-		}
-
+		customerRepository.create(customerSaveDTO).subscribe(result -> {
+			System.out.println("Result: " + result);
+			assertNotNull(result.getId().getId());
+		} , th -> System.out.println("th"));
 	}
 
 	/*
-	 * public static void generateCustomerSaveDTO() { customerSaveDTO = new
-	 * CustomerSaveDTO.Builder().setCredentials(generateVOCredentials()).
-	 * setFullName(generateVOFullName()).build(); }
+	 * 
+	 * @Test public void saveCustomerPO() { Customer customer =
+	 * customerRepository.createTest(customerSaveDTO); System.out.println(
+	 * "Created customer: "+ customer); assertNotNull(customer.getId().getId());
+	 * }
 	 */
+
+	public static CustomerSaveDTO generateCustomerSaveDTO() {
+		return new CustomerSaveDTO.Builder().setCredentials(generateVOCredentials()).setFullName(generateVOFullName())
+				.build();
+	}
+
 	private static ukma.eCommerce.core.userModule.model.domain.vo.Credentials generateVOCredentials() {
 		return new ukma.eCommerce.core.userModule.model.domain.vo.Credentials("bla@gmail.com", "+380986746583",
 				"solomka123", "solomka123");

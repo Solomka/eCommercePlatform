@@ -3,10 +3,8 @@ package ukma.eCommerce.core.userModule.repository;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.validation.constraints.NotNull;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +41,16 @@ public class CustomerRepository
 			CustomerPOConverter.toCustomer(customerPO);
 		});
 	}
-
+/*
+	@NotNull
+	public Customer createTest(CustomerSaveDTO customerSaveDTO) {
+		CustomerPO customerPO = CustomerPOConverter.fromCustomerSaveDTO(customerSaveDTO);
+		System.out.println("Repo customerPO before: "+ customerPO);
+		savePO(customerPO);
+		System.out.println("Repo customerPO after: "+ customerPO);
+		return CustomerPOConverter.toCustomer(customerPO);
+	}
+*/
 	@Override
 	public Observable<Boolean> delete(CustomerID k) {
 		// TODO Auto-generated method stub

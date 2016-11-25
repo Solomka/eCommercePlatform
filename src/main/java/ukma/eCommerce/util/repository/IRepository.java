@@ -44,7 +44,10 @@ public interface IRepository<T, K, E, F extends IExposedFilter> {
 	 */
 	@NotNull
 	Observable<T> create(@NotNull E e);
-
+	/*
+	@NotNull
+	T createTest(@NotNull E e);
+*/
 	/**
 	 * Asynchronously deletes object from repository by given key
 	 *

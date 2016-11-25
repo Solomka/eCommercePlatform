@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+
+		<!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+		<!-- Echo all executed SQL to stdout --> 
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		<property name="use_sql_comments">true</property>
+
+		<mapping class="ukma.eCommerce.core.userModule.repository.po.CustomerPO" />
+		<mapping class="ukma.eCommerce.core.userModule.repository.po.SellerPO" />
+		<mapping class="ukma.eCommerce.core.userModule.repository.po.AccountPO" />
+
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.AddressPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.CategoryPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.InvoicePO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.OrderItemPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.OrderPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.PaymentPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.ProductPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.ShipmentPO" />
+		<mapping class="ukma.eCommerce.core.paymentModule.repository.po.TypePO" />
+	</session-factory>
+</hibernate-configuration>

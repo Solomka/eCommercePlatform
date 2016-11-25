@@ -36,8 +36,10 @@ final class CustomerPOConverter {
 	 * @param customerSaveDTO
 	 * @return
 	 */
+
 	@NotNull
 	static CustomerPO fromCustomerSaveDTO(@NotNull CustomerSaveDTO customerSaveDTO) {
+
 		return new CustomerPO(generatePOCredentials(customerSaveDTO.getCredentials()),
 				generatePOFullName(customerSaveDTO.getFullName()));
 	}
@@ -72,6 +74,7 @@ final class CustomerPOConverter {
 	 * @param customerPO
 	 * @return
 	 */
+
 	@NotNull
 	static Customer toCustomer(@NotNull CustomerPO customerPO) {
 		return new Customer.Builder().setCredentials(generateVOCredentials(customerPO.getCredentials()))

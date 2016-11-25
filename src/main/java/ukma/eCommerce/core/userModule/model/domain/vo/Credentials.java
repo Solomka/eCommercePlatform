@@ -20,17 +20,17 @@ import ukma.eCommerce.util.validation.Phone;
 public final class Credentials {
 
 	@NotEmpty
-	@Email
-	@Max(255)
+	//@Email
+	//@Max(255)
 	private final String email;
 	@NotEmpty
-	@Phone
+	//@Phone
 	private final String phone;
 	@NotEmpty
-	@Password
+	//@Password
 	private final String password;
 	@NotEmpty
-	@Login
+	//@Login
 	private final String login;
 
 	/**

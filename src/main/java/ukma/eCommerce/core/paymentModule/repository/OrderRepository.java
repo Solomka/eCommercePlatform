@@ -1,6 +1,5 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -29,19 +28,23 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 	@SuppressWarnings("unchecked")
 	@Override
 	public Observable<List<Order>> find(IExposedFilter f) {
-		return  Observable.just(findAllBySpecification((Specification<OrderPO>)f.toFilter()))
-				.flatMap(ordersPO ->Observable.from(ordersPO))
-				.flatMap(orderPO ->Observable.just(OrderPOConverter.toOrder(orderPO))).buffer(500, TimeUnit.MILLISECONDS);
+		return Observable.just(findAllBySpecification((Specification<OrderPO>) f.toFilter()))
+				.flatMap(ordersPO -> Observable.from(ordersPO))
+				.flatMap(orderPO -> Observable.just(OrderPOConverter.toOrder(orderPO)))
+				.buffer(500, TimeUnit.MILLISECONDS);
 	}
 	/*
-	
-	public Observable<List<Order>> find(Specification<OrderPO> specification) {
-		
-		return  Observable.just(findAllBySpecification(specification))
-				.flatMap(ordersPO ->Observable.from(ordersPO))
-				.flatMap(orderPO ->Observable.just(OrderPOConverter.toOrder(orderPO))).buffer(500, TimeUnit.MILLISECONDS);
-		
-	}*/
+	 * 
+	 * public Observable<List<Order>> find(Specification<OrderPO> specification)
+	 * {
+	 * 
+	 * return Observable.just(findAllBySpecification(specification))
+	 * .flatMap(ordersPO ->Observable.from(ordersPO)) .flatMap(orderPO
+	 * ->Observable.just(OrderPOConverter.toOrder(orderPO))).buffer(500,
+	 * TimeUnit.MILLISECONDS);
+	 * 
+	 * }
+	 */
 
 	@Override
 	public Observable<Order> create(OrderSaveDTO orderSaveDTO) {
