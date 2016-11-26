@@ -1,7 +1,6 @@
 package ukma.eCommerce.util.repository;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +31,7 @@ public interface IRepository<T, K, E, F extends IExposedFilter> {
 	 * @return instance of {@linkplain Observable} to monitor request status
 	 */
 	@NotNull
-	Observable<List<T>> find(F f);
+	Collection<T> find(F f);
 
 	/**
 	 * Asynchronously creates object in repository from given form. In case of
@@ -43,11 +42,8 @@ public interface IRepository<T, K, E, F extends IExposedFilter> {
 	 * @return instance of {@linkplain Observable} to monitor request status
 	 */
 	@NotNull
-	Observable<T> create(@NotNull E e);
-	/*
-	@NotNull
-	T createTest(@NotNull E e);
-*/
+	T create(@NotNull E e);
+
 	/**
 	 * Asynchronously deletes object from repository by given key
 	 *
@@ -56,7 +52,7 @@ public interface IRepository<T, K, E, F extends IExposedFilter> {
 	 * @return instance of {@linkplain Observable} to monitor request status
 	 */
 	@NotNull
-	Observable<Boolean> delete(@NotNull K k);
+	void delete(@NotNull K k);
 
 	/**
 	 * Asynchronously updates object in repository using given key and update
@@ -68,5 +64,6 @@ public interface IRepository<T, K, E, F extends IExposedFilter> {
 	 * @return instance of {@linkplain Observable} to monitor request status
 	 */
 	@NotNull
-	Observable<T> update(@NotNull T t);
+	T update(@NotNull T t);
+
 }

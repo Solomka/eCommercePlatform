@@ -1,14 +1,12 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import rx.Observable;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Charge;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.ChargeID;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
@@ -22,29 +20,28 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  *
  */
 @Repository("chargeRepository")
-@Transactional
 public class ChargeRepository
 		extends AHibernateRepository<Charge, ChargeID, ChargeSaveDTO, IExposedFilter, PaymentPO, UUID> {
 
 	@Override
-	public Observable<List<Charge>> find(IExposedFilter f) {
+	public Collection<Charge> find(IExposedFilter f) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Charge> create(ChargeSaveDTO e) {
+	public Charge create(ChargeSaveDTO e) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Observable<Boolean> delete(@NotNull ChargeID chargeID) {
-		return null;
+	public void delete(@NotNull ChargeID chargeID) {
+
 	}
 
 	@Override
-	public Observable<Charge> update(@NotNull Charge charge) {
+	public Charge update(@NotNull Charge charge) {
 		return null;
 	}
 

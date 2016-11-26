@@ -1,14 +1,11 @@
 package order;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -54,7 +51,7 @@ public class CustomerRepositoryTest {
 
 		System.out.println("customerSaveDTO: " + customerSaveDTO);
 	}
-
+/*
 	@Test
 	public void saveCustomerPO() {
 		customerRepository.create(customerSaveDTO).subscribe(result -> {
@@ -62,7 +59,7 @@ public class CustomerRepositoryTest {
 			assertNotNull(result.getId().getId());
 		} , th -> System.out.println("th"));
 	}
-
+*/
 	/*
 	 * 
 	 * @Test public void saveCustomerPO() { Customer customer =

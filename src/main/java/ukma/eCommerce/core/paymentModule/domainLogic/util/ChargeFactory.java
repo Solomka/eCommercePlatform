@@ -1,14 +1,12 @@
 package ukma.eCommerce.core.paymentModule.domainLogic.util;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
 import org.springframework.stereotype.Component;
-
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ChargeStatus;
 import ukma.eCommerce.core.paymentModule.model.dwo.ChargeSaveDTO;
-import ukma.eCommerce.core.paymentModule.model.dwo.InvoicePMDTO;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * Created by Максим on 11/3/2016.
@@ -19,19 +17,14 @@ public final class ChargeFactory implements IChargeFactory {
 	/**
 	 * AR should always be consistent (id can not be NULL)
 	 */
+
 	@Override
-	public ChargeSaveDTO create(@NotNull InvoicePMDTO invoice, @Null ChargeStatus status) {
-		/*
-		 * return new Charge.Builder().setId(null)
-		 * .setPaymentDate(DateTime.now()) .setInvoice(invoice.getId())
-		 * .setStatus(status == null ? ChargeStatus.SUCCEEDED : status)
-		 * .build();
-		 */
+	public ChargeSaveDTO create(@NotNull Invoice invoice, @Null ChargeStatus status) {
 		return new ChargeSaveDTO.Builder().build();
 	}
 
 	@Override
-	public ChargeSaveDTO create(@NotNull InvoicePMDTO invoice) {
+	public ChargeSaveDTO create(@NotNull Invoice invoice) {
 		return create(invoice, null);
 	}
 }

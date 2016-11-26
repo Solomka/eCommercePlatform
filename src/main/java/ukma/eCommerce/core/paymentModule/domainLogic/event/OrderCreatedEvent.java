@@ -1,6 +1,6 @@
 package ukma.eCommerce.core.paymentModule.domainLogic.event;
 
-import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderProxy;
+import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -11,16 +11,16 @@ import java.util.Objects;
  * </p>
  * Created by Максим on 11/11/2016.
  */
-public final class OrderCreatedEvent {
+public final class OrderCreatedEvent extends Event {
 
-    private final OrderProxy proxy;
+    private final Order order;
 
-    public OrderCreatedEvent(@NotNull OrderProxy proxy) {
-        this.proxy = Objects.requireNonNull(proxy);
+    public OrderCreatedEvent(@NotNull Order order) {
+        this.order = Objects.requireNonNull(order);
     }
 
-    public OrderProxy getOrder() {
-        return proxy;
+    public Order getOrder() {
+        return order;
     }
 
 }

@@ -1,14 +1,11 @@
 package ukma.eCommerce.core.userModule.repository;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
-
-import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import rx.Observable;
 import ukma.eCommerce.core.userModule.model.domain.bo.Customer;
 import ukma.eCommerce.core.userModule.model.domain.dwo.CustomerSaveDTO;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
@@ -28,11 +25,18 @@ public class CustomerRepository
 		extends AHibernateRepository<Customer, CustomerID, CustomerSaveDTO, IExposedFilter, CustomerPO, UUID> {
 
 	@Override
-	public Observable<List<Customer>> find(IExposedFilter f) {
+	public Collection<Customer> find(IExposedFilter f) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public Customer create(CustomerSaveDTO e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/*
 	@Override
 	public Observable<Customer> create(CustomerSaveDTO customerSaveDTO) {
 		return Observable.create(subsciber -> {
@@ -41,6 +45,8 @@ public class CustomerRepository
 			CustomerPOConverter.toCustomer(customerPO);
 		});
 	}
+*/
+	
 /*
 	@NotNull
 	public Customer createTest(CustomerSaveDTO customerSaveDTO) {
@@ -51,14 +57,15 @@ public class CustomerRepository
 		return CustomerPOConverter.toCustomer(customerPO);
 	}
 */
+
 	@Override
-	public Observable<Boolean> delete(CustomerID k) {
+	public void delete(CustomerID k) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public Observable<Customer> update(Customer t) {
+	public Customer update(Customer t) {
 		// TODO Auto-generated method stub
 		return null;
 	}

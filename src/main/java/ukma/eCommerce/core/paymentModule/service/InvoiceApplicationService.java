@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 import ukma.eCommerce.core.paymentModule.domainLogic.event.OrderCreatedEvent;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Invoice;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.InvoiceID;
@@ -33,12 +34,13 @@ final class InvoiceApplicationService implements IInvoiceApplicationService {
 
 	@EventListener
 	public void onOrderCreated(OrderCreatedEvent event) {
-		repository.create(InvoiceConverter.convert(event.getOrder()))
-                .subscribe();
+		repository.create(InvoiceConverter.convert(event.getOrder()));
 	}
 
 	@Override
 	public Observable<Invoice> createInvoice(@NotNull InvoiceDTO invoiceDTO) {
-		return repository.create(InvoiceConverter.convert(invoiceDTO));
+		return Observable.create((Observable.OnSubscribe<Invoice>) subscriber ->
+				subscriber.onNext(repository.create(InvoiceConverter.convert(invoiceDTO))))
+				.subscribeOn(Schedulers.newThread());
 	}
 }
