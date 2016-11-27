@@ -1,4 +1,4 @@
-package ukma.eCommerce.util.repository.filter;
+package ukma.eCommerce.core.paymentModule.repository.filter;
 
 import org.springframework.data.jpa.domain.Specification;
 

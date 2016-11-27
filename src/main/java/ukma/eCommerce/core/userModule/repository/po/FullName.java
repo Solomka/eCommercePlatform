@@ -1,5 +1,7 @@
 package ukma.eCommerce.core.userModule.repository.po;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -17,8 +19,8 @@ public class FullName {
 	}
 
 	public FullName(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstName = Objects.requireNonNull(firstName);
+		this.lastName = Objects.requireNonNull(lastName);
 	}
 
 	public String getFirstName() {

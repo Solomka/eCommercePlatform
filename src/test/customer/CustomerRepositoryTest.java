@@ -1,13 +1,12 @@
-package order;
+package customer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
-
-import javax.validation.constraints.AssertTrue;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -28,9 +27,9 @@ import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.repository.po.Credentials;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 import ukma.eCommerce.core.userModule.repository.po.FullName;
+import ukma.eCommerce.core.userModule.service.filter.CustomerServiceFilterUtils;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
-import ukma.eCommerce.util.service.filter.CustomerServiceFilterUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml" })
@@ -51,7 +50,8 @@ public class CustomerRepositoryTest {
 		BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
 		// final ApplicationContext ctx = new
 		// ClassPathXmlApplicationContext("classpath:dispatcher-servlet.xml");
-		final ApplicationContext ctx = new ClassPathXmlApplicationContext("file:src/main/webapp/WEB-INF/dispatcher-servlet.xml");
+		final ApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"file:src/main/webapp/WEB-INF/dispatcher-servlet.xml");
 		customerRepository = ctx.getBean("customerRepository", IRepository.class);
 	}
 
@@ -62,62 +62,59 @@ public class CustomerRepositoryTest {
 
 		System.out.println("customerSaveDTO: " + customerSaveDTO);
 	}
-	
-	 @Test
-	  public void findCustomer(){	 
-		  List<Customer> updatedCustomer =  (List<Customer>) customerRepository.find(CustomerServiceFilterUtils.getCustomerById(generateCustomerID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
-		 System.out.println("Found customer: " + updatedCustomer.get(0));
-		  assertNotNull(updatedCustomer.get(0));
-	  }
-	  
-	  @Test 
-	  public void createCustomer() { 
-		  Customer customer = customerRepository.create(customerSaveDTO); 
-		  System.out.println("Created customer: "+ customer); 
-		  assertNotNull(customer.getId().getId());
-	  }	 
-	  
-		  
-	  @Test
-	  public void updateCustomer(){
-		  
-		  List<Customer> oldCustomer = (ArrayList<Customer>) customerRepository.find(CustomerServiceFilterUtils.getCustomerById(generateCustomerID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
-		  Customer newCustomer = oldCustomer.get(0);
-		  //System.out.println("Customer to update: "+ newCustomer);
-		  newCustomer.changeFullName(generateNewVOFullName());
-		  assertNotNull(customerRepository.update(newCustomer));
-	  }
-	  
-/*
+
 	@Test
-	public void saveCustomerPO() {
-		customerRepository.create(customerSaveDTO).subscribe(result -> {
-			System.out.println("Result: " + result);
-			assertNotNull(result.getId().getId());
-		} , th -> System.out.println("th"));
+	public void findCustomer() {
+		List<Customer> updatedCustomer = (List<Customer>) customerRepository.find(
+				CustomerServiceFilterUtils.getCustomerById(new CustomerID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
+		System.out.println("Found customer: " + updatedCustomer.get(0));
+		assertNotNull(updatedCustomer.get(0));
 	}
-*/
-	
+
 	@Test
-	public void deleteCustomer(){
-		customerRepository.delete(generateCustomerID("766d7567-05a1-4385-90f4-1f384e4d890d"));
-		Collection<Customer> customers = customerRepository.find(CustomerServiceFilterUtils.getCustomerById(generateCustomerID("766d7567-05a1-4385-90f4-1f384e4d890d")));
+	public void createCustomer() {
+		Customer customer = customerRepository.create(customerSaveDTO);
+		System.out.println("Created customer: " + customer);
+		assertNotNull(customer.getId().getId());
+	}
+
+	@Test
+	public void updateCustomer() {
+
+		List<Customer> oldCustomer = (ArrayList<Customer>) customerRepository.find(
+				CustomerServiceFilterUtils.getCustomerById(new CustomerID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
+		Customer newCustomer = oldCustomer.get(0);
+		// System.out.println("Customer to update: "+ newCustomer);
+		newCustomer.changeFullName(generateNewVOFullName());
+		assertNotNull(customerRepository.update(newCustomer));
+	}
+
+	/*
+	 * @Test public void saveCustomerPO() {
+	 * customerRepository.create(customerSaveDTO).subscribe(result -> {
+	 * System.out.println("Result: " + result);
+	 * assertNotNull(result.getId().getId()); } , th ->
+	 * System.out.println("th")); }
+	 */
+
+	@Test
+	public void deleteCustomer() {
+		customerRepository.delete(new CustomerID("766d7567-05a1-4385-90f4-1f384e4d890d"));
+		Collection<Customer> customers = customerRepository.find(
+				CustomerServiceFilterUtils.getCustomerById(new CustomerID("766d7567-05a1-4385-90f4-1f384e4d890d")));
 		assertEquals(0, customers.size());
-		
+
 	}
-	
-	
+
 	@Test
-	public void deleteCustomerFail(){
-		try{
-		customerRepository.delete(generateCustomerID("766d7567-05a1-4385-90f4-1f384e4d890d"));
+	public void deleteCustomerFail() {
+		try {
+			customerRepository.delete(new CustomerID("766d7567-05a1-4385-90f4-1f384e4d890d"));
+		} catch (Exception ex) {
+			fail("No customer with such id \n message: " + ex.getMessage());
 		}
-		catch(Exception ex){
-		fail("No customer with such id \n message: "+ ex.getMessage());
-		}
-		
+
 	}
-	
 
 	public static CustomerSaveDTO generateCustomerSaveDTO() {
 		return new CustomerSaveDTO.Builder().setCredentials(generateVOCredentials()).setFullName(generateVOFullName())
@@ -134,14 +131,10 @@ public class CustomerRepositoryTest {
 		return new ukma.eCommerce.core.userModule.model.domain.vo.FullName("Larisa", "Yaremko");
 
 	}
-	
+
 	private static ukma.eCommerce.core.userModule.model.domain.vo.FullName generateNewVOFullName() {
 		return new ukma.eCommerce.core.userModule.model.domain.vo.FullName("Sona", "Yaremko");
 
-	}
-	
-	private static CustomerID generateCustomerID(String id){
-		return new CustomerID(UUID.fromString(id));
 	}
 
 	public static CustomerPO generateCustomerPO() {

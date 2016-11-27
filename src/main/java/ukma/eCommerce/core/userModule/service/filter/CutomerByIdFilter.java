@@ -1,10 +1,12 @@
-package ukma.eCommerce.util.service.filter;
+package ukma.eCommerce.core.userModule.service.filter;
+
+import java.util.Objects;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
+import ukma.eCommerce.core.userModule.repository.filter.CustomerRepoFilterUtils;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
-import ukma.eCommerce.util.repository.filter.CustomerRepoFilterUtils;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 class CutomerByIdFilter implements IExposedFilter {
@@ -12,12 +14,11 @@ class CutomerByIdFilter implements IExposedFilter {
 	private final CustomerID customerId;
 
 	public CutomerByIdFilter(CustomerID customerId) {
-		this.customerId = customerId;
+		this.customerId = Objects.requireNonNull(customerId);
 	}
 
 	@Override
 	public Specification<CustomerPO> toFilter() {
-		// TODO Auto-generated method stub
 		return CustomerRepoFilterUtils.findCustomerById(customerId);
 	}
 

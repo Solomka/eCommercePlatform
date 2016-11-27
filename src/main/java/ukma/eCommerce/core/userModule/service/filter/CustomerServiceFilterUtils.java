@@ -1,4 +1,4 @@
-package ukma.eCommerce.util.service.filter;
+package ukma.eCommerce.core.userModule.service.filter;
 
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;

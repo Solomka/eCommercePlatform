@@ -1,5 +1,7 @@
 package ukma.eCommerce.core.userModule.repository.po;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -21,12 +23,19 @@ public class Credentials {
 	public Credentials() {
 
 	}
+	/**
+	 * 
+	 * @param email
+	 * @param phone
+	 * @param login
+	 * @param password
+	 */
 
 	public Credentials(String email, String phone, String login, String password) {
-		this.email = email;
-		this.phone = phone;
-		this.login = login;
-		this.password = password;
+		this.email = Objects.requireNonNull(email);
+		this.phone = Objects.requireNonNull(phone);
+		this.login = Objects.requireNonNull(login);
+		this.password = Objects.requireNonNull(password);
 	}
 
 	public String getEmail() {
@@ -45,20 +54,20 @@ public class Credentials {
 		this.phone = phone;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getLogin() {
 		return login;
 	}
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override

@@ -26,12 +26,11 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
 public class CustomerRepository
 		extends AHibernateRepository<Customer, CustomerID, CustomerSaveDTO, IExposedFilter, CustomerPO, UUID> {
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Customer> find(IExposedFilter f) {
 		return findAllBySpecification((Specification<CustomerPO>) f.toFilter()).stream()
-				.map(customerPO ->CustomerPOConverter.toCustomer(customerPO)).collect(Collectors.toList());
+				.map(customerPO -> CustomerPOConverter.toCustomer(customerPO)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -40,39 +39,17 @@ public class CustomerRepository
 		savePO(customerPO);
 		return CustomerPOConverter.toCustomer(customerPO);
 	}
-	
-	/*
-	@Override
-	public Observable<Customer> create(CustomerSaveDTO customerSaveDTO) {
-		return Observable.create(subsciber -> {
-			CustomerPO customerPO = CustomerPOConverter.fromCustomerSaveDTO(customerSaveDTO);
-			savePO(customerPO);
-			CustomerPOConverter.toCustomer(customerPO);
-		});
-	}
-*/
-	
-/*
-	@NotNull
-	public Customer createTest(CustomerSaveDTO customerSaveDTO) {
-		CustomerPO customerPO = CustomerPOConverter.fromCustomerSaveDTO(customerSaveDTO);
-		System.out.println("Repo customerPO before: "+ customerPO);
-		savePO(customerPO);
-		System.out.println("Repo customerPO after: "+ customerPO);
-		return CustomerPOConverter.toCustomer(customerPO);
-	}
-*/
 
 	@Override
 	public Customer update(Customer customer) {
 		final CustomerPO customerPO = updatePO(CustomerPOConverter.fromCustomer(customer));
 		return CustomerPOConverter.toCustomer(customerPO);
 	}
-	
+
 	@Override
 	public void delete(CustomerID customerId) {
-		deletePOById(customerId.getId());	
-		
-	}	
+		deletePOById(customerId.getId());
+
+	}
 
 }

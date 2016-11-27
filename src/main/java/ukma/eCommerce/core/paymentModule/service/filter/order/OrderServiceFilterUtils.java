@@ -1,4 +1,4 @@
-package ukma.eCommerce.util.service.filter;
+package ukma.eCommerce.core.paymentModule.service.filter.order;
 
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;

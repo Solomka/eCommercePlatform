@@ -10,6 +10,7 @@ import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 import ukma.eCommerce.core.userModule.repository.po.FullName;
 
 /**
+ * converter for Customer object
  * 
  * @author Solomka
  *
@@ -22,7 +23,8 @@ final class CustomerPOConverter {
 
 	private static Credentials generatePOCredentials(
 			ukma.eCommerce.core.userModule.model.domain.vo.Credentials credentialsVO) {
-		return new Credentials(credentialsVO.getEmail(), credentialsVO.getPhone(), credentialsVO.getLogin(), credentialsVO.getPassword());
+		return new Credentials(credentialsVO.getEmail(), credentialsVO.getPhone(), credentialsVO.getLogin(),
+				credentialsVO.getPassword());
 	}
 
 	private static FullName generatePOFullName(ukma.eCommerce.core.userModule.model.domain.vo.FullName fullNameVO) {
@@ -58,9 +60,8 @@ final class CustomerPOConverter {
 
 	private static ukma.eCommerce.core.userModule.model.domain.vo.Credentials generateVOCredentials(
 			Credentials credentials) {
-		// TODO Auto-generated method stub
-		return new ukma.eCommerce.core.userModule.model.domain.vo.Credentials(credentials.getEmail(),credentials.getPhone(), credentials.getLogin(),
-				credentials.getPassword());
+		return new ukma.eCommerce.core.userModule.model.domain.vo.Credentials(credentials.getEmail(),
+				credentials.getPhone(), credentials.getLogin(), credentials.getPassword());
 	}
 
 	private static ukma.eCommerce.core.userModule.model.domain.vo.FullName generateVOFullName(FullName fullName) {
@@ -77,7 +78,8 @@ final class CustomerPOConverter {
 
 	@NotNull
 	static Customer toCustomer(@NotNull CustomerPO customerPO) {
-		return new Customer.Builder().setId(new CustomerID(customerPO.getId())).setCredentials(generateVOCredentials(customerPO.getCredentials()))
+		return new Customer.Builder().setId(new CustomerID(customerPO.getId()))
+				.setCredentials(generateVOCredentials(customerPO.getCredentials()))
 				.setFullName(generateVOFullName(customerPO.getFullName())).build();
 	}
 

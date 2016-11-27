@@ -2,6 +2,7 @@ package ukma.eCommerce.core.userModule.repository.po;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
@@ -26,7 +27,7 @@ import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 public class CustomerPO implements Serializable {
 
 	/**
-	 * 
+	 * Customer Persistence object
 	 */
 	private static final long serialVersionUID = -6989120513965832589L;
 
@@ -62,18 +63,18 @@ public class CustomerPO implements Serializable {
 	}
 
 	public CustomerPO(UUID id) {
-		this.id = id;
+		this.id = Objects.requireNonNull(id);
 	}
 
 	public CustomerPO(UUID id, Credentials credentials, FullName fullName) {
-		this.id = id;
-		this.credentials = credentials;
-		this.fullName = fullName;
+		this.id = Objects.requireNonNull(id);
+		this.credentials = Objects.requireNonNull(credentials);
+		this.fullName = Objects.requireNonNull(fullName);
 	}
 
 	public CustomerPO(Credentials credentials, FullName fullName) {
-		this.credentials = credentials;
-		this.fullName = fullName;
+		this.credentials = Objects.requireNonNull(credentials);
+		this.fullName = Objects.requireNonNull(fullName);
 	}
 
 	public UUID getId() {

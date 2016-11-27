@@ -46,8 +46,10 @@ public final class OrderApplicationService implements IOrderApplicationService {
             throw new RuntimeException("@Validate annotation expected!");
 
         return Observable.create((Observable.OnSubscribe<OutOrderDTO>) subscriber -> {
-            // convert dto into entity instance and
-            // try to create order in repository asynchronously
+        	// convert dto into entity instance and
+    		// try to create order in repository asynchronously
+    		// repository.find(OrderServiceFilterUtils.getOrderById(orderId)))
+    		//repository.find(ServiceFilterUtils.and(OrderServiceFilterUtils.getOrderById(new OrderID(UUID.randomUUID())), OrderServiceFilterUtils.getOrderById(new OrderID(UUID.randomUUID()))))
             try {
                 final Order order = repository.create(OrderConverter.toEntity(dto));
                 // handle repository result

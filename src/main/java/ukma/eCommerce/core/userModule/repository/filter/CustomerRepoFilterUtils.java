@@ -1,11 +1,17 @@
-package ukma.eCommerce.util.repository.filter;
+package ukma.eCommerce.core.userModule.repository.filter;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 
-public class CustomerRepoFilterUtils {
+/**
+ * repository-specific filters for CustomerRepository
+ * 
+ * @author Solomka
+ *
+ */
+public final class CustomerRepoFilterUtils {
 
 	private CustomerRepoFilterUtils() {
 		throw new RuntimeException();

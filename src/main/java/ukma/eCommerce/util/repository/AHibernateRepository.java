@@ -3,7 +3,6 @@ package ukma.eCommerce.util.repository;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +25,9 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  * @param <E>
  * @param <F>
  * @param <ObjectPO>
+ *            persistence object
+ * @param <KeyPO>
+ *            persistence object key
  */
 
 public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO extends Serializable, KeyPO extends Serializable>
@@ -37,20 +39,10 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	@PersistenceContext
 	EntityManager entityManager;
 
-	/*
-	 * private final CriteriaBuilder criteriaBuilder; private final
-	 * CriteriaQuery<ObjectPO> criteriaQuery; private final Root<ObjectPO> root;
-	 */
 	@SuppressWarnings("unchecked")
 	public AHibernateRepository() {
 		this.entityClass = (Class<ObjectPO>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[4];
-		/*
-		 * this.criteriaBuilder = entityManager.getCriteriaBuilder();
-		 * this.criteriaQuery = (CriteriaQuery<ObjectPO>)
-		 * criteriaBuilder.createQuery(entityClass); this.root =
-		 * (Root<ObjectPO>) criteriaQuery.from(entityClass);
-		 */
 	}
 
 	public void savePO(ObjectPO entity) {
@@ -76,22 +68,17 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	public void deletePO(ObjectPO entity) {
 		entityManager.remove(entity);
 	}
-	
+
 	public void deletePOById(KeyPO k) {
 		ObjectPO objectPO = getReference(k);
 		deletePO(objectPO);
 	}
-	
-/*
-	public boolean deletePOById(KeyPO k) {
-		ObjectPO objectPO = getReference(k);
-		if (objectPO != null) {
-			deletePO(objectPO);
-			return true;
-		}
-		return false;
-	}
-*/
+
+	/*
+	 * public boolean deletePOById(KeyPO k) { ObjectPO objectPO =
+	 * getReference(k); if (objectPO != null) { deletePO(objectPO); return true;
+	 * } return false; }
+	 */
 	public Collection<ObjectPO> findAllBySpecification(Specification<ObjectPO> specification) {
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
