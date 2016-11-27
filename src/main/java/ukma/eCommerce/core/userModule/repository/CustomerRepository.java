@@ -2,7 +2,9 @@ package ukma.eCommerce.core.userModule.repository;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +26,19 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
 public class CustomerRepository
 		extends AHibernateRepository<Customer, CustomerID, CustomerSaveDTO, IExposedFilter, CustomerPO, UUID> {
 
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Customer> find(IExposedFilter f) {
-		// TODO Auto-generated method stub
-		return null;
+		return findAllBySpecification((Specification<CustomerPO>) f.toFilter()).stream()
+				.map(customerPO ->CustomerPOConverter.toCustomer(customerPO)).collect(Collectors.toList());
 	}
 
 	@Override
-	public Customer create(CustomerSaveDTO e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Customer create(CustomerSaveDTO customerSaveDTO) {
+		final CustomerPO customerPO = CustomerPOConverter.fromCustomerSaveDTO(customerSaveDTO);
+		savePO(customerPO);
+		return CustomerPOConverter.toCustomer(customerPO);
 	}
 	
 	/*
@@ -59,15 +64,15 @@ public class CustomerRepository
 */
 
 	@Override
-	public void delete(CustomerID k) {
-		// TODO Auto-generated method stub
-		
+	public Customer update(Customer customer) {
+		final CustomerPO customerPO = updatePO(CustomerPOConverter.fromCustomer(customer));
+		return CustomerPOConverter.toCustomer(customerPO);
 	}
-
+	
 	@Override
-	public Customer update(Customer t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public void delete(CustomerID customerId) {
+		deletePOById(customerId.getId());	
+		
+	}	
 
 }

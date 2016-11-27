@@ -19,18 +19,19 @@ import java.util.Objects;
 public final class Credentials {
 
     @NotEmpty
-    @Email
-    @Length(max = 255)
+    //@Email
+    //@Length(max = 255)
     private final String email;
     @NotEmpty
-    @Phone
+    //@Phone
     private final String phone;
     @NotEmpty
-    @Password
-    private final String password;
-    @NotEmpty
-    @Login
+    //@Login
     private final String login;
+    @NotEmpty
+    //@Password
+    private final String password;
+   
 
     /**
      * Constructs new instance. All parameters are required
@@ -40,11 +41,11 @@ public final class Credentials {
      * @param password
      * @param login
      */
-    public Credentials(String email, String phone, String password, String login) {
+    public Credentials(String email, String phone, String login, String password) {
         this.email = Objects.requireNonNull(email);
         this.phone = Objects.requireNonNull(phone);
-        this.password = Objects.requireNonNull(password);
         this.login = Objects.requireNonNull(login);
+        this.password = Objects.requireNonNull(password);
     }
 
     public String getEmail() {

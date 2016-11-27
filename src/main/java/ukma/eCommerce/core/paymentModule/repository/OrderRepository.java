@@ -1,8 +1,10 @@
 package ukma.eCommerce.core.paymentModule.repository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +24,11 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
 @Transactional
 public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderSaveDTO, IExposedFilter, OrderPO, UUID> {
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Order> find(IExposedFilter f) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Order> find(IExposedFilter f) {
+				return findAllBySpecification((Specification<OrderPO>) f.toFilter()).stream()
+				.map(orderPO ->OrderPOConverter.toOrder(orderPO)).collect(Collectors.toList());
 	}
 				
 /*  @SuppressWarnings("unchecked")
@@ -52,10 +55,11 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 	 */
 
 	@Override
-	public Order create(OrderSaveDTO orderEntity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Order create(OrderSaveDTO orderSaveDTO) {
+		OrderPO orderPO = OrderPOConverter.fromOrderSaveDTO(orderSaveDTO);
+		savePO(orderPO);
+		return OrderPOConverter.toOrder(orderPO);
+			}
 
 	/*
 	@Override
@@ -70,7 +74,7 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 	
 	@Override
 	public void delete(OrderID orderId) {
-		
+		deletePOById(orderId.getId());		
 	}
 	
 /*
@@ -84,8 +88,8 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 
 	@Override
 	public Order update(Order order) {
-		// TODO Auto-generated method stub
-		return null;
+		OrderPO orderPO = updatePO(OrderPOConverter.fromOrder(order));
+		return OrderPOConverter.toOrder(orderPO);
 	}
 /*
 	@Override

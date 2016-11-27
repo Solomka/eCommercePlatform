@@ -18,15 +18,15 @@ public final class OrderServiceFilterUtils {
 		throw new RuntimeException();
 	}
 
-	public static IExposedFilter orderById(OrderID orderId) {
+	public static IExposedFilter getOrderById(OrderID orderId) {
 		return new OrderByIdFilter(orderId);
 	}
 
-	public static IExposedFilter orderByCustomerID(CustomerID customerId) {
+	public static IExposedFilter getOrderByCustomerID(CustomerID customerId) {
 		return new OrderByCustomerIdFilter(customerId);
 	}
 
-	public static IExposedFilter orderByStatus(OrderStatus orderStatus) {
+	public static IExposedFilter getOrderByStatus(OrderStatus orderStatus) {
 		return new OrderByStatusFilter(orderStatus);
 	}
 

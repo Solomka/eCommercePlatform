@@ -2,6 +2,7 @@ package ukma.eCommerce.util.repository;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  * @param <ObjectPO>
  */
 
-public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO, KeyPO extends Serializable>
+public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO extends Serializable, KeyPO extends Serializable>
 		implements IRepository<T, K, E, F> {
 
 	// ***PO.java
@@ -43,7 +44,7 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	@SuppressWarnings("unchecked")
 	public AHibernateRepository() {
 		this.entityClass = (Class<ObjectPO>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
+				.getActualTypeArguments()[4];
 		/*
 		 * this.criteriaBuilder = entityManager.getCriteriaBuilder();
 		 * this.criteriaQuery = (CriteriaQuery<ObjectPO>)
@@ -75,7 +76,13 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	public void deletePO(ObjectPO entity) {
 		entityManager.remove(entity);
 	}
-
+	
+	public void deletePOById(KeyPO k) {
+		ObjectPO objectPO = getReference(k);
+		deletePO(objectPO);
+	}
+	
+/*
 	public boolean deletePOById(KeyPO k) {
 		ObjectPO objectPO = getReference(k);
 		if (objectPO != null) {
@@ -84,8 +91,8 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 		}
 		return false;
 	}
-
-	public List<ObjectPO> findAllBySpecification(Specification<ObjectPO> specification) {
+*/
+	public Collection<ObjectPO> findAllBySpecification(Specification<ObjectPO> specification) {
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<ObjectPO> criteriaQuery = (CriteriaQuery<ObjectPO>) criteriaBuilder.createQuery(entityClass);

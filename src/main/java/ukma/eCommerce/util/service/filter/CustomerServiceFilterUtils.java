@@ -1,6 +1,7 @@
 package ukma.eCommerce.util.service.filter;
 
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
+import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
 
 /**
@@ -16,7 +17,7 @@ public final class CustomerServiceFilterUtils {
 		throw new RuntimeException();
 	}
 
-	public static CutomerByIdFilter customerById(CustomerID customerId) {
+	public static IExposedFilter getCustomerById(CustomerID customerId) {
 		return new CutomerByIdFilter(customerId);
 	}
 
