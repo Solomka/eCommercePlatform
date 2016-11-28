@@ -2,6 +2,7 @@ package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
@@ -23,8 +24,10 @@ import org.hibernate.annotations.Type;
 import ukma.eCommerce.core.userModule.repository.po.Address;
 import ukma.eCommerce.core.userModule.repository.po.CustomerPO;
 import ukma.eCommerce.core.userModule.repository.po.FullName;
+import ukma.eCommerce.util.IBuilder;
+
 /**
- * TODO: rewrite with Builder
+ * 
  * @author Solomka
  *
  */
@@ -69,8 +72,91 @@ public class AddressPO implements Serializable {
 
 	@OneToMany(mappedBy = "address", cascade = CascadeType.REFRESH)
 	private List<ShipmentPO> shipments;
-	
+
+	public static class Builder implements IBuilder<AddressPO> {
+
+		private UUID id;
+		private Address address;
+		private FullName fullName;
+		private String phone;
+		private CustomerPO customer;
+
+		public Builder() {
+
+		}
+
+		public Builder(AddressPO addressPO) {
+			Objects.requireNonNull(addressPO, "address must not be null");
+			setId(addressPO.getId()).setAddress(addressPO.getAddress()).setFullName(addressPO.getFullName())
+					.setPhone(addressPO.getPhone()).setCustomer(addressPO.getCustomer());
+
+		}
+
+		public UUID getId() {
+			return id;
+		}
+
+		public Builder setId(UUID id) {
+			this.id = id;
+			return this;
+		}
+
+		public Address getAddress() {
+			return address;
+		}
+
+		public Builder setAddress(Address address) {
+			this.address = address;
+			return this;
+		}
+
+		public FullName getFullName() {
+			return fullName;
+		}
+
+		public Builder setFullName(FullName fullName) {
+			this.fullName = fullName;
+			return this;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public Builder setPhone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
+		public CustomerPO getCustomer() {
+			return customer;
+		}
+
+		public Builder setCustomer(CustomerPO customer) {
+			this.customer = customer;
+			return this;
+		}
+
+		@Override
+		public AddressPO build() {
+			// TODO Auto-generated method stub
+			return new AddressPO(this);
+		}
+
+	}
+
 	public AddressPO() {
+
+	}
+
+	public AddressPO(Builder builder) {
+
+		Objects.requireNonNull(builder, "builder must not be null");
+		this.id = builder.getId();
+		this.address = Objects.requireNonNull(builder.getAddress());
+		this.fullName = Objects.requireNonNull(builder.getFullName());
+		this.phone = Objects.requireNonNull(builder.getPhone());
+		this.customer = Objects.requireNonNull(builder.getCustomer());
 
 	}
 

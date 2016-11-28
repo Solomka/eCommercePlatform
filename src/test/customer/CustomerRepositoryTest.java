@@ -65,10 +65,10 @@ public class CustomerRepositoryTest {
 
 	@Test
 	public void findCustomer() {
-		List<Customer> updatedCustomer = (List<Customer>) customerRepository.find(
+		List<Customer> customers = (List<Customer>) customerRepository.find(
 				CustomerServiceFilterUtils.getCustomerById(new CustomerID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
-		System.out.println("Found customer: " + updatedCustomer.get(0));
-		assertNotNull(updatedCustomer.get(0));
+		System.out.println("Found customer: " + customers.get(0));
+		assertNotNull(customers.get(0));
 	}
 
 	@Test

@@ -14,9 +14,11 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.Shipment;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.ShipmentDetails;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.repository.po.AddressPO;
+import ukma.eCommerce.core.paymentModule.repository.po.OrderItemID;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderItemPO;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 import ukma.eCommerce.core.paymentModule.repository.po.Price;
+import ukma.eCommerce.core.paymentModule.repository.po.ProductPO;
 import ukma.eCommerce.core.paymentModule.repository.po.ShipmentPO;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerID;
@@ -68,14 +70,9 @@ final class OrderPOConverter {
 	 * @return
 	 */
 	private static AddressPO generateAddressPO(CustomerID customerId, ShipmentDetails shipmentDetails) {
-		final AddressPO addressPO = new AddressPO();
-
-		addressPO.setPhone(shipmentDetails.getPhone());
-		addressPO.setCustomer(generateCustomerPO(customerId));
-		addressPO.setAddress(generatePOAddress(shipmentDetails.getAddress()));
-		addressPO.setFullName(generatePOFullName(shipmentDetails.getFullName()));
-
-		return addressPO;
+		return new AddressPO.Builder().setPhone(shipmentDetails.getPhone()).setCustomer(generateCustomerPO(customerId))
+				.setAddress(generatePOAddress(shipmentDetails.getAddress()))
+				.setFullName(generatePOFullName(shipmentDetails.getFullName())).build();
 
 	}
 
@@ -92,14 +89,10 @@ final class OrderPOConverter {
 	 * @return
 	 */
 	private static ShipmentPO generateShipmentPO(CustomerID customerId, Shipment shipmentVO) {
-		final ShipmentPO shipmentPO = new ShipmentPO();
-		shipmentPO.setDeliveryService(shipmentVO.getDeliveryService());
-		shipmentPO.setPrice(generatePOPrice(shipmentVO.getPrice()));
-		shipmentPO.setDeliveryDate(shipmentVO.getDeliveryDate());
-		shipmentPO.setStatus(shipmentVO.getStatus());
-		shipmentPO.setAddress(generateAddressPO(customerId, shipmentVO.getShipmentDetails()));
-
-		return shipmentPO;
+		return new ShipmentPO.Builder().setDeliveryService(shipmentVO.getDeliveryService())
+				.setPrice(generatePOPrice(shipmentVO.getPrice())).setDeliveryDate(shipmentVO.getDeliveryDate())
+				.setStatus(shipmentVO.getStatus())
+				.setAddress(generateAddressPO(customerId, shipmentVO.getShipmentDetails())).build();
 	}
 
 	/**
@@ -112,11 +105,11 @@ final class OrderPOConverter {
 
 		final List<OrderItemPO> orderItemsPO = new ArrayList<OrderItemPO>(orderItems.size());
 
-		for (OrderItem orderItem : orderItems) {
+		for (OrderItem orderItem : orderItems) {						
 			OrderItemPO orderItemPO = new OrderItemPO(orderItem.getQuantity(), orderItem.getPrice().getAmount());
+			orderItemPO.setProduct(new ProductPO(orderItem.getProduct().getId()));
 			orderItemsPO.add(orderItemPO);
 		}
-
 		return orderItemsPO;
 	}
 
@@ -128,16 +121,11 @@ final class OrderPOConverter {
 	 */
 	@NotNull
 	static OrderPO fromOrderSaveDTO(@NotNull OrderSaveDTO orderSaveDTO) {
-
-		OrderPO orderPO = new OrderPO();
-		orderPO.setCreationDate(orderSaveDTO.getCreationDate());
-		orderPO.setFulfilmentDate(orderSaveDTO.getFulfilmentDate());
-		orderPO.setStatus(orderSaveDTO.getStatus());
-		orderPO.setCustomer(generateCustomerPO(orderSaveDTO.getCustomer()));
-		orderPO.setShipment(generateShipmentPO(orderSaveDTO.getCustomer(), orderSaveDTO.getShipment()));
-		orderPO.setOrderItems(generateOrderItemPOList(orderSaveDTO.getOrderItems()));
-
-		return orderPO;
+		return new OrderPO.Builder().setCreationDate(orderSaveDTO.getCreationDate())
+				.setFulfilmentDate(orderSaveDTO.getFulfilmentDate()).setStatus(orderSaveDTO.getStatus())
+				.setCustomer(generateCustomerPO(orderSaveDTO.getCustomer()))
+				.setShipment(generateShipmentPO(orderSaveDTO.getCustomer(), orderSaveDTO.getShipment()))
+				.setOrderItems(generateOrderItemPOList(orderSaveDTO.getOrderItems())).build();
 	}
 
 	/**
@@ -148,17 +136,11 @@ final class OrderPOConverter {
 	 */
 	@NotNull
 	static OrderPO fromOrder(@NotNull Order order) {
-
-		OrderPO orderPO = new OrderPO();
-		orderPO.setId(order.getId().getId());
-		orderPO.setCreationDate(order.getCreationDate());
-		orderPO.setFulfilmentDate(order.getFulfilmentDate());
-		orderPO.setStatus(order.getStatus());
-		orderPO.setCustomer(generateCustomerPO(order.getCustomer()));
-		orderPO.setShipment(generateShipmentPO(order.getCustomer(), order.getShipment()));
-		orderPO.setOrderItems(generateOrderItemPOList(order.getOrderItems()));
-
-		return orderPO;
+		return new OrderPO.Builder().setId(order.getId().getId()).setCreationDate(order.getCreationDate())
+				.setFulfilmentDate(order.getFulfilmentDate()).setStatus(order.getStatus())
+				.setCustomer(generateCustomerPO(order.getCustomer()))
+				.setShipment(generateShipmentPO(order.getCustomer(), order.getShipment()))
+				.setOrderItems(generateOrderItemPOList(order.getOrderItems())).build();
 	}
 
 	private static ukma.eCommerce.core.paymentModule.model.domain.vo.Price generateVOPrice(Price price) {

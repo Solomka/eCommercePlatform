@@ -56,7 +56,7 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 
 	@Override
 	public Order create(OrderSaveDTO orderSaveDTO) {
-		OrderPO orderPO = OrderPOConverter.fromOrderSaveDTO(orderSaveDTO);
+		final OrderPO orderPO = OrderPOConverter.fromOrderSaveDTO(orderSaveDTO);
 		savePO(orderPO);
 		return OrderPOConverter.toOrder(orderPO);
 			}
@@ -72,6 +72,20 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 	}
 	*/
 	
+
+	@Override
+	public Order update(Order order) {
+		final OrderPO orderPO = updatePO(OrderPOConverter.fromOrder(order));
+		return OrderPOConverter.toOrder(orderPO);
+	}
+/*
+	@Override
+	public Observable<Order> update(Order order) {
+		return Observable.just(updatePO(OrderPOConverter.fromOrder(order)))
+				.map(orderPO -> OrderPOConverter.toOrder(orderPO));
+	}
+*/
+	
 	@Override
 	public void delete(OrderID orderId) {
 		deletePOById(orderId.getId());		
@@ -86,17 +100,4 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 	}
 	*/
 
-	@Override
-	public Order update(Order order) {
-		OrderPO orderPO = updatePO(OrderPOConverter.fromOrder(order));
-		return OrderPOConverter.toOrder(orderPO);
-	}
-/*
-	@Override
-	public Observable<Order> update(Order order) {
-		return Observable.just(updatePO(OrderPOConverter.fromOrder(order)))
-				.map(orderPO -> OrderPOConverter.toOrder(orderPO));
-	}
-*/
-	
 }

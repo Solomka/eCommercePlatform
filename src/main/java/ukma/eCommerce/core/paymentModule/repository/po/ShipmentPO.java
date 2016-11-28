@@ -1,24 +1,30 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
+import ukma.eCommerce.util.IBuilder;
 
 @Entity
 @Table(name = "shipment")
@@ -46,17 +52,114 @@ public class ShipmentPO implements Serializable {
 	private Price price;
 
 	@Column(name = "delivery_date")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime deliveryDate;
 
-	@Column(name = "status", nullable = false)
+	@Column(name = "status", nullable = false, columnDefinition = "enum('DUMMY')")
 	private ShipmentStatus status;
-
-	@ManyToOne(optional = false)
+	
+	@ManyToOne(optional = false, cascade = { CascadeType.PERSIST,
+			CascadeType.MERGE })
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
 	@JoinColumn(name = "address_id", nullable = false/* , updatable = false */)
 	private AddressPO address;
 
+	public static class Builder implements IBuilder<ShipmentPO> {
+
+		private UUID id;
+		private String deliveryService;
+		private Price price;
+		private DateTime deliveryDate;
+		private ShipmentStatus status;
+		private AddressPO address;
+
+		public Builder() {
+
+		}
+
+		public Builder(ShipmentPO shipmentPO) {
+			Objects.requireNonNull(shipmentPO, "shipmentPO must not be null");
+
+			setId(shipmentPO.getId()).setDeliveryService(shipmentPO.getDeliveryService())
+					.setPrice(shipmentPO.getPrice()).setDeliveryDate(shipmentPO.getDeliveryDate())
+					.setStatus(shipmentPO.getStatus()).setAddress(shipmentPO.getAddress());
+
+		}
+
+		public UUID getId() {
+			return id;
+		}
+
+		public Builder setId(UUID id) {
+			this.id = id;
+			return this;
+		}
+
+		public String getDeliveryService() {
+			return deliveryService;
+		}
+
+		public Builder setDeliveryService(String deliveryService) {
+			this.deliveryService = deliveryService;
+			return this;
+		}
+
+		public Price getPrice() {
+			return price;
+		}
+
+		public Builder setPrice(Price price) {
+			this.price = price;
+			return this;
+		}
+
+		public DateTime getDeliveryDate() {
+			return deliveryDate;
+		}
+
+		public Builder setDeliveryDate(DateTime deliveryDate) {
+			this.deliveryDate = deliveryDate;
+			return this;
+		}
+
+		public ShipmentStatus getStatus() {
+			return status;
+		}
+
+		public Builder setStatus(ShipmentStatus status) {
+			this.status = status;
+			return this;
+		}
+
+		public AddressPO getAddress() {
+			return address;
+		}
+
+		public Builder setAddress(AddressPO address) {
+			this.address = address;
+			return this;
+		}
+
+		@Override
+		public ShipmentPO build() {
+			// TODO Auto-generated method stub
+			return new ShipmentPO(this);
+		}
+	}
+
 	public ShipmentPO() {
 
+	}
+
+	public ShipmentPO(Builder builder) {
+
+		Objects.requireNonNull(builder, "builder can not be null");
+		this.id = builder.getId();
+		this.deliveryService =builder.getDeliveryService();
+		this.price = Objects.requireNonNull(builder.getPrice());
+		this.deliveryDate = builder.getDeliveryDate();
+		this.status = Objects.requireNonNull(builder.getStatus());
+		this.address = Objects.requireNonNull(builder.getAddress());
 	}
 
 	public UUID getId() {

@@ -43,8 +43,8 @@ public final class OrderServiceTest {
 
     @BeforeClass
     public static void prepare() {
-        //BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
-        final ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring_test_context.xml");
+        BasicConfigurator.configure(new ConsoleAppender(new SimpleLayout()));
+        final ApplicationContext ctx = new ClassPathXmlApplicationContext("file:src/main/webapp/WEB-INF/dispatcher-servlet.xml");
         orderApplicationService = ctx.getBean(IOrderApplicationService.class);
     }
 
@@ -64,7 +64,7 @@ public final class OrderServiceTest {
     }
 
     @Test
-    // @RunIf(condition = true)
+    @RunIf(condition = true)
     public void testDtoArgValid() {
 
         final Object sync = new Object();

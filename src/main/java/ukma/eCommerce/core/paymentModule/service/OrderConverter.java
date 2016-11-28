@@ -63,7 +63,7 @@ final class OrderConverter {
         return new OrderSaveDTO.Builder()
                 .setCustomer(new CustomerID(dto.getCustomer()))
                 .setOrderItems(fromDto(dto.getItems()))
-                .setCreationDate(DateTime.now())// should be set by db
+                //.setCreationDate(DateTime.now())// should be set by db
                 .setOrderStatus(OrderStatus.CREATED)
                 .setShipment(new Shipment.Builder()
                         .setDeliveryService(dto.getShipment().getDeliveryService())

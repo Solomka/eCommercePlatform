@@ -13,10 +13,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "orderitemx")
+@Table(name = "order_item")
 @AssociationOverrides({
-		@AssociationOverride(name = "orderItemId.order", joinColumns = @JoinColumn(name = "order_idx") ),
-		@AssociationOverride(name = "orderItemId.product", joinColumns = @JoinColumn(name = "product_idx") ) })
+		@AssociationOverride(name = "orderItemId.order", joinColumns = @JoinColumn(name = "order_id") ),
+		@AssociationOverride(name = "orderItemId.product", joinColumns = @JoinColumn(name = "product_id") ) })
 public class OrderItemPO implements Serializable {
 
 	/**
@@ -24,9 +24,13 @@ public class OrderItemPO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@EmbeddedId
 	private OrderItemID orderItemId = new OrderItemID();
 
+	@Column(name = "total_quantity", nullable = false)
 	private int quantity;
+	
+	@Column(name = "total_sum", nullable = false)
 	private BigDecimal totalSum;
 
 	public OrderItemPO() {
@@ -48,7 +52,7 @@ public class OrderItemPO implements Serializable {
 		this.totalSum = totalSum;
 	}
 
-	@EmbeddedId
+	
 	public OrderItemID getOrderItemId() {
 		return orderItemId;
 	}
