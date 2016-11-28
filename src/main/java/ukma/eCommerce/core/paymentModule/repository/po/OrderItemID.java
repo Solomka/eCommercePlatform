@@ -21,9 +21,10 @@ public class OrderItemID implements Serializable {
 
 	@ManyToOne
 	private OrderPO order;
+
 	@ManyToOne
 	private ProductPO product;
-	
+
 	public OrderPO getOrder() {
 		return order;
 	}
@@ -31,7 +32,7 @@ public class OrderItemID implements Serializable {
 	public void setOrder(OrderPO order) {
 		this.order = order;
 	}
-	
+
 	public ProductPO getProduct() {
 		return product;
 	}

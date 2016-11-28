@@ -47,7 +47,7 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 
 	public void savePO(ObjectPO entity) {
 		entityManager.persist(entity);
-		entityManager.flush();
+		//entityManager.flush();
 	}
 
 	public ObjectPO updatePO(ObjectPO entity) {
