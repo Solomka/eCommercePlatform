@@ -38,52 +38,28 @@ public class OrderPO implements Serializable {
 	 */
 	private static final long serialVersionUID = -6339656414384828558L;
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@Column(name = "id", unique = true, nullable = false)
-	@Type(type = "uuid-char")
+	
 	private UUID id;
 
-	@Column(name = "creation_date", nullable = false)
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	
 	private DateTime creationDate;
 
-	@Column(name = "fulfilment_date")
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	
 	private DateTime fulfilmentDate;
 
-	@Column(name = "status", nullable = false)
-	@Enumerated(EnumType.STRING)
+	
 	private OrderStatus status;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
+	
 	private CustomerPO customer;
 
-	// @OneToOne(optional = false)
-	// @JoinColumn(name = "shipment_id", nullable = false/* , updatable = false
-	// */)
-	/*
-	 * Here is the annotation to add in order to Hibernate to automatically
-	 * insert and update ShipmentPO (if any)
-	 */
-	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
+	
 	private ShipmentPO shipment;
 
-	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	/*
-	 * Here is the annotation to add in order to Hibernate to automatically
-	 * insert and update OrderItems (if any)
-	 */
-	//@SuppressWarnings("deprecation")
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE })
-	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
+	
 	private List<OrderItemPO> orderItems;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)
+	
 	private List<InvoicePO> invoices;
 
 	public static class Builder implements IBuilder<OrderPO> {
@@ -188,70 +164,103 @@ public class OrderPO implements Serializable {
 		this.customer = Objects.requireNonNull(builder.getCustomer());
 		this.shipment = Objects.requireNonNull(builder.getShipment());
 		//this.orderItems = Objects.requireNonNull(builder.getOrderItems());
-		this.orderItems =builder.getOrderItems();
+		this.orderItems = builder.getOrderItems();
 		this.status = Objects.requireNonNull(builder.getStatus());
 		this.creationDate = Objects.requireNonNull(builder.getCreationDate());
 		this.fulfilmentDate = builder.getFulfilmentDate();
 	}
 
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@Column(name = "id", unique = true, nullable = false)
+	@Type(type = "uuid-char")
 	public UUID getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(UUID id) {
 		this.id = id;
 	}
 
+	@Column(name = "creation_date", nullable = false)
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getCreationDate() {
-		return creationDate;
+		return this.creationDate;
 	}
 
 	public void setCreationDate(DateTime creationDate) {
 		this.creationDate = creationDate;
 	}
 
+	@Column(name = "fulfilment_date")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getFulfilmentDate() {
-		return fulfilmentDate;
+		return this.fulfilmentDate;
 	}
 
 	public void setFulfilmentDate(DateTime fulfilmentDate) {
 		this.fulfilmentDate = fulfilmentDate;
 	}
 
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
 	public OrderStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
 	public CustomerPO getCustomer() {
-		return customer;
+		return this.customer;
 	}
 
 	public void setCustomer(CustomerPO customer) {
 		this.customer = customer;
 	}
 
+	// @OneToOne(optional = false)
+		// @JoinColumn(name = "shipment_id", nullable = false/* , updatable = false
+		// */)
+		/*
+		 * Here is the annotation to add in order to Hibernate to automatically
+		 * insert and update ShipmentPO (if any)
+		 */
+		@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+		@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
+		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
 	public ShipmentPO getShipment() {
-		return shipment;
+		return this.shipment;
 	}
 
 	public void setShipment(ShipmentPO shipment) {
 		this.shipment = shipment;
 	}
 
+	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+		/*
+		 * Here is the annotation to add in order to Hibernate to automatically
+		 * insert and update OrderItems (if any)
+		 */
+		//@SuppressWarnings("deprecation")
+		@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
+				CascadeType.MERGE })
+		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
 	public List<OrderItemPO> getOrderItems() {
-		return orderItems;
+		return this.orderItems;
 	}
 
 	public void setOrderItems(List<OrderItemPO> orderItems) {
 		this.orderItems = orderItems;
 	}
 
+	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)
 	public List<InvoicePO> getInvoices() {
-		return invoices;
+		return this.invoices;
 	}
 
 	public void setInvoices(List<InvoicePO> invoices) {

@@ -19,13 +19,11 @@ public class OrderItemID implements Serializable {
 	 */
 	private static final long serialVersionUID = -8877254696330828343L;
 
-	
-	private OrderPO order;	
+	private OrderPO order;
 	private ProductPO product;
-	
 
 	public OrderItemID() {
-		
+
 	}
 
 	@ManyToOne
@@ -50,8 +48,8 @@ public class OrderItemID implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((order == null) ? 0 : order.hashCode());
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		result = prime * result + ((getOrder() == null) ? 0 : getOrder().hashCode());
+		result = prime * result + ((getProduct() == null) ? 0 : getProduct().hashCode());
 		return result;
 	}
 
@@ -67,18 +65,18 @@ public class OrderItemID implements Serializable {
 			return false;
 		}
 		OrderItemID other = (OrderItemID) obj;
-		if (order == null) {
-			if (other.order != null) {
+		if (getOrder() == null) {
+			if (other.getOrder() != null) {
 				return false;
 			}
-		} else if (!order.equals(other.order)) {
+		} else if (!getOrder().equals(other.getOrder())) {
 			return false;
 		}
-		if (product == null) {
-			if (other.product != null) {
+		if (getProduct() == null) {
+			if (other.getProduct() != null) {
 				return false;
 			}
-		} else if (!product.equals(other.product)) {
+		} else if (!getProduct().equals(other.getProduct())) {
 			return false;
 		}
 		return true;

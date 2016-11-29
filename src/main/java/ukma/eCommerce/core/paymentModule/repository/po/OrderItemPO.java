@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "order_item")
+@Table(name = "order_items")
 @AssociationOverrides({
 		@AssociationOverride(name = "orderItemId.order", joinColumns = @JoinColumn(name = "order_id") ),
 		@AssociationOverride(name = "orderItemId.product", joinColumns = @JoinColumn(name = "product_id") ) })
@@ -26,10 +26,10 @@ public class OrderItemPO implements Serializable {
 
 	private OrderItemID orderItemId = new OrderItemID();
 
-	@Column(name = "total_quantity", nullable = false)
+	//@Column(name = "total_quantity", nullable = false)
 	private int quantity;
 	
-	@Column(name = "total_sum", nullable = false)
+	//@Column(name = "total_sum", nullable = false)
 	private BigDecimal totalSum;
 
 	public OrderItemPO() {
@@ -100,9 +100,9 @@ public class OrderItemPO implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((orderItemId == null) ? 0 : orderItemId.hashCode());
-		result = prime * result + quantity;
-		result = prime * result + ((totalSum == null) ? 0 : totalSum.hashCode());
+		result = prime * result + ((getOrderItemId() == null) ? 0 : getOrderItemId().hashCode());
+		result = prime * result + getQuantity();
+		result = prime * result + ((getTotalSum() == null) ? 0 : getTotalSum().hashCode());
 		return result;
 	}
 
@@ -118,21 +118,21 @@ public class OrderItemPO implements Serializable {
 			return false;
 		}
 		OrderItemPO other = (OrderItemPO) obj;
-		if (orderItemId == null) {
-			if (other.orderItemId != null) {
+		if (getOrderItemId() == null) {
+			if (other.getOrderItemId() != null) {
 				return false;
 			}
-		} else if (!orderItemId.equals(other.orderItemId)) {
+		} else if (!getOrderItemId().equals(other.getOrderItemId())) {
 			return false;
 		}
-		if (quantity != other.quantity) {
+		if (getQuantity() != other.getQuantity()) {
 			return false;
 		}
-		if (totalSum == null) {
-			if (other.totalSum != null) {
+		if (getTotalSum() == null) {
+			if (other.getTotalSum() != null) {
 				return false;
 			}
-		} else if (!totalSum.equals(other.totalSum)) {
+		} else if (!getTotalSum().equals(other.getTotalSum())) {
 			return false;
 		}
 		return true;

@@ -33,26 +33,88 @@ public class ProductPO implements Serializable {
 	 */
 	private static final long serialVersionUID = -5309856094933433559L;
 
+	
+	private UUID id;
+
+	
+	private String name;
+
+	
+	private Price price;
+
+	
+	private int quantity;
+
+	
+	private String description;
+
+	
+	private SellerPO seller;
+
+	
+	private TypePO type;
+
+	
+	private List<OrderItemPO> orderItems;
+
+	public ProductPO() {
+
+	}
+
+	public ProductPO(UUID id) {
+		this.id = id;
+	}
+
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type = "uuid-char")
-	private UUID id;
+	public UUID getId() {
+		return this.id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
 	@Column(name = "name", nullable = false, length = 50)
-	private String name;
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "price", column = @Column(name = "price") ),
 			@AttributeOverride(name = "currency", column = @Column(name = "currency") ) })
-	private Price price;
+	public Price getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(Price price) {
+		this.price = price;
+	}
 
 	@Column(name = "quantity", nullable = false)
-	private int quantity;
+	public int getQuantity() {
+		return this.quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	@Column(name = "description", nullable = false, length = 512)
-	private String description;
+	public String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	/*
 	 * The many side of many-to-one bidirectional relationships must not define
@@ -62,11 +124,23 @@ public class ProductPO implements Serializable {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "seller_id", nullable = false)
-	private SellerPO seller;
+	public SellerPO getSeller() {
+		return this.seller;
+	}
+
+	public void setSeller(SellerPO seller) {
+		this.seller = seller;
+	}
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "type_id", nullable = false)
-	private TypePO type;
+	public TypePO getType() {
+		return this.type;
+	}
+
+	public void setType(TypePO type) {
+		this.type = type;
+	}
 
 	/*
 	 * Here is the annotation to add in order to Hibernate to automatically
@@ -79,74 +153,8 @@ public class ProductPO implements Serializable {
 	//@SuppressWarnings("deprecation")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.product", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	private List<OrderItemPO> orderItems;
-
-	public ProductPO() {
-
-	}
-
-	public ProductPO(UUID id) {
-		this.id = id;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Price getPrice() {
-		return price;
-	}
-
-	public void setMoney(Price price) {
-		this.price = price;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public SellerPO getSeller() {
-		return seller;
-	}
-
-	public void setSeller(SellerPO seller) {
-		this.seller = seller;
-	}
-
-	public TypePO getType() {
-		return type;
-	}
-
-	public void setType(TypePO type) {
-		this.type = type;
-	}
-
 	public List<OrderItemPO> getOrderItems() {
-		return orderItems;
+		return this.orderItems;
 	}
 
 	public void setOrderItems(List<OrderItemPO> orderItems) {
