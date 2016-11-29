@@ -19,12 +19,16 @@ public class OrderItemID implements Serializable {
 	 */
 	private static final long serialVersionUID = -8877254696330828343L;
 
-	@ManyToOne
-	private OrderPO order;
-
-	@ManyToOne
+	
+	private OrderPO order;	
 	private ProductPO product;
+	
 
+	public OrderItemID() {
+		
+	}
+
+	@ManyToOne
 	public OrderPO getOrder() {
 		return order;
 	}
@@ -33,6 +37,7 @@ public class OrderItemID implements Serializable {
 		this.order = order;
 	}
 
+	@ManyToOne
 	public ProductPO getProduct() {
 		return product;
 	}

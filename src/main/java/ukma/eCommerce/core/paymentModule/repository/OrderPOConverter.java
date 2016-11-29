@@ -101,17 +101,28 @@ final class OrderPOConverter {
 	 * @param orderItems
 	 * @return
 	 */
-	private static List<OrderItemPO> generateOrderItemPOList(Collection<OrderItem> orderItems) {
+	private static List<OrderItemPO> generateOrderItemPOList(Collection<OrderItem> orderItems, OrderSaveDTO orderSaveDTO) {
 
 		final List<OrderItemPO> orderItemsPO = new ArrayList<OrderItemPO>(orderItems.size());
 
 		for (OrderItem orderItem : orderItems) {						
 			OrderItemPO orderItemPO = new OrderItemPO(orderItem.getQuantity(), orderItem.getPrice().getAmount());
 			orderItemPO.setProduct(new ProductPO(orderItem.getProduct().getId()));
+			orderItemPO.setOrder(fromOrderSaveDTONoItems(orderSaveDTO));
 			orderItemsPO.add(orderItemPO);
 		}
 		return orderItemsPO;
 	}
+	
+
+	private static OrderPO fromOrderSaveDTONoItems( OrderSaveDTO orderSaveDTO) {
+		return new OrderPO.Builder().setCreationDate(orderSaveDTO.getCreationDate())
+				.setFulfilmentDate(orderSaveDTO.getFulfilmentDate()).setStatus(orderSaveDTO.getStatus())
+				.setCustomer(generateCustomerPO(orderSaveDTO.getCustomer()))
+				.setShipment(generateShipmentPO(orderSaveDTO.getCustomer(), orderSaveDTO.getShipment())).build();
+	}
+	
+	
 
 	/**
 	 * convert from OrderSaveDTO to OrderPO
@@ -125,7 +136,7 @@ final class OrderPOConverter {
 				.setFulfilmentDate(orderSaveDTO.getFulfilmentDate()).setStatus(orderSaveDTO.getStatus())
 				.setCustomer(generateCustomerPO(orderSaveDTO.getCustomer()))
 				.setShipment(generateShipmentPO(orderSaveDTO.getCustomer(), orderSaveDTO.getShipment()))
-				.setOrderItems(generateOrderItemPOList(orderSaveDTO.getOrderItems())).build();
+				.setOrderItems(generateOrderItemPOList(orderSaveDTO.getOrderItems(), orderSaveDTO)).build();
 	}
 
 	/**
@@ -134,13 +145,20 @@ final class OrderPOConverter {
 	 * @param order
 	 * @return
 	 */
+	/*
 	@NotNull
 	static OrderPO fromOrder(@NotNull Order order) {
 		return new OrderPO.Builder().setId(order.getId().getId()).setCreationDate(order.getCreationDate())
 				.setFulfilmentDate(order.getFulfilmentDate()).setStatus(order.getStatus())
 				.setCustomer(generateCustomerPO(order.getCustomer()))
 				.setShipment(generateShipmentPO(order.getCustomer(), order.getShipment()))
-				.setOrderItems(generateOrderItemPOList(order.getOrderItems())).build();
+				.setOrderItems(generateOrderItemPOList(order.getOrderItems(), order)).build();
+	}*/
+	
+	@NotNull
+	static OrderPO fromOrder(@NotNull Order order) {
+		return null;
+		
 	}
 
 	private static ukma.eCommerce.core.paymentModule.model.domain.vo.Price generateVOPrice(Price price) {
@@ -184,6 +202,7 @@ final class OrderPOConverter {
 		}
 		return orderItems;
 	}
+	
 
 	/**
 	 * convert from OrderPO to Order

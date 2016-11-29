@@ -24,7 +24,6 @@ public class OrderItemPO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
 	private OrderItemID orderItemId = new OrderItemID();
 
 	@Column(name = "total_quantity", nullable = false)
@@ -52,7 +51,7 @@ public class OrderItemPO implements Serializable {
 		this.totalSum = totalSum;
 	}
 
-	
+	@EmbeddedId
 	public OrderItemID getOrderItemId() {
 		return orderItemId;
 	}

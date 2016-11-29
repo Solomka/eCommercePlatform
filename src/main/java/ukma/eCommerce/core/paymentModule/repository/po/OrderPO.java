@@ -77,7 +77,7 @@ public class OrderPO implements Serializable {
 	 * Here is the annotation to add in order to Hibernate to automatically
 	 * insert and update OrderItems (if any)
 	 */
-	// @SuppressWarnings("deprecation")
+	//@SuppressWarnings("deprecation")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
 			CascadeType.MERGE })
 	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
@@ -187,7 +187,8 @@ public class OrderPO implements Serializable {
 		this.id = builder.getId();
 		this.customer = Objects.requireNonNull(builder.getCustomer());
 		this.shipment = Objects.requireNonNull(builder.getShipment());
-		this.orderItems = Objects.requireNonNull(builder.getOrderItems());
+		//this.orderItems = Objects.requireNonNull(builder.getOrderItems());
+		this.orderItems =builder.getOrderItems();
 		this.status = Objects.requireNonNull(builder.getStatus());
 		this.creationDate = Objects.requireNonNull(builder.getCreationDate());
 		this.fulfilmentDate = builder.getFulfilmentDate();

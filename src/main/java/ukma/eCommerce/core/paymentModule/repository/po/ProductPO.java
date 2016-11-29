@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -70,21 +72,19 @@ public class ProductPO implements Serializable {
 	 * Here is the annotation to add in order to Hibernate to automatically
 	 * insert and update ProducItems (if any)
 	 * 
-	 * @SuppressWarnings("deprecation")
-	 * 
-	 * @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = {
-	 * CascadeType.PERSIST, CascadeType.MERGE })
-	 * 
-	 * @Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
-	 * org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
-	 * 
 	 */
-	@OneToMany(mappedBy = "orderItemId.product", cascade = CascadeType.REFRESH)
+	// @OneToMany(mappedBy = "orderItemId.product", cascade =
+	// CascadeType.REFRESH)
+
+	//@SuppressWarnings("deprecation")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.product", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private List<OrderItemPO> orderItems;
 
 	public ProductPO() {
 
 	}
+
 	public ProductPO(UUID id) {
 		this.id = id;
 	}
