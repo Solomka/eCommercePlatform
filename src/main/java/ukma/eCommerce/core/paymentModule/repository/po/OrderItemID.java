@@ -14,16 +14,10 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class OrderItemID implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8877254696330828343L;
-
 	private OrderPO order;
 	private ProductPO product;
 
 	public OrderItemID() {
-
 	}
 
 	@ManyToOne
@@ -44,42 +38,27 @@ public class OrderItemID implements Serializable {
 		this.product = product;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getOrder() == null) ? 0 : getOrder().hashCode());
-		result = prime * result + ((getProduct() == null) ? 0 : getProduct().hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		OrderItemID that = (OrderItemID) o;
+
+		if (order != null ? !order.equals(that.order) : that.order != null)
+			return false;
+		if (product != null ? !product.equals(that.product) : that.product != null)
+			return false;
+
+		return true;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof OrderItemID)) {
-			return false;
-		}
-		OrderItemID other = (OrderItemID) obj;
-		if (getOrder() == null) {
-			if (other.getOrder() != null) {
-				return false;
-			}
-		} else if (!getOrder().equals(other.getOrder())) {
-			return false;
-		}
-		if (getProduct() == null) {
-			if (other.getProduct() != null) {
-				return false;
-			}
-		} else if (!getProduct().equals(other.getProduct())) {
-			return false;
-		}
-		return true;
+	public int hashCode() {
+		int result;
+		result = (order != null ? order.hashCode() : 0);
+		result = 31 * result + (product != null ? product.hashCode() : 0);
+		return result;
 	}
 
 	@Override

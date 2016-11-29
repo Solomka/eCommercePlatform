@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,13 +27,14 @@ import ukma.eCommerce.core.userModule.repository.po.SellerPO;
 
 @Entity
 @Table(name = "product")
-public class ProductPO implements Serializable {
+public class ProductPO/* implements Serializable*/ {
 
 	/**
 	 * 
 	 */
+	/*
 	private static final long serialVersionUID = -5309856094933433559L;
-
+*/
 	
 	private UUID id;
 
@@ -55,7 +57,7 @@ public class ProductPO implements Serializable {
 	private TypePO type;
 
 	
-	private List<OrderItemPO> orderItems;
+	private List<OrderItemPO> orderItems = new ArrayList<OrderItemPO>();
 
 	public ProductPO() {
 
@@ -165,7 +167,7 @@ public class ProductPO implements Serializable {
 	 * rewrite fields access to getters access for props because of Hibernate
 	 * proxy
 	 */
-
+/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -246,7 +248,7 @@ public class ProductPO implements Serializable {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	@Override
 	public String toString() {

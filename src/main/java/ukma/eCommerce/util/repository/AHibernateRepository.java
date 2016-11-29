@@ -30,7 +30,7 @@ import ukma.eCommerce.util.repository.filter.IExposedFilter;
  *            persistence object key
  */
 
-public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO extends Serializable, KeyPO extends Serializable>
+public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, ObjectPO /*extends Serializable*/, KeyPO extends Serializable>
 		implements IRepository<T, K, E, F> {
 
 	// ***PO.java

@@ -13,9 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "order_items")
-@AssociationOverrides({
-		@AssociationOverride(name = "orderItemId.order", joinColumns = @JoinColumn(name = "order_id") ),
+@Table(name = "order_item")
+@AssociationOverrides({ @AssociationOverride(name = "orderItemId.order", joinColumns = @JoinColumn(name = "order_id") ),
 		@AssociationOverride(name = "orderItemId.product", joinColumns = @JoinColumn(name = "product_id") ) })
 public class OrderItemPO implements Serializable {
 
@@ -26,10 +25,10 @@ public class OrderItemPO implements Serializable {
 
 	private OrderItemID orderItemId = new OrderItemID();
 
-	//@Column(name = "total_quantity", nullable = false)
+	// @Column(name = "total_quantity", nullable = false)
 	private int quantity;
-	
-	//@Column(name = "total_sum", nullable = false)
+
+	// @Column(name = "total_sum", nullable = false)
 	private BigDecimal totalSum;
 
 	public OrderItemPO() {
@@ -52,11 +51,11 @@ public class OrderItemPO implements Serializable {
 	}
 
 	@EmbeddedId
-	public OrderItemID getOrderItemId() {
+	private OrderItemID getOrderItemId() {
 		return orderItemId;
 	}
 
-	public void setOrderItemId(OrderItemID orderItemId) {
+	private void setOrderItemId(OrderItemID orderItemId) {
 		this.orderItemId = orderItemId;
 	}
 
@@ -96,46 +95,22 @@ public class OrderItemPO implements Serializable {
 		this.totalSum = totalSum;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getOrderItemId() == null) ? 0 : getOrderItemId().hashCode());
-		result = prime * result + getQuantity();
-		result = prime * result + ((getTotalSum() == null) ? 0 : getTotalSum().hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		OrderItemPO that = (OrderItemPO) o;
+
+		if (getOrderItemId() != null ? !getOrderItemId().equals(that.getOrderItemId()) : that.getOrderItemId() != null)
+			return false;
+
+		return true;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof OrderItemPO)) {
-			return false;
-		}
-		OrderItemPO other = (OrderItemPO) obj;
-		if (getOrderItemId() == null) {
-			if (other.getOrderItemId() != null) {
-				return false;
-			}
-		} else if (!getOrderItemId().equals(other.getOrderItemId())) {
-			return false;
-		}
-		if (getQuantity() != other.getQuantity()) {
-			return false;
-		}
-		if (getTotalSum() == null) {
-			if (other.getTotalSum() != null) {
-				return false;
-			}
-		} else if (!getTotalSum().equals(other.getTotalSum())) {
-			return false;
-		}
-		return true;
+	public int hashCode() {
+		return (getOrderItemId() != null ? getOrderItemId().hashCode() : 0);
 	}
 
 	@Override

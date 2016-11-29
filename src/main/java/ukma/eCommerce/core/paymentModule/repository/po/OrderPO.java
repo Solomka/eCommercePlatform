@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -30,14 +31,10 @@ import ukma.eCommerce.util.IBuilder;
 
 @Entity
 @Table(name = "orders")
-public class OrderPO implements Serializable {
-
-	/**
-	 * TODO: rewrite with Builder
-	 * 
-	 */
+public class OrderPO /*implements Serializable*/ {
+	/*
 	private static final long serialVersionUID = -6339656414384828558L;
-
+*/
 	
 	private UUID id;
 
@@ -57,7 +54,7 @@ public class OrderPO implements Serializable {
 	private ShipmentPO shipment;
 
 	
-	private List<OrderItemPO> orderItems;
+	private List<OrderItemPO> orderItems = new ArrayList<OrderItemPO>();
 
 	
 	private List<InvoicePO> invoices;
@@ -249,7 +246,7 @@ public class OrderPO implements Serializable {
 		//@SuppressWarnings("deprecation")
 		@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
 				CascadeType.MERGE })
-		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
+		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
 	public List<OrderItemPO> getOrderItems() {
 		return this.orderItems;
 	}
@@ -271,7 +268,7 @@ public class OrderPO implements Serializable {
 	 * rewrite fields access to getters access for props because of Hibernate
 	 * proxy
 	 */
-
+/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -353,7 +350,7 @@ public class OrderPO implements Serializable {
 		}
 		return true;
 	}
-
+*/
 	@Override
 	public String toString() {
 		return "OrderPO [id=" + id + ", creationDate=" + creationDate + ", fulfilmentDate=" + fulfilmentDate
