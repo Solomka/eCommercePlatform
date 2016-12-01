@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -34,53 +35,28 @@ public class OrderPO implements Serializable {
 
 	private static final long serialVersionUID = -6339656414384828558L;
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@Column(name = "id", unique = true, nullable = false)
-	@Type(type = "uuid-char")
+	
 	private UUID id;
 
-	@Column(name = "creation_date", nullable = false)
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	
 	private DateTime creationDate;
 
-	@Column(name = "fulfilment_date")
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	
 	private DateTime fulfilmentDate;
 
-	@Column(name = "status", nullable = false)
-	@Enumerated(EnumType.STRING)
+	
 	private OrderStatus status;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
+	
 	private CustomerPO customer;
 
-	// @OneToOne(optional = false)
-	// @JoinColumn(name = "shipment_id", nullable = false/* , updatable = false
-	// */)
-	/*
-	 * Here is the annotation to add in order to Hibernate to automatically
-	 * insert and update ShipmentPO (if any)
-	 */
-	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
-	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
+	
 	private ShipmentPO shipment;
 
-	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	/*
-	 * Here is the annotation to add in order to Hibernate to automatically
-	 * insert and update OrderItems (if any)
-	 */
-	// @SuppressWarnings("deprecation")
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE })
-	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
+	
 	private List<OrderItemPO> orderItems;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)
+	
 	private List<InvoicePO> invoices;
 
 	public static class Builder implements IBuilder<OrderPO> {
@@ -185,12 +161,18 @@ public class OrderPO implements Serializable {
 		this.customer = Objects.requireNonNull(builder.getCustomer());
 		this.shipment = Objects.requireNonNull(builder.getShipment());
 		// this.orderItems = Objects.requireNonNull(builder.getOrderItems());
-		this.orderItems = builder.getOrderItems();
+		//this.orderItems = builder.getOrderItems();
+		this.orderItems = new ArrayList<OrderItemPO>();
 		this.status = Objects.requireNonNull(builder.getStatus());
 		this.creationDate = Objects.requireNonNull(builder.getCreationDate());
 		this.fulfilmentDate = builder.getFulfilmentDate();
 	}
 
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@Column(name = "id", unique = true, nullable = false)
+	@Type(type = "uuid-char")
 	public UUID getId() {
 		return this.id;
 	}
@@ -199,6 +181,8 @@ public class OrderPO implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "creation_date", nullable = false)
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getCreationDate() {
 		return this.creationDate;
 	}
@@ -207,6 +191,8 @@ public class OrderPO implements Serializable {
 		this.creationDate = creationDate;
 	}
 
+	@Column(name = "fulfilment_date")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getFulfilmentDate() {
 		return this.fulfilmentDate;
 	}
@@ -215,6 +201,8 @@ public class OrderPO implements Serializable {
 		this.fulfilmentDate = fulfilmentDate;
 	}
 
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
 	public OrderStatus getStatus() {
 		return this.status;
 	}
@@ -223,6 +211,8 @@ public class OrderPO implements Serializable {
 		this.status = status;
 	}
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
 	public CustomerPO getCustomer() {
 		return this.customer;
 	}
@@ -231,6 +221,16 @@ public class OrderPO implements Serializable {
 		this.customer = customer;
 	}
 
+	// @OneToOne(optional = false)
+		// @JoinColumn(name = "shipment_id", nullable = false/* , updatable = false
+		// */)
+		/*
+		 * Here is the annotation to add in order to Hibernate to automatically
+		 * insert and update ShipmentPO (if any)
+		 */
+		@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+		@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
+		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
 	public ShipmentPO getShipment() {
 		return this.shipment;
 	}
@@ -238,7 +238,16 @@ public class OrderPO implements Serializable {
 	public void setShipment(ShipmentPO shipment) {
 		this.shipment = shipment;
 	}
-
+	
+	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+		/*
+		 * Here is the annotation to add in order to Hibernate to automatically
+		 * insert and update OrderItems (if any)
+		 */
+		// @SuppressWarnings("deprecation")
+		@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
+				CascadeType.MERGE })
+		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
 	public List<OrderItemPO> getOrderItems() {
 		return this.orderItems;
 	}
@@ -247,6 +256,17 @@ public class OrderPO implements Serializable {
 		this.orderItems = orderItems;
 	}
 
+	/**
+	 * add OrderPO to OrderItemPO
+	 * 
+	 * @param orderItemPO
+	 */
+	public void addToOrderItemPO(OrderItemPO orderItemPO) {
+		orderItemPO.setOrder(this);
+		this.orderItems.add(orderItemPO);
+	}
+
+	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)
 	public List<InvoicePO> getInvoices() {
 		return this.invoices;
 	}
@@ -259,7 +279,7 @@ public class OrderPO implements Serializable {
 	 * rewrite fields access to getters access for props because of Hibernate
 	 * proxy
 	 */
-
+	/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -344,9 +364,9 @@ public class OrderPO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OrderPO [id=" + id + ", creationDate=" + creationDate + ", fulfilmentDate=" + fulfilmentDate
-				+ ", status=" + status + ", customer=" + customer + ", shipment=" + shipment + ", orderItems="
-				+ orderItems + ", invoices=" + invoices + "]";
-	}
+		return "OrderPO [id=" + id + ", creationDate=" + creationDate.toString() + ", fulfilmentDate=" + fulfilmentDate.toString()
+				+ ", status=" + status.toString() + ", customer=" + customer.toString() + ", shipment=" + shipment.toString() + ", orderItems="
+				+ orderItems.toString() + ", invoices=" + invoices.toString() + "]";
+	}*/
 
 }

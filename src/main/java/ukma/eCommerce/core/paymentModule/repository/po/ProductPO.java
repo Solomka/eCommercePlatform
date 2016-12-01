@@ -1,6 +1,7 @@
 package ukma.eCommerce.core.paymentModule.repository.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -77,7 +78,7 @@ public class ProductPO implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.product", cascade = { CascadeType.PERSIST,
 			CascadeType.MERGE })
 	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
-	private List<OrderItemPO> orderItems;
+	private List<OrderItemPO> orderItems = new ArrayList<OrderItemPO>();
 
 	public ProductPO() {
 
@@ -155,7 +156,7 @@ public class ProductPO implements Serializable {
 	 * rewrite fields access to getters access for props because of Hibernate
 	 * proxy
 	 */
-
+	/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -243,6 +244,6 @@ public class ProductPO implements Serializable {
 		return "ProductPO [id=" + id + ", name=" + name + ", money=" + price + ", quantity=" + quantity
 				+ ", description=" + description + ", seller=" + seller + ", type=" + type + ", orderItems="
 				+ orderItems + "]";
-	}
+	}*/
 
 }

@@ -14,12 +14,18 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class OrderItemID implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OrderPO order;
 	private ProductPO product;
 
 	public OrderItemID() {
 	}
 
+	// @MapsId
+	// @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ManyToOne
 	public OrderPO getOrder() {
 		return order;
@@ -29,6 +35,8 @@ public class OrderItemID implements Serializable {
 		this.order = order;
 	}
 
+	// @MapsId
+	// @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ManyToOne
 	public ProductPO getProduct() {
 		return product;
@@ -60,10 +68,10 @@ public class OrderItemID implements Serializable {
 		result = 31 * result + (product != null ? product.hashCode() : 0);
 		return result;
 	}
-
+/*
 	@Override
 	public String toString() {
-		return "OrderItemID [order=" + order + ", product=" + product + "]";
-	}
+		return "OrderItemID [order=" + order.toString() + ", product=" + product.toString() + "]";
+	}*/
 
 }

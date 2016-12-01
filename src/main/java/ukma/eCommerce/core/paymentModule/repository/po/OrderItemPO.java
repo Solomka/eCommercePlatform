@@ -112,10 +112,10 @@ public class OrderItemPO implements Serializable {
 	public int hashCode() {
 		return (getOrderItemId() != null ? getOrderItemId().hashCode() : 0);
 	}
-
+/*
 	@Override
 	public String toString() {
-		return "OrderItemPO [orderItemId=" + orderItemId + ", quantity=" + quantity + ", totalSum=" + totalSum + "]";
-	}
+		return "OrderItemPO [orderItemId=" + orderItemId.toString() + ", quantity=" + quantity + ", totalSum=" + totalSum + "]";
+	}*/
 
 }
