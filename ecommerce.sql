@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Ноя 21 2016 г., 03:16
+-- Время создания: Дек 02 2016 г., 03:50
 -- Версия сервера: 5.1.41
 -- Версия PHP: 5.3.1
 
@@ -63,6 +63,11 @@ CREATE TABLE IF NOT EXISTS `address` (
 -- Дамп данных таблицы `address`
 --
 
+INSERT INTO `address` (`id`, `country`, `state`, `region`, `city`, `street`, `indexx`, `phone`, `first_name`, `last_name`, `customer_id`) VALUES
+('08a6c002-b5c4-4c12-b0d3-6ef17b355833', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
+('0937f0d9-40e3-434c-a959-dce30d5121f5', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
+('6c1f6299-116d-42eb-8bb0-6799c9d61688', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
+('fde5bada-41df-4355-8cdf-556274c0d9b7', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162');
 
 -- --------------------------------------------------------
 
@@ -80,6 +85,8 @@ CREATE TABLE IF NOT EXISTS `category` (
 -- Дамп данных таблицы `category`
 --
 
+INSERT INTO `category` (`id`, `name`) VALUES
+('97b87e56-b4f8-11e6-af21-db5929c35768', 'notebooks & accessories');
 
 -- --------------------------------------------------------
 
@@ -102,6 +109,13 @@ CREATE TABLE IF NOT EXISTS `customer` (
 -- Дамп данных таблицы `customer`
 --
 
+INSERT INTO `customer` (`id`, `first_name`, `last_name`, `email`, `phone`, `login`, `password`) VALUES
+('1c9a0551-a537-44af-be6e-3b775f44b162', 'Larisa', 'Yaremko', 'bla@gmail.com', '+380986746583', 'solomka123', 'password123'),
+('485e5f20-5d5a-4489-98ae-de4f3f9703a2', 'Larisa', 'Yaremko', 'bla@gmail.com', '+380986746583', 'solomka123', 'password123'),
+('540e12d4-8ed8-4953-bca9-cb8f4c3b4c94', 'Larisa', 'Yaremko', 'bla@gmail.com', '+380986746583', 'solomka123', 'password123'),
+('9f4343b9-cba2-49b0-9017-d18f2883486e', 'Larisa', 'Yaremko', 'bla@gmail.com', '+380986746583', 'solomka123', 'password123'),
+('b0dcb481-16bb-4e4b-9700-78d182e827ac', 'Sona', 'Yaremko', 'bla@gmail.com', '+380986746583', 'solomka123', 'password123'),
+('dc86581b-6280-4a91-9f65-7549c6ebf502', 'Larisa', 'Yaremko', 'bla@gmail.com', '+380986746583', 'solomka123', 'password123');
 
 -- --------------------------------------------------------
 
@@ -111,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
 
 CREATE TABLE IF NOT EXISTS `invoice` (
   `id` char(36) NOT NULL,
-  `creation_date` datetime NOT NULL,
+  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `total_quantity` int(11) NOT NULL,
   `total_sum` decimal(13,2) NOT NULL,
   `currency` enum('UAH','EU','USD') NOT NULL DEFAULT 'USD',
@@ -129,14 +143,14 @@ CREATE TABLE IF NOT EXISTS `invoice` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `order`
+-- Структура таблицы `orders`
 --
 
-CREATE TABLE IF NOT EXISTS `order` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `id` char(36) NOT NULL,
-  `creation_date` datetime NOT NULL,
-  `fulfilment_date` datetime DEFAULT NULL,
-  `status` enum('CREATED','PAID','CANCELED','RETURNED','FULFILLED_PARTIALLY','ISSUED_PARTIALLY','FULFILLED','ISSUED') NOT NULL DEFAULT 'CREATED',
+  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fulfilment_date` timestamp NULL DEFAULT NULL,
+  `status` varchar(50) NOT NULL,
   `customer_id` char(36) NOT NULL,
   `shipment_id` char(36) NOT NULL,
   PRIMARY KEY (`id`),
@@ -145,9 +159,13 @@ CREATE TABLE IF NOT EXISTS `order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `order`
+-- Дамп данных таблицы `orders`
 --
 
+INSERT INTO `orders` (`id`, `creation_date`, `fulfilment_date`, `status`, `customer_id`, `shipment_id`) VALUES
+('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', '2016-12-01 20:10:39', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '8020dc3a-86be-4176-b46d-d0244786fb81'),
+('cd54d3e4-f47f-42cc-ac78-05d260f63f0c', '2016-12-01 01:19:02', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', 'c8c3e9ea-dca3-4a6a-9cca-89b3604847c1'),
+('e767b555-64a4-446b-ba32-16a2110d967b', '2016-12-02 01:05:36', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '2922a530-3158-4d27-a651-bdea1cb1efc3');
 
 -- --------------------------------------------------------
 
@@ -168,6 +186,16 @@ CREATE TABLE IF NOT EXISTS `order_item` (
 -- Дамп данных таблицы `order_item`
 --
 
+INSERT INTO `order_item` (`order_id`, `product_id`, `total_quantity`, `total_sum`) VALUES
+('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00'),
+('cd54d3e4-f47f-42cc-ac78-05d260f63f0c', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('cd54d3e4-f47f-42cc-ac78-05d260f63f0c', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('cd54d3e4-f47f-42cc-ac78-05d260f63f0c', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00'),
+('e767b555-64a4-446b-ba32-16a2110d967b', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('e767b555-64a4-446b-ba32-16a2110d967b', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('e767b555-64a4-446b-ba32-16a2110d967b', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00');
 
 -- --------------------------------------------------------
 
@@ -177,8 +205,8 @@ CREATE TABLE IF NOT EXISTS `order_item` (
 
 CREATE TABLE IF NOT EXISTS `payment` (
   `id` char(36) NOT NULL,
-  `creation_date` datetime NOT NULL,
-  `status` enum('PENDING','SUCCEEDED','FAILED,RETURNED') NOT NULL DEFAULT 'PENDING',
+  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(50) NOT NULL,
   `invoice_id` char(36) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `invoice_id` (`invoice_id`)
@@ -213,6 +241,10 @@ CREATE TABLE IF NOT EXISTS `product` (
 -- Дамп данных таблицы `product`
 --
 
+INSERT INTO `product` (`id`, `name`, `price`, `currency`, `quantity`, `description`, `seller_id`, `type_id`) VALUES
+('2cb84cf7-b4f9-11e6-af21-db5929c35768', 'thinkpad', '200.00', 'USD', 2, 'ThinkPad Edge', '393fdccd-b4f8-11e6-af21-db5929c35768', 'aeb0b0f3-b4f8-11e6-af21-db5929c35768'),
+('2cb85046-b4f9-11e6-af21-db5929c35768', 'netbook', '120.00', 'USD', 2, 'netbook lenovo', '393fdccd-b4f8-11e6-af21-db5929c35768', 'aeb0b0f3-b4f8-11e6-af21-db5929c35768'),
+('e995c3bc-b4f8-11e6-af21-db5929c35768', 'notbook', '100.00', 'USD', 4, 'bla', '393fdccd-b4f8-11e6-af21-db5929c35768', 'aeb0b0f3-b4f8-11e6-af21-db5929c35768');
 
 -- --------------------------------------------------------
 
@@ -240,6 +272,8 @@ CREATE TABLE IF NOT EXISTS `seller` (
 -- Дамп данных таблицы `seller`
 --
 
+INSERT INTO `seller` (`id`, `business_name`, `email`, `phone`, `country`, `state`, `region`, `city`, `street`, `indexx`, `login`, `password`) VALUES
+('393fdccd-b4f8-11e6-af21-db5929c35768', 'Lenovo', 'bla@gmail.com', '+34895761552', 'America', NULL, NULL, 'Chicago', 'Franka str., 2', '12345', 'blablabla', 'blablabla123');
 
 -- --------------------------------------------------------
 
@@ -251,9 +285,9 @@ CREATE TABLE IF NOT EXISTS `shipment` (
   `id` char(36) NOT NULL,
   `delivery_service` varchar(50) DEFAULT NULL,
   `total_sum` decimal(13,2) NOT NULL DEFAULT '0.00',
-  `currency` enum('UAH','EU','USD') NOT NULL DEFAULT 'USD',
-  `delivery_date` datetime DEFAULT NULL,
-  `status` enum('IN_SENDER_WAREHOUSE','IN_DELIVERY','DELIVERED_PARTIALLY','DELIVERED') NOT NULL DEFAULT 'IN_SENDER_WAREHOUSE',
+  `currency` varchar(50) NOT NULL,
+  `delivery_date` timestamp NULL DEFAULT NULL,
+  `status` varchar(50) NOT NULL,
   `address_id` char(36) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `address_id` (`address_id`)
@@ -263,6 +297,11 @@ CREATE TABLE IF NOT EXISTS `shipment` (
 -- Дамп данных таблицы `shipment`
 --
 
+INSERT INTO `shipment` (`id`, `delivery_service`, `total_sum`, `currency`, `delivery_date`, `status`, `address_id`) VALUES
+('2922a530-3158-4d27-a651-bdea1cb1efc3', NULL, '0.00', 'USD', NULL, '0', 'fde5bada-41df-4355-8cdf-556274c0d9b7'),
+('46b2659b-1ff9-43bb-995b-d947e12304aa', NULL, '0.00', 'USD', NULL, '0', '0937f0d9-40e3-434c-a959-dce30d5121f5'),
+('8020dc3a-86be-4176-b46d-d0244786fb81', NULL, '0.00', 'USD', NULL, '0', '6c1f6299-116d-42eb-8bb0-6799c9d61688'),
+('c8c3e9ea-dca3-4a6a-9cca-89b3604847c1', NULL, '0.00', 'USD', NULL, '0', '08a6c002-b5c4-4c12-b0d3-6ef17b355833');
 
 -- --------------------------------------------------------
 
@@ -282,6 +321,8 @@ CREATE TABLE IF NOT EXISTS `type` (
 -- Дамп данных таблицы `type`
 --
 
+INSERT INTO `type` (`id`, `name`, `category_id`) VALUES
+('aeb0b0f3-b4f8-11e6-af21-db5929c35768', 'notebooks', '97b87e56-b4f8-11e6-af21-db5929c35768');
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -303,21 +344,21 @@ ALTER TABLE `address`
 -- Ограничения внешнего ключа таблицы `invoice`
 --
 ALTER TABLE `invoice`
-  ADD CONSTRAINT `invoice_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `invoice_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `order`
+-- Ограничения внешнего ключа таблицы `orders`
 --
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_3` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_ibfk_4` FOREIGN KEY (`shipment_id`) REFERENCES `shipment` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`shipment_id`) REFERENCES `shipment` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `order_item`
 --
 ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_item_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_item_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `payment`
