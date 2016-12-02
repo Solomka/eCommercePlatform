@@ -40,10 +40,12 @@ import ukma.eCommerce.core.paymentModule.model.domain.vo.types.OrderStatus;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.types.ShipmentStatus;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
 import ukma.eCommerce.core.paymentModule.service.filter.order.OrderServiceFilterUtils;
+import ukma.eCommerce.core.userModule.model.domain.bo.Customer;
 import ukma.eCommerce.core.userModule.model.domain.vo.Address;
 import ukma.eCommerce.core.userModule.model.domain.vo.CustomerID;
 import ukma.eCommerce.core.userModule.model.domain.vo.FullName;
 import ukma.eCommerce.core.userModule.model.domain.vo.SellerID;
+import ukma.eCommerce.core.userModule.service.filter.CustomerServiceFilterUtils;
 import ukma.eCommerce.util.repository.IRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
 
@@ -74,12 +76,14 @@ public class OrderRepositoryTest {
 	@Test
 	public void findOrder() {
 		List<Order> orders = (List<Order>) orderRepository
-				.find(OrderServiceFilterUtils.getOrderById(new OrderID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
+				.find(OrderServiceFilterUtils.getOrderById(new OrderID("1efc4ceb-3dba-4f04-a468-32dc1cc118ba")));
 		System.out.println("Found order: " + orders.get(0));
 		assertNotNull(orders.get(0));
 
 	}
 */
+	
+	
 	@Test
 	public void createOrder() {
 		Order order = orderRepository.create(orderSaveDTO);
@@ -87,38 +91,32 @@ public class OrderRepositoryTest {
 		assertNotNull(order.getId().getId());
 
 	}
+	
+	/*
+	@Test
+	public void deleteOrder() {
+		orderRepository.delete(new OrderID("06e0fcee-31ad-4c02-88e5-bc3abc8f200f"));
+		Collection<Order> orders = orderRepository
+				.find(OrderServiceFilterUtils.getOrderById(new OrderID("06e0fcee-31ad-4c02-88e5-bc3abc8f200f")));
+		assertEquals(0, orders.size());
+
+	}*/
+	
 /*
 	@Test
 	public void updateOrder() {
 
-		List<Order> oldOrder = (ArrayList<Order>) orderRepository
-				.find(OrderServiceFilterUtils.getOrderById(new OrderID("b0dcb481-16bb-4e4b-9700-78d182e827ac")));
-		Order newOrder = oldOrder.get(0);
-		// System.out.println("Customer to update: "+ newCustomer);
+		List<Order> orders = (List<Order>) orderRepository
+				.find(OrderServiceFilterUtils.getOrderById(new OrderID("1efc4ceb-3dba-4f04-a468-32dc1cc118ba")));
+		Order newOrder = orders.get(0);
+		System.out.println("Customer to update: "+ newOrder);
 		// newOrder.changeFullName(generateNewVOFullName());
-		assertNotNull(orderRepository.update(newOrder));
-
-	}
-
-	@Test
-	public void deleteOrder() {
-		orderRepository.delete(new OrderID("766d7567-05a1-4385-90f4-1f384e4d890d"));
-		Collection<Order> customers = orderRepository
-				.find(OrderServiceFilterUtils.getOrderById(new OrderID("766d7567-05a1-4385-90f4-1f384e4d890d")));
-		assertEquals(0, customers.size());
-
-	}
-
-	@Test
-	public void deleteOrderFail() {
-		try {
-			orderRepository.delete(new OrderID("766d7567-05a1-4385-90f4-1f384e4d890d"));
-		} catch (Exception ex) {
-			fail("No order with such id \n message: " + ex.getMessage());
-		}
+		//assertNotNull(orderRepository.update(newOrder));
 
 	}
 */
+	
+
 	public static OrderSaveDTO generateOrderSaveDTO() {
 		return new OrderSaveDTO.Builder().setCustomer(new CustomerID("1c9a0551-a537-44af-be6e-3b775f44b162"))
 				.setCreationDate(DateTime.now()).setShipment(generateShipmentVO()).setOrderItems(generateOrderItems()).setOrderStatus(OrderStatus.CREATED).build();

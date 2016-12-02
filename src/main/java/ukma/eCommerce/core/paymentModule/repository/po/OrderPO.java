@@ -35,28 +35,53 @@ public class OrderPO implements Serializable {
 
 	private static final long serialVersionUID = -6339656414384828558L;
 
-	
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@Column(name = "id", unique = true, nullable = false)
+	@Type(type = "uuid-char")
 	private UUID id;
 
-	
+	@Column(name = "creation_date", nullable = false)
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime creationDate;
 
-	
+	@Column(name = "fulfilment_date")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime fulfilmentDate;
 
-	
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
-	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
 	private CustomerPO customer;
 
-	
+	// @OneToOne(optional = false)
+	// @JoinColumn(name = "shipment_id", nullable = false/* , updatable = false
+	// */)
+	/*
+	 * Here is the annotation to add in order to Hibernate to automatically
+	 * insert and update ShipmentPO (if any)
+	 */
+	@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
 	private ShipmentPO shipment;
 
-	
+	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	/*
+	 * Here is the annotation to add in order to Hibernate to automatically
+	 * insert and update OrderItems (if any)
+	 */
+	// @SuppressWarnings("deprecation")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
+			CascadeType.MERGE })
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE })
 	private List<OrderItemPO> orderItems;
 
-	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)
 	private List<InvoicePO> invoices;
 
 	public static class Builder implements IBuilder<OrderPO> {
@@ -161,18 +186,13 @@ public class OrderPO implements Serializable {
 		this.customer = Objects.requireNonNull(builder.getCustomer());
 		this.shipment = Objects.requireNonNull(builder.getShipment());
 		// this.orderItems = Objects.requireNonNull(builder.getOrderItems());
-		//this.orderItems = builder.getOrderItems();
+		// this.orderItems = builder.getOrderItems();
 		this.orderItems = new ArrayList<OrderItemPO>();
 		this.status = Objects.requireNonNull(builder.getStatus());
 		this.creationDate = Objects.requireNonNull(builder.getCreationDate());
 		this.fulfilmentDate = builder.getFulfilmentDate();
 	}
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@Column(name = "id", unique = true, nullable = false)
-	@Type(type = "uuid-char")
 	public UUID getId() {
 		return this.id;
 	}
@@ -181,8 +201,6 @@ public class OrderPO implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "creation_date", nullable = false)
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getCreationDate() {
 		return this.creationDate;
 	}
@@ -191,8 +209,6 @@ public class OrderPO implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	@Column(name = "fulfilment_date")
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getFulfilmentDate() {
 		return this.fulfilmentDate;
 	}
@@ -201,8 +217,6 @@ public class OrderPO implements Serializable {
 		this.fulfilmentDate = fulfilmentDate;
 	}
 
-	@Column(name = "status", nullable = false)
-	@Enumerated(EnumType.STRING)
 	public OrderStatus getStatus() {
 		return this.status;
 	}
@@ -211,8 +225,6 @@ public class OrderPO implements Serializable {
 		this.status = status;
 	}
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "customer_id", nullable = false/* , updatable = false */)
 	public CustomerPO getCustomer() {
 		return this.customer;
 	}
@@ -221,16 +233,6 @@ public class OrderPO implements Serializable {
 		this.customer = customer;
 	}
 
-	// @OneToOne(optional = false)
-		// @JoinColumn(name = "shipment_id", nullable = false/* , updatable = false
-		// */)
-		/*
-		 * Here is the annotation to add in order to Hibernate to automatically
-		 * insert and update ShipmentPO (if any)
-		 */
-		@OneToOne(optional = false, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-		@JoinColumn(name = "shipment_id", nullable = false/* , updatable = false */)
-		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE })
 	public ShipmentPO getShipment() {
 		return this.shipment;
 	}
@@ -238,26 +240,18 @@ public class OrderPO implements Serializable {
 	public void setShipment(ShipmentPO shipment) {
 		this.shipment = shipment;
 	}
-	
-	// @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-		/*
-		 * Here is the annotation to add in order to Hibernate to automatically
-		 * insert and update OrderItems (if any)
-		 */
-		// @SuppressWarnings("deprecation")
-		@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderItemId.order", cascade = { CascadeType.PERSIST,
-				CascadeType.MERGE })
-		@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+
 	public List<OrderItemPO> getOrderItems() {
 		return this.orderItems;
 	}
 
-	public void setOrderItems(List<OrderItemPO> orderItems) {
+	// protected is important
+	protected void setOrderItems(List<OrderItemPO> orderItems) {
 		this.orderItems = orderItems;
 	}
 
 	/**
-	 * add OrderPO to OrderItemPO
+	 * add OrderPO to OrderItemPO and vice versa
 	 * 
 	 * @param orderItemPO
 	 */
@@ -266,7 +260,6 @@ public class OrderPO implements Serializable {
 		this.orderItems.add(orderItemPO);
 	}
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.REFRESH)
 	public List<InvoicePO> getInvoices() {
 		return this.invoices;
 	}
@@ -279,94 +272,6 @@ public class OrderPO implements Serializable {
 	 * rewrite fields access to getters access for props because of Hibernate
 	 * proxy
 	 */
-	/*
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getCreationDate() == null) ? 0 : getCreationDate().hashCode());
-		result = prime * result + ((getCustomer() == null) ? 0 : getCustomer().hashCode());
-		result = prime * result + ((getFulfilmentDate() == null) ? 0 : getFulfilmentDate().hashCode());
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		result = prime * result + ((getInvoices() == null) ? 0 : getInvoices().hashCode());
-		result = prime * result + ((getOrderItems() == null) ? 0 : getOrderItems().hashCode());
-		result = prime * result + ((getShipment() == null) ? 0 : getShipment().hashCode());
-		result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof OrderPO)) {
-			return false;
-		}
-		OrderPO other = (OrderPO) obj;
-		if (getCreationDate() == null) {
-			if (other.getCreationDate() != null) {
-				return false;
-			}
-		} else if (!getCreationDate().equals(other.getCreationDate())) {
-			return false;
-		}
-		if (getCustomer() == null) {
-			if (other.getCustomer() != null) {
-				return false;
-			}
-		} else if (!getCustomer().equals(other.getCustomer())) {
-			return false;
-		}
-		if (getFulfilmentDate() == null) {
-			if (other.getFulfilmentDate() != null) {
-				return false;
-			}
-		} else if (!getFulfilmentDate().equals(other.getFulfilmentDate())) {
-			return false;
-		}
-		if (getId() == null) {
-			if (other.getId() != null) {
-				return false;
-			}
-		} else if (!getId().equals(other.getId())) {
-			return false;
-		}
-		if (getInvoices() == null) {
-			if (other.getInvoices() != null) {
-				return false;
-			}
-		} else if (!getInvoices().equals(other.getInvoices())) {
-			return false;
-		}
-		if (getOrderItems() == null) {
-			if (other.getOrderItems() != null) {
-				return false;
-			}
-		} else if (!getOrderItems().equals(other.getOrderItems())) {
-			return false;
-		}
-		if (getShipment() == null) {
-			if (other.getShipment() != null) {
-				return false;
-			}
-		} else if (!getShipment().equals(other.getShipment())) {
-			return false;
-		}
-		if (getStatus() != other.getStatus()) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "OrderPO [id=" + id + ", creationDate=" + creationDate.toString() + ", fulfilmentDate=" + fulfilmentDate.toString()
-				+ ", status=" + status.toString() + ", customer=" + customer.toString() + ", shipment=" + shipment.toString() + ", orderItems="
-				+ orderItems.toString() + ", invoices=" + invoices.toString() + "]";
-	}*/
+	
 
 }

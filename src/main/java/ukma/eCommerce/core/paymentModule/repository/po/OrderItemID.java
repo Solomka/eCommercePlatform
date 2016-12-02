@@ -3,6 +3,7 @@ package ukma.eCommerce.core.paymentModule.repository.po;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 /**
@@ -26,9 +27,10 @@ public class OrderItemID implements Serializable {
 
 	// @MapsId
 	// @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	// EAGER by default
 	@ManyToOne
 	public OrderPO getOrder() {
-		return order;
+		return this.order;
 	}
 
 	public void setOrder(OrderPO order) {
@@ -37,9 +39,10 @@ public class OrderItemID implements Serializable {
 
 	// @MapsId
 	// @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	// EAGER by default
 	@ManyToOne
 	public ProductPO getProduct() {
-		return product;
+		return this.product;
 	}
 
 	public void setProduct(ProductPO product) {

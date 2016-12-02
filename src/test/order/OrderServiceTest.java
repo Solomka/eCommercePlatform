@@ -124,11 +124,11 @@ public final class OrderServiceTest {
 
         final InOrderDTO.Item item = new InOrderDTO.Item();
 
-        item.setProduct(new ProductID("9a7efb3c-a5c6-11e6-80f5-76304dec7eb7"));
+        item.setProduct(new ProductID("2cb84cf7-b4f9-11e6-af21-db5929c35768"));
         item.setCurrency(Currency.USD);
         item.setQuantity(1);
         item.setAmount(new BigDecimal("1.4"));
-        item.setSeller(new SellerID("9a7f00aa-a5c6-11e6-80f5-76304dec7eb7"));
+        item.setSeller(new SellerID("393fdccd-b4f8-11e6-af21-db5929c35768"));
 
         return item;
     }
@@ -140,7 +140,7 @@ public final class OrderServiceTest {
         final InOrderDTO.Shipment.Address address = new InOrderDTO.Shipment.Address();
         final InOrderDTO.Shipment.Recipient recipient = new InOrderDTO.Shipment.Recipient();
 
-        dto.setCustomer("b6953594-a5c5-11e6-80f5-76304dec7eb7");
+        dto.setCustomer("1c9a0551-a537-44af-be6e-3b775f44b162");
 
         recipient.setFirstName("Max");
         recipient.setLastName("Oliynick");

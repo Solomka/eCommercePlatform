@@ -53,6 +53,10 @@ public abstract class AHibernateRepository<T, K, E, F extends IExposedFilter, Ob
 	public ObjectPO updatePO(ObjectPO entity) {
 		return entityManager.merge(entity);
 	}
+	
+	public ObjectPO findById( KeyPO key ){
+	      return entityManager.find( entityClass, key);
+	   }
 
 	/**
 	 * return a proxy object with the given identity value

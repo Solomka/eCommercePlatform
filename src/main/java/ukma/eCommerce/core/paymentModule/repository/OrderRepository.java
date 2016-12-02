@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ukma.eCommerce.core.paymentModule.model.domain.bo.Order;
 import ukma.eCommerce.core.paymentModule.model.domain.vo.OrderID;
 import ukma.eCommerce.core.paymentModule.model.dwo.OrderSaveDTO;
+import ukma.eCommerce.core.paymentModule.repository.filter.OrderRepoFilterUtils;
 import ukma.eCommerce.core.paymentModule.repository.po.OrderPO;
 import ukma.eCommerce.util.repository.AHibernateRepository;
 import ukma.eCommerce.util.repository.filter.IExposedFilter;
@@ -59,7 +60,8 @@ public class OrderRepository extends AHibernateRepository<Order, OrderID, OrderS
 		final OrderPO orderPO = OrderPOConverter.fromOrderSaveDTO(orderSaveDTO);
 		savePO(orderPO);
 		return OrderPOConverter.toOrder(orderPO);
-			}
+		//return OrderPOConverter.toOrder(OrderRepoFilterUtils.findOrderById(orderPO.getId()));
+	}
 
 	/*
 	@Override
