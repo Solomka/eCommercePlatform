@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Дек 02 2016 г., 03:50
+-- Время создания: Фев 28 2017 г., 00:21
 -- Версия сервера: 5.1.41
 -- Версия PHP: 5.3.1
 
@@ -66,6 +66,8 @@ CREATE TABLE IF NOT EXISTS `address` (
 INSERT INTO `address` (`id`, `country`, `state`, `region`, `city`, `street`, `indexx`, `phone`, `first_name`, `last_name`, `customer_id`) VALUES
 ('08a6c002-b5c4-4c12-b0d3-6ef17b355833', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
 ('0937f0d9-40e3-434c-a959-dce30d5121f5', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
+('0b8722d9-b897-4967-9c39-9f1036ac675d', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
+('1ef0b12a-d5c7-4fd0-a569-c11562b474f8', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
 ('6c1f6299-116d-42eb-8bb0-6799c9d61688', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162'),
 ('fde5bada-41df-4355-8cdf-556274c0d9b7', 'Ukraine', NULL, NULL, 'Kiev', 'Skovorody 12 str.', '12345', '+380968971663', 'Sasha', 'Chaban', '1c9a0551-a537-44af-be6e-3b775f44b162');
 
@@ -163,9 +165,11 @@ CREATE TABLE IF NOT EXISTS `orders` (
 --
 
 INSERT INTO `orders` (`id`, `creation_date`, `fulfilment_date`, `status`, `customer_id`, `shipment_id`) VALUES
+('071782bb-7a17-4105-b3a4-114354f77bd5', '2017-01-29 20:47:00', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '87f180df-720e-4908-a20e-1bfa49c747eb'),
 ('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', '2016-12-01 20:10:39', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '8020dc3a-86be-4176-b46d-d0244786fb81'),
 ('cd54d3e4-f47f-42cc-ac78-05d260f63f0c', '2016-12-01 01:19:02', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', 'c8c3e9ea-dca3-4a6a-9cca-89b3604847c1'),
-('e767b555-64a4-446b-ba32-16a2110d967b', '2016-12-02 01:05:36', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '2922a530-3158-4d27-a651-bdea1cb1efc3');
+('e767b555-64a4-446b-ba32-16a2110d967b', '2016-12-02 01:05:36', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '2922a530-3158-4d27-a651-bdea1cb1efc3'),
+('f96236a0-6593-44ae-913c-05dd7fa93f03', '2017-01-30 02:34:01', NULL, 'CREATED', '1c9a0551-a537-44af-be6e-3b775f44b162', '86738bb1-cd86-4113-bbfc-73c395f3a0a2');
 
 -- --------------------------------------------------------
 
@@ -187,6 +191,9 @@ CREATE TABLE IF NOT EXISTS `order_item` (
 --
 
 INSERT INTO `order_item` (`order_id`, `product_id`, `total_quantity`, `total_sum`) VALUES
+('071782bb-7a17-4105-b3a4-114354f77bd5', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('071782bb-7a17-4105-b3a4-114354f77bd5', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('071782bb-7a17-4105-b3a4-114354f77bd5', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00'),
 ('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
 ('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
 ('1efc4ceb-3dba-4f04-a468-32dc1cc118ba', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00'),
@@ -195,7 +202,10 @@ INSERT INTO `order_item` (`order_id`, `product_id`, `total_quantity`, `total_sum
 ('cd54d3e4-f47f-42cc-ac78-05d260f63f0c', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00'),
 ('e767b555-64a4-446b-ba32-16a2110d967b', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
 ('e767b555-64a4-446b-ba32-16a2110d967b', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
-('e767b555-64a4-446b-ba32-16a2110d967b', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00');
+('e767b555-64a4-446b-ba32-16a2110d967b', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00'),
+('f96236a0-6593-44ae-913c-05dd7fa93f03', '2cb84cf7-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('f96236a0-6593-44ae-913c-05dd7fa93f03', '2cb85046-b4f9-11e6-af21-db5929c35768', 1, '10.00'),
+('f96236a0-6593-44ae-913c-05dd7fa93f03', 'e995c3bc-b4f8-11e6-af21-db5929c35768', 1, '10.00');
 
 -- --------------------------------------------------------
 
@@ -301,6 +311,8 @@ INSERT INTO `shipment` (`id`, `delivery_service`, `total_sum`, `currency`, `deli
 ('2922a530-3158-4d27-a651-bdea1cb1efc3', NULL, '0.00', 'USD', NULL, '0', 'fde5bada-41df-4355-8cdf-556274c0d9b7'),
 ('46b2659b-1ff9-43bb-995b-d947e12304aa', NULL, '0.00', 'USD', NULL, '0', '0937f0d9-40e3-434c-a959-dce30d5121f5'),
 ('8020dc3a-86be-4176-b46d-d0244786fb81', NULL, '0.00', 'USD', NULL, '0', '6c1f6299-116d-42eb-8bb0-6799c9d61688'),
+('86738bb1-cd86-4113-bbfc-73c395f3a0a2', NULL, '0.00', 'USD', NULL, '0', '0b8722d9-b897-4967-9c39-9f1036ac675d'),
+('87f180df-720e-4908-a20e-1bfa49c747eb', NULL, '0.00', 'USD', NULL, '0', '1ef0b12a-d5c7-4fd0-a569-c11562b474f8'),
 ('c8c3e9ea-dca3-4a6a-9cca-89b3604847c1', NULL, '0.00', 'USD', NULL, '0', '08a6c002-b5c4-4c12-b0d3-6ef17b355833');
 
 -- --------------------------------------------------------
