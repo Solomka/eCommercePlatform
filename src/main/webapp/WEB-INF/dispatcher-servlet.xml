@@ -27,7 +27,9 @@
 	<mvc:annotation-driven />
 
 	<context:annotation-config />
-
+	
+	<!-- When component-scan is declared, you no longer need to declare context:annotation-config, 
+		because autowiring is implicitly enabled when component scanning is enabled. -->
 	<!-- provide Your Base package to scan annotations for components -->
 	<context:component-scan base-package="ukma.eCommerce" />
 
